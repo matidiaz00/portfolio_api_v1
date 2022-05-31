@@ -38,3 +38,6 @@ coverage
 package-lock.json
 src/environments/*
 src/app/firebase.sdk.key.json
+functions/node_modules
+functions/dist
+functions/package-lock.json

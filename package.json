@@ -83,5 +83,5 @@
   "engines": {
     "node": "16"
   },
-  "main": "dist/main.js"
+  "main": "functions/dist/main.js"
 }
