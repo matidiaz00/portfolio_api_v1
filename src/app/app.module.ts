@@ -7,17 +7,17 @@ import { AbilitiesRoutes } from './abilities/abilities.routes';
 import { CategoriesModule } from './abilities/categories/categories.module';
 import { ChildrensModule } from './abilities/childrens/childrens.module';
 import { ItemsModule } from './abilities/items/items.module';
-import { environments, firebaseKey } from './app.config';
 import { ExperienceModule } from './experience/experience.module';
 import { ExperienceRoutes } from './experience/experience.routes';
 import { AuthModule } from './auth/auth.module';
 import { AuthRoutes } from './auth/auth.routes';
+import * as FirebaseKey from './../../firebase.sdk.key.json';
 
 const routes: any = AbilitiesRoutes.concat(ExperienceRoutes).concat(AuthRoutes)
 
 const Modules = [
-  FirebaseModule.forRoot(firebaseKey),
-  ConfigModule.forRoot(environments),
+  FirebaseModule.forRoot(<any>{ googleApplicationCredential: FirebaseKey }),
+  ConfigModule.forRoot(),
   RouterModule.forRoutes(routes),
   ExperienceModule,
   AbilitiesModule,

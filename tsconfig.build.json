@@ -5,6 +5,7 @@
     "test",
     "functions/dist",
     "functions/node_modules",
-    "**/*spec.ts"
+    "**/*spec.ts",
+    "*.key.json"
   ]
 }

@@ -24,6 +24,24 @@ jobs:
         with:
           node-version: 16.14.2
 
+      - name: Create .env file
+        uses: ozaytsev86/create-env-file@v1
+        with:
+          ENV_API_URL: ${{ secrets.API_URL }}
+          ENV_LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          ENV_NUBELA_ACCESS_TOKEN: ${{ secrets.NUBELA_ACCESS_TOKEN }}
+          ENV_LINKEDIN_USER: ${{ secrets.LINKEDIN_USER }}
+          ENV_FIREBASE_USER_UID: ${{ secrets.FIREBASE_USER_UID }}
+          ENV_FIREBASE_USER_TOKEN: ${{ secrets.FIREBASE_USER_TOKEN }}
+
+      - name: Create firebase.sdk.key.json file
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "firebase.sdk.key.json"
+          json: ${{ secrets.FIREBASE_SDK_KEY }}
+          dir: '/'
+
       - name: Install dependencies
         run: npm install
 

@@ -36,8 +36,9 @@ coverage
 !.vscode/extensions.json
 
 package-lock.json
-src/environments/*
-src/app/firebase.sdk.key.json
+src/environments
+.env
+firebase.sdk.key.json
 functions/node_modules
 functions/dist
 functions/package-lock.json
