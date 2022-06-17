@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
                 if (token != null && token != '') {
                     this.auth.verifyIdToken(token)
                         .then((decodedToken: DecodedIdToken) => {
-                            const FIREBASE_USER_UID = this._config.get<string>('FIREBASE_USER_UID');
+                            const FIREBASE_USER_UID = this._config.get<string>('MAIN_FIREBASE_USER_UID');
                             if (FIREBASE_USER_UID) {
                                 if (decodedToken.uid == FIREBASE_USER_UID) resolve(true)
                                 else {
