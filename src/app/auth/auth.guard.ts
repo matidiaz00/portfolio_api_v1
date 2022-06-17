@@ -1,5 +1,4 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
 import { Observable } from 'rxjs';
@@ -10,8 +9,7 @@ export class AuthGuard implements CanActivate {
     auth: any;
 
     constructor(
-        @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
-        private _config: ConfigService,
+        @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin
     ) {
         this.auth = this.firebase.auth;
     }
@@ -26,15 +24,9 @@ export class AuthGuard implements CanActivate {
                 if (token != null && token != '') {
                     this.auth.verifyIdToken(token)
                         .then((decodedToken: DecodedIdToken) => {
-                            const FIREBASE_USER_UID = this._config.get<string>('MAIN_FIREBASE_USER_UID');
-                            if (FIREBASE_USER_UID) {
-                                if (decodedToken.uid == FIREBASE_USER_UID) resolve(true)
-                                else {
-                                    console.error(`The user ${decodedToken.email} not has permission for application.`);
-                                    reject(false)
-                                }
-                            } else {
-                                console.error(`Error when read .env file and get FIREBASE_USER_UID, this return: `, FIREBASE_USER_UID);
+                            if (decodedToken.uid == process.env.MAIN_FIREBASE_USER_UID) resolve(true)
+                            else {
+                                console.error(`The user ${decodedToken.email} not has permission for application.`);
                                 reject(false)
                             }
                         }).catch((err: Error) => {
