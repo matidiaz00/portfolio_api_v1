@@ -17,7 +17,7 @@ const routes: any = AbilitiesRoutes.concat(ExperienceRoutes).concat(AuthRoutes)
 
 const Modules = [
   FirebaseModule.forRoot(<any>{ googleApplicationCredential: FirebaseKey }),
-  ConfigModule.forRoot(),
+  ConfigModule.forRoot({ envFilePath: './../../.env' }),
   RouterModule.forRoutes(routes),
   ExperienceModule,
   AbilitiesModule,
