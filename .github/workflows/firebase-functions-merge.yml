@@ -25,17 +25,17 @@ jobs:
           node-version: 16.14.2
 
       - name: Create .env file
-        uses: ozaytsev86/create-env-file@v1
-        with:
-          file-name: .env
-          ENV_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-          ENV_FIREBASE_SDK_KEY: ${{ secrets.FIREBASE_SDK_KEY }}
-          ENV_FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          ENV_LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
-          ENV_NUBELA_ACCESS_TOKEN: ${{ secrets.NUBELA_ACCESS_TOKEN }}
-          ENV_LINKEDIN_USER: ${{ secrets.LINKEDIN_USER }}
-          ENV_FIREBASE_USER_UID: ${{ secrets.FIREBASE_USER_UID }}
-          ENV_FIREBASE_USER_TOKEN: ${{ secrets.FIREBASE_USER_TOKEN }}
+        run: |
+          touch .env
+          echo FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }} >> .env
+          echo FIREBASE_SDK_KEY=${{ secrets.FIREBASE_SDK_KEY }} >> .env
+          echo FIREBASE_TOKEN=${{ secrets.FIREBASE_TOKEN }} >> .env
+          echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> .env
+          echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> .env
+          echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> .env
+          echo FIREBASE_USER_UID=${{ secrets.FIREBASE_USER_UID }} >> .env
+          echo FIREBASE_USER_TOKEN=${{ secrets.FIREBASE_USER_TOKEN }} >> .env
+          cat .env
 
       - name: Create firebase.sdk.key.json file
         id: create-json
