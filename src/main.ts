@@ -7,7 +7,8 @@ import { HttpErrorsFilter } from './app/app.filter';
 import { join } from 'path';
 
 const server = express()
-const port = process.env.PORT || 3001;
+//const port = process.env.PORT || 3001;
+const port = 3001;
 
 export const createNestServer = async (expressInstance: any) => {
     const app = await NestFactory.create<NestExpressApplication>(
