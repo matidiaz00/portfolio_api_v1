@@ -23,7 +23,7 @@ export const createNestServer = async (expressInstance: any) => {
 };
 
 createNestServer(server)
-    .then(v => console.log(`Nest ready, open http://localhost:${port}/auth/login`))
+    .then(v => console.log(`Nest ready, open http://localhost:${port}/auth/login `))
     .catch(err => console.error('Nest broken', err));
 
 export const api = functions.https.onRequest(server);
