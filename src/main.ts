@@ -13,7 +13,8 @@ const port = 3001;
 export const createNestServer = async (expressInstance: any) => {
     const app = await NestFactory.create<NestExpressApplication>(
         AppModule,
-        new ExpressAdapter(expressInstance)
+        new ExpressAdapter(expressInstance),
+        { cors: true }
     );
     app.useGlobalFilters(new HttpErrorsFilter());
     app.useStaticAssets(join(__dirname, 'views'));
