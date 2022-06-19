@@ -7,7 +7,7 @@ export class ExperienceController {
 
   @Get()
   findAll() {
-    return this.experienceService.findAll_official();
+    return this.experienceService.findAll();
   }
   
 }

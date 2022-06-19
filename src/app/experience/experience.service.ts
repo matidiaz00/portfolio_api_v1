@@ -8,7 +8,7 @@ import { EnpointInterface } from './experience.interface';
 export class ExperienceService {
 
   constructor(
-    private httpService: HttpService
+    private _httpService: HttpService
   ) {}
 
   findAll_official(): Observable<AxiosResponse<any>> {
@@ -36,7 +36,7 @@ export class ExperienceService {
     const headersRequest = { 'Authorization': `Bearer ${data.token}` };
     let query = '?';
     for (let val of data.query) { query += `${val.name}=${val.data}&` }
-    return this.httpService.get( `${data.endpoint}${query}`, { headers: headersRequest } );
+    return this._httpService.get( `${data.endpoint}${query}`, { headers: headersRequest } );
   }
 
 }
