@@ -55,8 +55,5 @@ jobs:
       - name: Install NPM dependencies in functions
         run: cd functions/ && npm install
 
-      - name: Assign project to Firebase config
-        run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
-
       - name: Deploy to Firebase
-        run: firebase deploy --only functions
+        run: firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
