@@ -3,11 +3,9 @@ on:
   push:
     branches:
       - master
-
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
 
       - name: Checkout branch
@@ -17,6 +15,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.14.2
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
       - name: Create .env file
         run: |
@@ -36,13 +40,7 @@ jobs:
           json: ${{ secrets.FIREBASE_SDK_KEY }}
           dir: '/'
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
-        with:
-          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
-
-      - name: Install dependencies
+      - name: Install NPM dependencies
         run: npm install
 
       - name: Install Firebase Tools
@@ -51,7 +49,7 @@ jobs:
       - name: Run unit testing
         run: npm run test
 
-      - name: Build NestJS project
+      - name: Build project
         run: npm run build
 
       - name: Assign project to Firebase config
