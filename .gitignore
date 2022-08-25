@@ -35,7 +35,6 @@ coverage
 !.vscode/launch.json
 !.vscode/extensions.json
 
-package-lock.json
 src/environments
 .env
 firebase.sdk.key.json

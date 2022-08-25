@@ -8,21 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout branch
+      - name: :arrow_down: Checkout branch
         uses: actions/checkout@v3
       
-      - name: Use Node.js
+      - name: :robot: Use Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 16.14.2
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v0'
+      - id: auth
+        name: :pray: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
-      - name: Create .env file
+      - name: :writing_hand: Create .env file
         run: |
           touch .env
           echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> .env
@@ -32,7 +32,7 @@ jobs:
           echo MAIN_FIREBASE_USER_TOKEN=${{ secrets.FIREBASE_USER_TOKEN }} >> .env
           cat .env
 
-      - name: Create firebase.sdk.key.json file
+      - name: :writing_hand: Create firebase.sdk.key.json file
         id: create-json
         uses: jsdaniell/create-json@1.1.2
         with:
@@ -40,20 +40,17 @@ jobs:
           json: ${{ secrets.FIREBASE_SDK_KEY }}
           dir: '/'
 
-      - name: Install NPM dependencies
-        run: npm install
+      - name: :bomb: Install NPM dependencies
+        run: npm ci
 
-      - name: Install Firebase Tools
-        run: npm install -g firebase-tools
-
-      - name: Run unit testing
+      - name: :dizzy: Run unit testing
         run: npm run test
 
-      - name: Build project
+      - name: :boom: Build project
         run: npm run build
 
-      - name: Install NPM dependencies in functions
+      - name: :ribbon: Install NPM dependencies in functions
         run: cd functions/ && npm install
 
-      - name: Deploy to Firebase
-        run: firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
+      - name: :rocket: Deploy to Firebase
+        run: npx firebase-tools deploy --only functions --project ${{ secrets.FIREBASE_TOKEN }}
