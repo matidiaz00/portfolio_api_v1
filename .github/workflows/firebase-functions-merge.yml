@@ -11,13 +11,7 @@ jobs:
     steps:
 
       - name: Checkout branch
-        uses: actions/checkout@v2
-
-      - name: Retrieve npm cache (if any)
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: npm-packages
+        uses: actions/checkout@v3
       
       - name: Use Node.js
         uses: actions/setup-node@v1
@@ -42,14 +36,26 @@ jobs:
           json: ${{ secrets.FIREBASE_SDK_KEY }}
           dir: '/'
 
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
+
       - name: Install dependencies
         run: npm install
-
-      - name: Build NestJS project
-        run: npm run build
 
       - name: Install Firebase Tools
         run: npm install -g firebase-tools
 
-      - name: Deploy to Firebase Functions
-        run: 'firebase deploy --only functions --token ${{ secrets.FIREBASE_TOKEN }} --project ${{ secrets.FIREBASE_PROJECT_ID }}'
+      - name: Run unit testing
+        run: npm run test
+
+      - name: Build NestJS project
+        run: npm run build
+
+      - name: Assign project to Firebase config
+        run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: Deploy to Firebase
+        run: firebase deploy
