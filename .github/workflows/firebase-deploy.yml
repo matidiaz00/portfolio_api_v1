@@ -56,7 +56,7 @@ jobs:
 
       - name: 🚀 Deploy to Firebase
         run: |
-          firebase deploy \
+          firebase --debug deploy \
           --only functions \
           --project ${{ secrets.FIREBASE_PROJECT_ID }} \
           --token ${{ secrets.FIREBASE_TOKEN }} 
