@@ -14,7 +14,10 @@
   "main": "dist/src/main.js",
   "dependencies": {
     "firebase-admin": "^10.0.2",
-    "firebase-functions": "^3.18.0"
+    "firebase-functions": "^3.18.0",
+    "axios": "^0.26.1",
+    "firebase": "^9.9.3",
+    "node-linkedin": "^0.5.6"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.2.0"
