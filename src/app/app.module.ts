@@ -11,12 +11,12 @@ import { ExperienceModule } from './experience/experience.module';
 import { ExperienceRoutes } from './experience/experience.routes';
 import { AuthModule } from './auth/auth.module';
 import { AuthRoutes } from './auth/auth.routes';
-import * as FirebaseKey from './../../firebase.sdk.key.json';
+import { applicationDefault } from 'firebase-admin/app';
 
 const routes: any = AbilitiesRoutes.concat(ExperienceRoutes).concat(AuthRoutes)
 
 const Modules = [
-  FirebaseModule.forRoot(<any>{ googleApplicationCredential: FirebaseKey }),
+  FirebaseModule.forRoot(<any>{ googleApplicationCredential: applicationDefault() }),
   ConfigModule.forRoot(),
   RouterModule.forRoutes(routes),
   ExperienceModule,

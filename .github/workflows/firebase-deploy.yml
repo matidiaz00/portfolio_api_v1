@@ -39,6 +39,9 @@ jobs:
           json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
           dir: /
 
+      - name: Set google credentials
+        run: export GOOGLE_APPLICATION_CREDENTIALS="/firebase.sdk.key.json"
+
       - name: 🧨 Install NPM dependencies
         run: npm ci
 
