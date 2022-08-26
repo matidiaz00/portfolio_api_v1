@@ -49,8 +49,5 @@ jobs:
       - name: 🔥Install Firebase tools
         run: npm install -g firebase-tools
 
-      - name: 🍻 Assign project to Firebase config
-        run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
-
       - name: 🚀 Deploy to Firebase
         run: firebase deploy --only functions --token ${{ secrets.FIREBASE_TOKEN }}
