@@ -51,15 +51,11 @@ jobs:
       - name: 💥 Build project
         run: npm run build
 
-      - name: 🎁 Install NPM dependencies in functions
-        run: cd functions/ && npm install
-
       - name: 🔥Install Firebase tools
         run: npm install -g firebase-tools
 
+      - name: Using specific project in Firebase
+        run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+
       - name: 🚀 Deploy to Firebase
-        run: |
-          firebase --debug deploy \
-          --only functions \
-          --project ${{ secrets.FIREBASE_PROJECT_ID }} \
-          --token ${{ secrets.FIREBASE_TOKEN }} 
+        run: firebase --debug deploy
