@@ -5,9 +5,6 @@ on:
       - master
 jobs:
   build_and_deploy:
-    permissions:
-      contents: read
-      id-token: write
     runs-on: ubuntu-latest
     steps:
 
@@ -37,8 +34,11 @@ jobs:
           json: ${{ secrets.FIREBASE_SDK_KEY }}
           dir: '/'
 
-      - name: 🔒 Authenticate to Google Cloud
-        run: export GOOGLE_APPLICATION_CREDENTIALS="/firebase.sdk.key.json"
+      - id: 'auth'
+        name: 🔒 Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
       - name: 🧨 Install NPM dependencies
         run: npm ci
