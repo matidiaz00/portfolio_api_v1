@@ -54,4 +54,5 @@ jobs:
           firebase --debug deploy \
           --only functions \
           --project ${{ secrets.FIREBASE_PROJECT_ID }} \
-          --token ${{ secrets.FIREBASE_TOKEN }}
+          --token ${{ secrets.FIREBASE_TOKEN }} \
+          --region us-central1
