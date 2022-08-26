@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Auth } from 'firebase-admin/lib/auth/auth';
+import { client_auth } from '../firebase.client'
 import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
-import { SignUpInterface } from './auth.interface';
+import { SignUpInterface, LoginInterface } from './auth.interface';
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 @Injectable()
 export class AuthService {
@@ -9,9 +11,20 @@ export class AuthService {
     auth: Auth;
 
     constructor(
-        @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin
+        @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
     ) {
         this.auth = this.firebase.auth;
+    }
+
+    async login(body: LoginInterface) {
+        return signInWithEmailAndPassword(client_auth, body.email, body.password)
+            .then((userCredential) => {
+                if (userCredential.user.uid == process.env.MAIN_FIREBASE_USER_UID) return userCredential
+                else return { message:'Lo sentimos pero este usuario no tiene permisos' }
+            })
+            .catch((err) => {
+                return err
+            });
     }
 
     async signup(body: SignUpInterface) {
@@ -26,11 +39,9 @@ export class AuthService {
                 disabled: false,
             })
             .then((userRecord) => {
-                console.log('Successfully created new user:', userRecord.uid);
                 return userRecord
             })
             .catch((err) => {
-                console.error('Error creating new user:', err);
                 return err
             });
     }

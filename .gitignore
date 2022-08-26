@@ -38,6 +38,7 @@ coverage
 src/environments
 .env
 firebase.sdk.key.json
+firebase.sdk.client.key.json
 functions/node_modules
 functions/dist
 functions/package-lock.json
