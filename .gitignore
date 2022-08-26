@@ -41,3 +41,4 @@ firebase.sdk.key.json
 functions/node_modules
 functions/dist
 functions/package-lock.json
+gha-creds-*.json
