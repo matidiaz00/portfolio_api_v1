@@ -40,6 +40,12 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
+      - name: Get gcloud config get-value account
+        run: gcloud config get-value account
+
+      - name: Get gcloud auth list
+        run: gcloud auth list
+
       - name: 🧨 Install NPM dependencies
         run: npm ci
 
