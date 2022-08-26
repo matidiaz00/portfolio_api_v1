@@ -26,7 +26,6 @@ jobs:
           cat .env
 
       - name: 📝 Create firebase.sdk.key.json file
-        id: create-json
         uses: jsdaniell/create-json@1.1.2
         with:
           name: firebase.sdk.key.json
@@ -34,7 +33,6 @@ jobs:
           dir: /
 
       - name: 📝 Create firebase.sdk.client.key.json file
-        id: create-json
         uses: jsdaniell/create-json@1.1.2
         with:
           name: firebase.sdk.client.key.json
