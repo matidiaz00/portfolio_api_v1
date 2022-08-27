@@ -4,6 +4,7 @@ on:
     branches:
       - master
 jobs:
+
   Build:
     runs-on: ubuntu-latest
     steps:
@@ -16,7 +17,24 @@ jobs:
         with:
           node-version: 16.14.2
 
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # 👆 caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: 🧨 Install NPM dependencies
+        if:
+          steps.cache-nodemodules.outputs.cache-hit != 'true'
+          # 👆 if cache hits the skip this step.
         run: npm ci
 
       - name: 💫 Run unit testing
@@ -25,10 +43,30 @@ jobs:
       - name: 💥 Build project
         run: npm run build
 
+      - name: Share building folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: webpack artifacts
+          path: |
+            functions/
+            firebase.json
+            firestore.rules
+            firestore.indexes.json
+
   Deploy:
     needs: Build
     runs-on: ubuntu-latest
     steps:
+
+      - name: Get building folder
+        uses: actions/download-artifact@v3
+        with:
+          name: webpack artifacts
+          path: |
+            functions
+            firebase.json
+            firestore.rules
+            firestore.indexes.json
 
       - name: 🔥Install Firebase tools
         run: npm install -g firebase-tools
@@ -44,5 +82,4 @@ jobs:
       - name: 🚀 Deploy to Firebase
         run: |
           export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json
-          echo $HOME
-          firebase deploy --config $HOME/firebase.json
+          firebase deploy --config
