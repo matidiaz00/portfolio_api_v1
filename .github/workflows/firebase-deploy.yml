@@ -17,6 +17,23 @@ jobs:
         with:
           node-version: 16.14.2
 
+      - name: Get npm cache directory path
+        id: npm-cache-dir-path
+        run: |
+            echo "::set-output name=dir::$(npm cache dir)"
+
+      - name: Set yarn global bin path
+        run: |
+            npm config set prefix $(npm cache dir)
+
+      - name: Add npm bin path to system path
+        run: |
+            echo $(npm global bin) >> $GITHUB_PATH
+
+      - name: Set yarn global installation path
+        run: |
+            npm config set global-folder $(npm cache dir)
+
       - name: Cache node modules
         id: cache-nodemodules
         uses: actions/cache@v2
@@ -24,7 +41,9 @@ jobs:
           cache-name: cache-node-modules
         with:
           # 👆 caching node_modules
-          path: node_modules
+          path: |
+                ${{ steps.npm-cache-dir-path.outputs.dir }}
+                **/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
