@@ -25,9 +25,7 @@ jobs:
         with:
           # 👆 caching node_modules
           path: ~/.npm
-          key: |
-            ${{ runner.os }}-build-${{ env.cache-name }}
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -46,9 +44,6 @@ jobs:
         run: npm run build
 
       - name: 🔥Install Firebase tools
-        if:
-          steps.cache-npm.outputs.cache-hit != 'true'
-          # 👆 if cache hits the skip this step.
         run: npm install -g firebase-tools
       
       - name: 📝 Create firebase.sdk.key.json file
