@@ -4,58 +4,39 @@ on:
     branches:
       - master
 jobs:
-  build_and_deploy:
+  build_project:
     runs-on: ubuntu-latest
     steps:
 
       - name: ✅ Checkout branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       
       - name: 🤖 Use Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 16.14.2
 
-      - name: 🗃️ Create .env file
-        run: |
-          touch .env
-          echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> .env
-          echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> .env
-          echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> .env
-          echo MAIN_FIREBASE_USER_UID=${{ secrets.FIREBASE_USER_UID }} >> .env
-          cat .env
-
-      - name: 📝 Create firebase.sdk.key.json file
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: firebase.sdk.key.json
-          json: ${{ secrets.FIREBASE_SDK_KEY }}
-          dir: /
-
-      - name: 📝 Create firebase.sdk.client.key.json file
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: firebase.sdk.client.key.json
-          json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
-          dir: /
-
-      - name: Set google credentials
-        run: export GOOGLE_APPLICATION_CREDENTIALS="/firebase.sdk.key.json"
-
       - name: 🧨 Install NPM dependencies
         run: npm ci
-
-      - name: 💫 Run unit testing
-        run: npm run test
 
       - name: 💥 Build project
         run: npm run build
 
+  deploy_to_firebase:
+    runs-on: ubuntu-latest
+    steps:
+
       - name: 🔥Install Firebase tools
         run: npm install -g firebase-tools
+      
+      - name: 📝 Create firebase.sdk.key.json file
+        run: echo '${{ secrets.FIREBASE_SDK_KEY }}' > $HOME/firebase.sdk.key.json
 
-      - name: Using specific project in Firebase
+      - name: Set google credentials
+        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json
+
+      - name: Assign project to Firebase config
         run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 🚀 Deploy to Firebase
-        run: firebase --debug deploy
+        run: firebase deploy
