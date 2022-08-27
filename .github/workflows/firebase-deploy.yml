@@ -6,7 +6,7 @@ on:
 jobs:
 
   config:
-    name: Install Node modules
+    name: Install NPM packages
     runs-on: ubuntu-latest
     steps:
 
@@ -70,7 +70,12 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: project
-          path: /
+          path: |
+            **.*
+            src
+            functions/**.*
+            functions/node_modules
+            node_modules
 
 
   testing:
