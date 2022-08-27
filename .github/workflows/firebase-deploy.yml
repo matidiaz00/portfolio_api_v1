@@ -37,11 +37,9 @@ jobs:
         run: echo '${{ secrets.FIREBASE_SDK_KEY }}' > $HOME/firebase.sdk.key.jsonn
 
       - name: Assign project to Firebase config
-        run: |
-          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json \
-          firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json \
+             firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 🚀 Deploy to Firebase
-        run: |
-          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json \
-          firebase deploy
+        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json \
+             firebase deploy
