@@ -56,7 +56,7 @@ jobs:
         if:
           steps.cache-npm-functions.outputs.cache-hit != 'true'
           # 👆 if cache hits the skip this step.
-        run: cd/functions && npm run install
+        run: cd/functions && npm install
 
       - name: 🔥Install Firebase tools
         if:
