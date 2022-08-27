@@ -4,12 +4,13 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "predeploy": "npm --prefix install",
+    "predeploy": "npm --prefix \"$RESOURCE_DIR\" install",
     "ignore": [
-      "node_modules",
       ".git",
+      ".runtimeconfig.json",
       "firebase-debug.log",
-      "firebase-debug.*.log"
+      "firebase-debug.*.log",
+      "node_modules"
     ]
   }
 }
