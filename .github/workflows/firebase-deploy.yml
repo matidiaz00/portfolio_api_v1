@@ -6,11 +6,14 @@ on:
 jobs:
 
   Build:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     runs-on: ubuntu-latest
     steps:
 
       - name: ✅ Checkout branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: 🤖 Use Node.js
         uses: actions/setup-node@v1
@@ -46,9 +49,15 @@ jobs:
 
       - name: 🔥Install Firebase tools
         run: npm install -g firebase-tools
-      
-      - name: 📝 Create firebase.sdk.key.json file
-        run: echo '${{ secrets.FIREBASE_SDK_KEY }}' > $HOME/firebase.sdk.key.jsonn
+
+      - id: auth
+        name: 📝 Create firebase.sdk.key.json file
+        uses: oogle-github-actions/auth@v0.8.0
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
+
+      - name: Use project id
+        run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 🚀 Deploy to Firebase
-        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json && firebase deploy --project ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: firebase deploy
