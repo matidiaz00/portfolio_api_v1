@@ -31,7 +31,7 @@ jobs:
           cache-name: cache-node-modules
         with:
           # 👆 caching node_modules
-          path: ~/.npm
+          path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -52,11 +52,25 @@ jobs:
 
       ########## Deploy ##########
 
+      - name: Cache functions node modules
+        id: cache-npm-functions
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # 👆 caching node_modules
+          path: functions/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - name: Install dependencies in functions
         if:
           steps.cache-npm-functions.outputs.cache-hit != 'true'
           # 👆 if cache hits the skip this step.
-        run: cd/functions && npm install
+        run: cd/functions && npm ci
 
       - name: 🔥Install Firebase tools
         if:
