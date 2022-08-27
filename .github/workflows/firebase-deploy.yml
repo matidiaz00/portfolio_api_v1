@@ -52,9 +52,9 @@ jobs:
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
-          name: Server
+          name: functions
           path: |
-            functions
+            functions/
             firebase.json
 
   deploy:
@@ -66,10 +66,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@master
         with:
-          name: Server
-          path: |
-            functions
-            firebase.json
+          name: functions
 
       - name: Cache functions node modules
         id: cache-npm-functions
