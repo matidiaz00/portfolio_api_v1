@@ -48,12 +48,24 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: node_modules_cache
+          path: |
+            node_modules
+            functions/node_modules
 
   testing:
     name: Testing project
     needs: [ config ]
     runs-on: ubuntu-latest
     steps:
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: node_modules_cache
 
       - name: 🧨 Install NPM dependencies
         if:
@@ -69,6 +81,11 @@ jobs:
     needs: [ config, testing ]
     runs-on: ubuntu-latest
     steps:
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: node_modules_cache
 
       - name: 🧨 Install NPM dependencies
         if:
