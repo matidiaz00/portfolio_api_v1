@@ -19,10 +19,14 @@ jobs:
       - name: 🧨 Install NPM dependencies
         run: npm ci
 
+      - name: 💫 Run unit testing
+        run: npm run test
+
       - name: 💥 Build project
         run: npm run build
 
   deploy_to_firebase:
+    needs: build_project
     runs-on: ubuntu-latest
     steps:
 
