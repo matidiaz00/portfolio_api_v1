@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      ########## Build ##########
+
       - name: ✅ Checkout branch
         uses: actions/checkout@v3
       
@@ -48,6 +50,14 @@ jobs:
       - name: 💥 Build project
         run: npm run build
 
+      - name: Install dependencies in functions
+        if:
+          steps.cache-npm-functions.outputs.cache-hit != 'true'
+          # 👆 if cache hits the skip this step.
+        run: npm run build
+
+      ########## Deploy ##########
+
       - name: 🔥Install Firebase tools
         if:
           steps.setup-node.outputs.cache-hit != 'true'
@@ -64,4 +74,4 @@ jobs:
         run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 🚀 Deploy to Firebase
-        run: firebase deploy
+        run: firebase deploy --debug --only functions
