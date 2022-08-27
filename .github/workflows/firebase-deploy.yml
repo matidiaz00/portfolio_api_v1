@@ -3,10 +3,10 @@ on:
   push:
     branches:
       - master
-jobs:
+jobs: 
 
-  config:
-    name: Configuration
+  build:
+    name: Build project
     runs-on: ubuntu-latest
     steps:
 
@@ -19,44 +19,20 @@ jobs:
         with:
           node-version: 16.14.2
           cache: npm
-          
+
       - name: Cache node modules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          # 👆 caching node_modules
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - name: Cache functions node modules
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          # 👆 caching node_modules
-          path: functions/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-  testing:
-    name: Testing project
-    needs: [ config ]
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/cache@v3
         id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
         with:
+          # 👆 caching node_modules
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: 🧨 Install NPM dependencies
         if:
@@ -66,24 +42,6 @@ jobs:
 
       - name: 💫 Run unit testing
         run: npm run test
-
-  build:
-    name: Build project
-    needs: [ config, testing ]
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/cache@v3
-        id: cache-npm
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-
-      - name: 🧨 Install NPM dependencies
-        if:
-          steps.cache-npm.outputs.cache-hit != 'true'
-          # 👆 if cache hits the skip this step.
-        run: npm ci
 
       - name: 💥 Build project
         run: npm run build
@@ -106,12 +64,20 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: functions
-      
-      - uses: actions/cache@v3
+
+      - name: Cache functions node modules
         id: cache-npm-functions
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
         with:
+          # 👆 caching node_modules
           path: functions/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install dependencies in functions
         if:
