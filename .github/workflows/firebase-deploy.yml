@@ -5,14 +5,13 @@ on:
       - master
 jobs:
 
-  Build:
+  build:
     permissions:
       contents: 'read'
       id-token: 'write'
+    name: Build
     runs-on: ubuntu-latest
     steps:
-
-      ########## Build ##########
 
       - name: ✅ Checkout branch
         uses: actions/checkout@v3
@@ -50,7 +49,23 @@ jobs:
       - name: 💥 Build project
         run: npm run build
 
-      ########## Deploy ##########
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: Server
+          path: functions
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: Server
+          path: functions
 
       - name: Cache functions node modules
         id: cache-npm-functions
