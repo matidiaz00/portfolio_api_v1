@@ -1,6 +1,6 @@
-import functions from "firebase-functions";
+import { https, logger } from "firebase-functions";
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-   functions.logger.info("Hello logs!", {structuredData: true});
+exports.helloWorld = https.onRequest((request, response) => {
+   logger.info("Hello logs!", {structuredData: true});
    response.send("Hello from Firebase!");
 });
