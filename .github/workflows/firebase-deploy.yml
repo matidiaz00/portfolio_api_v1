@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  build_project:
+  Build:
     runs-on: ubuntu-latest
     steps:
 
@@ -25,7 +25,7 @@ jobs:
       - name: 💥 Build project
         run: npm run build
 
-  deploy_to_firebase:
+  Deploy:
     needs: build_project
     runs-on: ubuntu-latest
     steps:
@@ -34,13 +34,14 @@ jobs:
         run: npm install -g firebase-tools
       
       - name: 📝 Create firebase.sdk.key.json file
-        run: echo '${{ secrets.FIREBASE_SDK_KEY }}' > $HOME/firebase.sdk.key.json
-
-      - name: Set google credentials
-        run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json
+        run: echo '${{ secrets.FIREBASE_SDK_KEY }}' > $HOME/firebase.sdk.key.jsonn
 
       - name: Assign project to Firebase config
-        run: firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json \
+          firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 🚀 Deploy to Firebase
-        run: firebase deploy
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json \
+          firebase deploy
