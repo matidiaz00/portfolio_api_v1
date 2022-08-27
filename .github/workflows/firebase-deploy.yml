@@ -49,7 +49,7 @@ jobs:
         run: npm run build
 
       - name: echo
-        run: echo "Cache ${{ steps.setup-node.outputs.cache-hit }}
+        run: echo "Cache ${{ steps.setup-node.outputs }}
 
       - name: 🔥Install Firebase tools
         #if:
