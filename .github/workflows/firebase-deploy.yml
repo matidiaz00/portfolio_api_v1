@@ -82,4 +82,4 @@ jobs:
       - name: 🚀 Deploy to Firebase
         run: |
           export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json
-          firebase deploy --config
+          firebase deploy
