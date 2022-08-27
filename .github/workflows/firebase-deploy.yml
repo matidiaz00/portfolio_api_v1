@@ -5,11 +5,8 @@ on:
       - master
 jobs:
 
-  build:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    name: Build
+  config:
+    name: Install Node modules
     runs-on: ubuntu-latest
     steps:
 
@@ -37,37 +34,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: 🧨 Install NPM dependencies
-        if:
-          steps.cache-npm.outputs.cache-hit != 'true'
-          # 👆 if cache hits the skip this step.
-        run: npm ci
-
-      - name: 💫 Run unit testing
-        run: npm run test
-
-      - name: 💥 Build project
-        run: npm run build
-
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: functions
-          path: |
-            functions/
-            firebase.json
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Download Artifact
-        uses: actions/download-artifact@master
-        with:
-          name: functions
-
       - name: Cache functions node modules
         id: cache-npm-functions
         uses: actions/cache@v3
@@ -82,17 +48,77 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: 🔥Install Firebase tools
+        if:
+          steps.setup-node.outputs.cache-hit != 'true'
+          #👆 if cache hits the skip this step.
+        run: npm install -g firebase-tools
+
+      - name: 🧨 Install NPM dependencies
+        if:
+          steps.cache-npm.outputs.cache-hit != 'true'
+          # 👆 if cache hits the skip this step.
+        run: npm ci
+
       - name: Install dependencies in functions
         if:
           steps.cache-npm-functions.outputs.cache-hit != 'true'
           # 👆 if cache hits the skip this step.
         run: cd functions && npm ci
 
-      - name: 🔥Install Firebase tools
-        if:
-          steps.setup-node.outputs.cache-hit != 'true'
-          #👆 if cache hits the skip this step.
-        run: npm install -g firebase-tools
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: project
+          path: /
+
+
+  testing:
+    name: Testing project
+    needs: [ config ]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: Project
+
+      - name: 💫 Run unit testing
+        run: npm run test
+
+  build:
+    name: Build project
+    needs: [ config, testing ]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: Project
+
+      - name: 💥 Build project
+        run: npm run build
+
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: functions
+          path: |
+            functions/
+            firebase.json
+
+  deploy:
+    name: Deploy to Firebase
+    needs: [ config, testing, build ]
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: functions
 
       - id: auth
         name: 📝 Create firebase.sdk.key.json file
