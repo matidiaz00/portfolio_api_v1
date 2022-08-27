@@ -53,7 +53,9 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: Server
-          path: functions
+          path: |
+            functions
+            firebase.json
 
   deploy:
     name: Deploy
@@ -65,7 +67,9 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: Server
-          path: functions
+          path: |
+            functions
+            firebase.json
 
       - name: Cache functions node modules
         id: cache-npm-functions
