@@ -43,31 +43,18 @@ jobs:
       - name: 💥 Build project
         run: npm run build
 
-      - name: Share building folder
-        uses: actions/upload-artifact@v3
-        with:
-          name: webpack artifacts
-          path: functions
+      - name: 🔥Install Firebase tools
+        run: npm install -g firebase-tools
+      
+      - name: 📝 Create firebase.sdk.key.json file
+        run: echo '${{ secrets.FIREBASE_SDK_KEY }}' > $HOME/firebase.sdk.key.jsonn
 
-  Deploy:
-    needs: Build
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: ✅ Checkout branch
-        uses: actions/checkout@v2
-
-      - name: Get building folder
-        uses: actions/download-artifact@v3
-        with:
-          name: webpack artifacts
-          path: functions
+      - name: Assign project to Firebase config
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json \
+          firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 🚀 Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: |
-            use ${{ secrets.FIREBASE_PROJECT_ID }}
-            deploy
-        env:
-          GCP_SA_KEY: ${{ secrets.FIREBASE_SDK_KEY }}
+        run: |
+          export GOOGLE_APPLICATION_CREDENTIALS=$HOME/firebase.sdk.key.json
+          firebase deploy
