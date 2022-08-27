@@ -50,13 +50,13 @@ jobs:
       - name: 💥 Build project
         run: npm run build
 
+      ########## Deploy ##########
+
       - name: Install dependencies in functions
         if:
           steps.cache-npm-functions.outputs.cache-hit != 'true'
           # 👆 if cache hits the skip this step.
-        run: npm run build
-
-      ########## Deploy ##########
+        run: cd/functions && npm run install
 
       - name: 🔥Install Firebase tools
         if:

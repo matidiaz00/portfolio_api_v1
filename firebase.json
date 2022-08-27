@@ -1,6 +1,5 @@
 {
   "functions": {
-    "predeploy": "npm install",
     "ignore": [
       ".git",
       ".runtimeconfig.json",
