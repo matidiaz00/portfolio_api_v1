@@ -64,7 +64,7 @@ jobs:
           path: functions
 
       - name: 🚀 Deploy to Firebase
-        uses: w9jds/firebase-action@v3
+        uses: w9jds/firebase-action@master
         with:
           args: |
             use ${{ secrets.FIREBASE_PROJECT_ID }}
