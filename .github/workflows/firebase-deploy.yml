@@ -3,10 +3,10 @@ on:
   push:
     branches:
       - master
-jobs: 
+jobs:
 
-  testing:
-    name: Testing project
+  config:
+    name: Configuration
     runs-on: ubuntu-latest
     steps:
 
@@ -19,9 +19,8 @@ jobs:
         with:
           node-version: 16.14.2
           cache: npm
-
+          
       - name: Cache node modules
-        id: cache-npm
         uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
@@ -33,6 +32,31 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
+      - name: Cache functions node modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # 👆 caching node_modules
+          path: functions/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+  testing:
+    name: Testing project
+    needs: [ config ]
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/cache@v3
+        id: cache-npm
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: 🧨 Install NPM dependencies
         if:
@@ -49,19 +73,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Cache node modules
+      - uses: actions/cache@v3
         id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
         with:
-          # 👆 caching node_modules
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - name: 🧨 Install NPM dependencies
         if:
@@ -90,20 +106,12 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: functions
-
-      - name: Cache functions node modules
+      
+      - uses: actions/cache@v3
         id: cache-npm-functions
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
         with:
-          # 👆 caching node_modules
           path: functions/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - name: Install dependencies in functions
         if:
