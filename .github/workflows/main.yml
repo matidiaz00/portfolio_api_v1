@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Prueba Hola mundo
-        uses: ./.github/actions/firebase.yml
+        uses: ./.github/actions/action.yml
         with:
           name: 'Matias Diaz'
 
