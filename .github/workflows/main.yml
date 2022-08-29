@@ -9,10 +9,6 @@ jobs:
   #call-node_modules:
     #uses: .github/workflows/_node_modules.yml@main
 
-  #call-test:
-    #needs: call-node_modules
-    #uses: .github/workflows/_test.yml@main
-
   call-build:
     needs: call-test
     uses: .github/workflows/_old_build.yml@main
@@ -20,6 +16,3 @@ jobs:
   call-deploy:
     needs: call-deploy
     uses: .github/workflows/_old_deploy.yml@main
-    #uses: .github/workflows/deploy/_npm.yml@main
-    #with:
-      #version: 3.0.0
