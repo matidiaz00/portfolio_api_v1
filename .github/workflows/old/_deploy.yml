@@ -1,0 +1,46 @@
+name: '🧳 Deploy'
+
+on: workflow_call
+
+jobs:
+  build:
+    name: Deploy to Firebase
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: functions
+
+      - name: Cache functions node modules
+        id: cache-npm-functions
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # 👆 caching node_modules
+          path: functions/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install dependencies in functions
+        if:
+          steps.cache-npm-functions.outputs.cache-hit != 'true'
+          # 👆 if cache hits the skip this step.
+        run: cd functions && npm ci
+
+      - id: auth
+        name: 📝 Create firebase.sdk.key.json file
+        uses: google-github-actions/auth@v0.8.0
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
+
+      - name: Use project id
+        run: npx firebase-tools use ${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: 🚀 Deploy to Firebase
+        run: npx firebase-tools deploy --debug --only functions

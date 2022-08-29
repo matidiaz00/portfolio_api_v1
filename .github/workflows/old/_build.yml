@@ -1,0 +1,53 @@
+name: '🧳 Build'
+
+on: workflow_call
+
+jobs:
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: ✅ Checkout branch
+        uses: actions/checkout@v3
+      
+      - name: 🤖 Use Node.js
+        id: setup-node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.14.2
+          cache: npm
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # 👆 caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: 🧨 Install NPM dependencies
+        if:
+          steps.cache-npm.outputs.cache-hit != 'true'
+          # 👆 if cache hits the skip this step.
+        run: npm ci
+
+      - name: 💫 Run unit testing
+        run: npm run test
+
+      - name: 💥 Build project
+        run: npm run build
+
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: functions
+          path: |
+            functions/
+            firebase.json
