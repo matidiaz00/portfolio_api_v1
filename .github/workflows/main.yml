@@ -8,12 +8,12 @@ on:
 jobs:
 
   call-node_modules:
-    uses: matidiaz00/matidiaz_api_v1/.github/workflows/_node_modules.yml@main
+    uses: ./.github/workflows/_node_modules.yml@main
 
   call-build:
     needs: call-test
-    uses: matidiaz00/matidiaz_api_v1/.github/workflows/_old_build.yml@main
+    uses: ./.github/workflows/_old_build.yml@main
 
   call-deploy:
     needs: call-deploy
-    uses: matidiaz00/matidiaz_api_v1/.github/workflows/_old_deploy.yml@main
+    uses: ./.github/workflows/_old_deploy.yml@main
