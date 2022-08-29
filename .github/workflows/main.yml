@@ -11,8 +11,8 @@ jobs:
 
   call-build:
     needs: call-test
-    uses: ./_old_build.yml@main
+    uses: matidiaz00/matidiaz-api/.github/workflows/_old_build.yml@main
 
   call-deploy:
     needs: call-deploy
-    uses: ./_old_deploy.yml@main
+    uses: matidiaz00/matidiaz-api/.github/workflows/_old_deploy.yml@main
