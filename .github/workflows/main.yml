@@ -8,12 +8,12 @@ on:
 jobs:
 
   call-node_modules:
-    uses: ./.github/workflows/_node_modules.yml@main
+    uses: ./.github/workflows/_node_modules.yml
 
   call-build:
-    needs: call-test
-    uses: ./.github/workflows/_old_build.yml@main
+    needs: call-node_modules
+    uses: ./.github/workflows/_old_build.yml
 
   call-deploy:
-    needs: call-deploy
-    uses: ./.github/workflows/_old_deploy.yml@main
+    needs: call-build
+    uses: ./.github/workflows/_old_deploy.yml
