@@ -15,11 +15,11 @@ jobs:
 
   call-build:
     needs: call-test
-    uses: .github/workflows/old/_build.yml@main
+    uses: .github/workflows/_old_build.yml@main
 
   call-deploy:
     needs: call-deploy
-    uses: .github/workflows/old/_deploy.yml@main
+    uses: .github/workflows/_old_deploy.yml@main
     #uses: .github/workflows/deploy/_npm.yml@main
     #with:
       #version: 3.0.0
