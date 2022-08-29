@@ -7,6 +7,20 @@ on:
 
 jobs:
 
+  Prueba:
+    name: Prueba hola mundo desde actions
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: ✅ Checkout branch
+        uses: actions/checkout@v3
+
+      - name: Prueba Hola mundo
+        uses: ./firebase.yml
+        with:
+          name: 'Matias Diaz'
+
+
   Test:
     uses: ./.github/workflows/_test.yml
 
