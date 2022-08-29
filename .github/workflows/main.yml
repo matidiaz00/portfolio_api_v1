@@ -7,13 +7,13 @@ on:
 
 jobs:
 
-  call-node_modules:
-    uses: ./.github/workflows/_node_modules.yml
+  Test:
+    uses: ./.github/workflows/_test.yml
 
-  call-build:
-    needs: call-node_modules
-    uses: ./.github/workflows/_old_build.yml
+  Build:
+    needs: Test
+    uses: ./.github/workflows/_build.yml
 
-  call-deploy:
-    needs: call-build
-    uses: ./.github/workflows/_old_deploy.yml
+  Deploy:
+    needs: Build
+    uses: ./.github/workflows/_deploy.yml
