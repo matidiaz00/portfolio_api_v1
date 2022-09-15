@@ -2,6 +2,23 @@ name: '🧳 Deploy'
 
 on: 
   workflow_call:
+    inputs:
+      functions:
+        required: true
+        type: boolean
+    secrets:
+      FIREBASE_SDK_KEY:
+        required: true
+      FIREBASE_PROJECT_ID:
+        required: true
+      FIREBASE_BROWSER_TARGET_NAME:
+        required: false
+      FIREBASE_DOCUMENTATION_TARGET_NAME:
+        required: false
+      FIREBASE_BROWSER_COVERAGE_TARGET_NAME:
+        required: false
+      FIREBASE_SERVER_COVERAGE_TARGET_NAME:
+        required: false
 
 jobs:
   build:
@@ -11,19 +28,44 @@ jobs:
 
       - name: ✅ Checkout branch
         uses: actions/checkout@v3
-      
+
       - name: Download Artifact
+        if: on.workflow_call.secrets.FIREBASE_BROWSER_TARGET_NAME
+        uses: actions/download-artifact@master
+        with:
+          name: browser
+
+      - name: Download Artifact
+        if: on.workflow_call.secrets.FIREBASE_DOCUMENTATION_TARGET_NAME
+        uses: actions/download-artifact@master
+        with:
+          name: documentation
+
+      - name: Download Artifact
+        if: on.workflow_call.secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME
+        uses: actions/download-artifact@master
+        with:
+          name: coverage_browser
+
+      - name: Download Artifact
+        if: on.workflow_call.secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME
+        uses: actions/download-artifact@master
+        with:
+          name: coverage_server
+
+      - name: Download Artifact
+        if: on.workflow_call.inputs.functions == 'true'
         uses: actions/download-artifact@master
         with:
           name: functions
 
       - name: Cache functions node modules
+        if: on.workflow_call.inputs.functions == 'true'
         id: cache-npm-functions
         uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
-          # 👆 caching node_modules
           path: functions/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -32,19 +74,41 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies in functions
-        if:
-          steps.cache-npm-functions.outputs.cache-hit != 'true'
-          # 👆 if cache hits the skip this step.
+        if: steps.cache-npm-functions.outputs.cache-hit != 'true' && on.workflow_call.inputs.functions == 'true'
         run: cd functions && npm ci
 
       - id: auth
         name: 📝 Create firebase.sdk.key.json file
         uses: google-github-actions/auth@v0.8.0
         with:
-          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
+          credentials_json: ${{ on.workflow_call.secrets.FIREBASE_SDK_KEY }}
 
-      - name: Use project id
-        run: npx firebase-tools use ${{ secrets.FIREBASE_PROJECT_ID }}
+      - name: Assign project ID to Firebase config
+        run: npx firebase-tools use ${{ on.workflow_call.secrets.FIREBASE_PROJECT_ID }}
+
+      - name: Assign target to Firebase Hosting Multisite config
+        if: on.workflow_call.secrets.FIREBASE_BROWSER_TARGET_NAME
+        run: npx firebase-tools target:apply hosting browser ${{ on.workflow_call.secrets.FIREBASE_BROWSER_TARGET_NAME }}
+
+      - name: Assign target to Firebase Hosting Multisite config
+        if: on.workflow_call.secrets.FIREBASE_DOCUMENTATION_TARGET_NAME
+        run: npx firebase-tools target:apply hosting documentation ${{ on.workflow_call.secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
+
+      - name: Assign target to Firebase Hosting Multisite config
+        if: on.workflow_call.secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME
+        run: npx firebase-tools target:apply hosting coverage_browser ${{ on.workflow_call.secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
+      
+      - name: Assign target to Firebase Hosting Multisite config
+        if: on.workflow_call.secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME
+        run: npx firebase-tools target:apply hosting coverage_server ${{ on.workflow_call.secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
 
       - name: 🚀 Deploy to Firebase
-        run: npx firebase-tools deploy --debug --only functions
+        run: npx firebase-tools deploy
+
+      - name: Display URLs
+        run: |
+          echo Server Api: https://google.com/
+          echo Server Documentation: https://google.com/
+          echo Server Coverage: https://google.com/
+          echo Browser: https://google.com/
+          echo Browser Coverage: https://google.com/

@@ -7,27 +7,34 @@ on:
 
 jobs:
 
-  Prueba:
-    name: Prueba hola mundo desde actions
-    runs-on: ubuntu-latest
-    steps:
-      
-      - name: ✅ Checkout branch
-        uses: actions/checkout@v3
-
-      - name: Prueba Hola mundo
-        uses: ./.github/actions/action.yml
-        with:
-          name: 'Matias Diaz'
-
-
   Test:
     uses: ./.github/workflows/_test.yml
+    with:
+      browser: false
+      server: true
+    secrets:
+      environment: ${{ secrets.ENVIRONMENT }}
+
 
   Build:
     needs: Test
     uses: ./.github/workflows/_build.yml
+    with:
+      browser: false
+      server: true
+    secrets:
+      environment: ${{ secrets.ENVIRONMENT }}
 
   Deploy:
     needs: Build
     uses: ./.github/workflows/_deploy.yml
+    with:
+      browser: false
+      server: true
+    secrets:
+      sdk_key: ${{ secrets.FIREBASE_SDK_KEY }}
+      project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+      #browser_target: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
+      documentation_target: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
+      #browser_coverage_target: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
+      server_coverage_target: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}

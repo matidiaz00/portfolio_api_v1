@@ -2,6 +2,16 @@ name: '🧳 Test'
 
 on: 
   workflow_call:
+    inputs:
+      browser:
+        required: true
+        type: boolean
+      server:
+        required: true
+        type: boolean
+    secrets:
+      environment:
+        required: true
 
 jobs:
   build:
@@ -25,7 +35,6 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          # 👆 caching node_modules
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -34,10 +43,33 @@ jobs:
             ${{ runner.os }}-
 
       - name: 🧨 Install NPM dependencies
-        if:
-          steps.cache-npm.outputs.cache-hit != 'true'
-          # 👆 if cache hits the skip this step.
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: 💫 Run unit testing
-        run: npm run test
+        if: on.workflow_call.inputs.server == 'true'
+        run: |
+          npx nyc jasmine
+          npx nyc report --reporter=html -t coverage --report-dir=coverage/server
+        env:
+          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
+
+      - name: Archive Production Artifact
+        if: on.workflow_call.inputs.server == 'true'
+        uses: actions/upload-artifact@master
+        with:
+          name: coverage_server
+          path: coverage/server
+
+      - name: 💫 Run unit testing
+        if: on.workflow_call.inputs.browser == 'true'
+        run: npx @angular/cli test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
+        env:
+          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
+
+      - name: Archive Production Artifact
+        if: on.workflow_call.inputs.browser == 'true'
+        uses: actions/upload-artifact@master
+        with:
+          name: coverage_browser
+          path: coverage/browser

@@ -2,6 +2,16 @@ name: '🧳 Build'
 
 on: 
   workflow_call:
+    inputs:
+      server:
+        required: true
+        type: boolean
+      browser:
+        required: true
+        type: boolean
+    secrets:
+      environment:
+        required: true
 
 jobs:
   build:
@@ -25,7 +35,6 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          # 👆 caching node_modules
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -34,18 +43,52 @@ jobs:
             ${{ runner.os }}-
 
       - name: 🧨 Install NPM dependencies
-        if:
-          steps.cache-npm.outputs.cache-hit != 'true'
-          # 👆 if cache hits the skip this step.
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
 
+      - name: Create firebase.sdk.client.key.json file
+        if: on.workflow_call.inputs.server == 'true'
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "firebase.sdk.client.key.json"
+          json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
+          dir: 'src/services'
+
+      - name: Create firebase.sdk.key.json file
+        if: on.workflow_call.inputs.server == 'true'
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "firebase.sdk.client.key.json"
+          json: ${{ secrets.FIREBASE_SDK_KEY }}
+          dir: 'src/services'
+
       - name: 💥 Build project
-        run: npm run build
+        if: on.workflow_call.inputs.server == 'true'
+        run: npx tsc
+        env:
+          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
 
       - name: Archive Production Artifact
+        if: on.workflow_call.inputs.server == 'true'
         uses: actions/upload-artifact@master
         with:
           name: functions
           path: |
+            swagger
             functions/
             firebase.json
+
+      - name: 💥 Build project
+        if: on.workflow_call.inputs.browser == 'true'
+        run: |
+          npx ts-node -O '{\"module\": \"commonjs\"}' ./src/environment/environment.config.ts
+          npx @angular/cli build --configuration production
+        env:
+          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
+
+      - name: Archive Production Artifact
+        if: on.workflow_call.inputs.browser == 'true'
+        uses: actions/upload-artifact@master
+        with:
+          name: browser
+          path: dist

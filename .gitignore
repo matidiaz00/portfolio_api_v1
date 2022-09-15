@@ -67,3 +67,4 @@ node_modules/
 .firebaserc
 functions/index.js
 gha-creds-*.json
+**/**.key.json
