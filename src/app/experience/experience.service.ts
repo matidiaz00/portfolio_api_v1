@@ -1,4 +1,4 @@
-import { EnpointInterface } from './experience.interface';
+import { EnpointInterface } from './experience.model';
 import { environment } from '../../environment/environment'
 
 export const findAll_official = (): Promise<any> => {

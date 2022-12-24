@@ -89,5 +89,5 @@ const router = (0, express_1.Router)();
  *       403:
  *         description: Access token does not have the required scope
  */
-router.get('/', error_controller_1.default);
+router.get('*', error_controller_1.default);
 exports.default = router;

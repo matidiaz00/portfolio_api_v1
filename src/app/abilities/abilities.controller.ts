@@ -1,13 +1,12 @@
-import { Request, Response, NextFunction } from 'express';
-import { CustomError } from '../../models/error.model';
+import { NextFunction, Request, Response } from 'express';
 import { findAll } from './abilities.service';
 
-const AbilitiesController = async (request: Request, response: Response, next: NextFunction): Promise<any> => { 
+const AbilitiesController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
         const res = await findAll();
-        return response.send(res);
+        response.send(res);
     } catch (err) {
-        return new CustomError(500, err)
+        next(err)
     }
 }
  

@@ -9,15 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const error_model_1 = require("../../models/error.model");
 const abilities_service_1 = require("./abilities.service");
 const AbilitiesController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, abilities_service_1.findAll)();
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.default = AbilitiesController;

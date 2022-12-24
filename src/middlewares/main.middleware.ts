@@ -15,7 +15,8 @@ export const HeadersMiddleWare = (req: Request, res: Response, next: NextFunctio
         'http://localhost:5000',
         'https://us-central1-matidiaz000.cloudfunctions.net',
         'https://matidiaz000.web.app',
-        'https://matidiaz.com'
+        'https://matidiaz.com',
+        'https://www.matidiaz.com'
     ];
     const origin: string | undefined = req.headers.origin;
     if (origin && allowedOrigins.includes(origin)) {

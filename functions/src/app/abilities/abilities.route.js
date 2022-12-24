@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const abilities_controller_1 = __importDefault(require("./abilities.controller"));
+const abilities_middleware_1 = __importDefault(require("./abilities.middleware"));
 const categories_route_1 = __importDefault(require("./categories/categories.route"));
 const router = (0, express_1.Router)();
 /**
@@ -90,6 +91,7 @@ const router = (0, express_1.Router)();
  *       403:
  *         description: Access token does not have the required scope
  */
+router.use('*', abilities_middleware_1.default);
 router.get('/', abilities_controller_1.default);
 router.use('/categories', categories_route_1.default);
 exports.default = router;

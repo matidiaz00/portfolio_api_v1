@@ -10,57 +10,54 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveController = exports.UpdateController = exports.FindOneController = exports.CreateController = exports.FindAllController = void 0;
-const error_model_1 = require("../../../models/error.model");
 const childrens_service_1 = require("./childrens.service");
 const FindAllController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, childrens_service_1.findAll)(request.params.category_id, request.params.item_id);
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.FindAllController = FindAllController;
 const CreateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // body = createDto: DataItemsInterface
     try {
         const res = yield (0, childrens_service_1.create)(request.params.category_id, request.params.item_id, request.body);
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.CreateController = CreateController;
 const FindOneController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, childrens_service_1.findOne)(request.params.category_id, request.params.item_id, request.params.children_id);
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.FindOneController = FindOneController;
 const UpdateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // body = createDto: DataItemsInterface
     try {
         const res = yield (0, childrens_service_1.update)(request.params.category_id, request.params.item_id, request.params.children_id, request.body);
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.UpdateController = UpdateController;
 const RemoveController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, childrens_service_1.remove)(request.params.category_id, request.params.item_id, request.params.children_id);
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.RemoveController = RemoveController;

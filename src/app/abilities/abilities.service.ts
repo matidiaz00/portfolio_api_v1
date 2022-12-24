@@ -1,42 +1,41 @@
-import { CustomError } from '../../models/error.model';
+import { CustomError } from './../../models/error.model';
 import { db } from '../../firebase';
+import { DataType } from '../../models/abilities.model';
 
 const collRef = db.collection('abilities')
 
-export const findAll = async (): Promise<any> => {
-    let all_data: any;
+export const findAll = async (): Promise<DataType[]> => {
+    let all_data: Promise<DataType[]>;
     await getCategories()
       .then(
-        async (all_data_without_itemsAndChildrens) => {
-          await getItems(all_data_without_itemsAndChildrens)
+        async (all_data_without_itemsAndChildrens: any) => {
+          return await getItems(all_data_without_itemsAndChildrens)
             .then(
-              async (all_data_without_Childrens) => {
-                await getChildrens(all_data_without_Childrens)
-                  .then((data) => all_data = data )
-                  .catch((err: Error) => new CustomError(500, err) );;
-              }
-            ).catch((err: Error) => new CustomError(500, err) );;
-        }
-      ).catch((err: Error) => new CustomError(500, err) );
+              async (all_data_without_Childrens: any) => {
+                return await getChildrens(all_data_without_Childrens)
+                  .then((data: any) => all_data = Promise.resolve(data))
+              })
+        })
     return all_data
 }
 
-const getCategories = async (): Promise<any> => {
+const getCategories = async (): Promise<DataType[] | CustomError> => {
     const snapshot = await collRef.get();
-    let categoriesDoc: any = [];
+    let categoriesDoc: DataType[] = [];
     snapshot.forEach((category: any) => {
-      let categoryData = category.data();
+      let categoryData: DataType = category.data();
       categoryData['id'] = category.id;
       categoryData['items'] = [];
       categoriesDoc.push(categoryData);
     });
     if (categoriesDoc) {
-      const categories = await Promise.all(categoriesDoc)
-      return categories
-    } else new CustomError(500, 'No hay colecciones en "abilities"')
+      return await Promise.all(categoriesDoc)
+    } else {
+      return new CustomError(500, `No hay colecciones en 'abilities'`)
+    }
 }
 
-const getItems = async (all_data_without_itemsAndChildrens: Array<any>): Promise<any> => {
+const getItems = async (all_data_without_itemsAndChildrens: DataType[]): Promise<DataType[] | CustomError> => {
     let itemsDoc = [];
     for await (let data of all_data_without_itemsAndChildrens) {
       if (data.id) {
@@ -54,12 +53,13 @@ const getItems = async (all_data_without_itemsAndChildrens: Array<any>): Promise
       }
     }
     if (itemsDoc) {
-      const items = await Promise.all(itemsDoc)
-      return items
-    } else new CustomError(500, 'Hubo un problema obtener "items/colecciones" de los documentos de "abilities"')
+      return Promise.all(itemsDoc)
+    } else {
+      return new CustomError(500, `Hubo un problema obtener 'items/colecciones' de los documentos de 'abilities'`)
+    }
 }
 
-const getChildrens = async (all_data_without_Childrens: Array<any>): Promise<any> => {
+const getChildrens = async (all_data_without_Childrens: Array<any>): Promise<DataType[] | CustomError> => {
     let all_data = [];
     for await (let data of all_data_without_Childrens) {
       for await (let item of data.items) {
@@ -79,6 +79,9 @@ const getChildrens = async (all_data_without_Childrens: Array<any>): Promise<any
       }
       all_data.push(data)
     }
-    if (all_data.length === 0) return all_data
-    else new CustomError(500, 'Hubo un problema obtener colecciones "childrends"')
+    if (all_data.length === 0) {
+      return await Promise.all(all_data)
+    } else {
+      return new CustomError(500, `Hubo un problema obtener colecciones 'childrends'`)
+    }
 }

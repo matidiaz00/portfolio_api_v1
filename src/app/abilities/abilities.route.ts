@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import AbilitiesController from './abilities.controller';
+import AbilitiesMiddleware from './abilities.middleware';
 import CategoriesRouting from './categories/categories.route';
 
 const router = Router();
@@ -89,6 +90,8 @@ const router = Router();
  *       403:
  *         description: Access token does not have the required scope
  */
+
+router.use('*', AbilitiesMiddleware);
 
 router.get('/', AbilitiesController);
 

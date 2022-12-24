@@ -1,9 +1,23 @@
-import { ErrorDataInterface, ErrorInterface } from "./error.interface";
 import { Errors1xx } from "./errors/1xx.errors";
 import { Errors2xx } from "./errors/2xx.errors";
 import { Errors3xx } from "./errors/3xx.errors";
 import { Errors4xx } from "./errors/4xx.errors";
 import { Errors5xx } from "./errors/5xx.errors";
+
+export interface ErrorInterface {
+    status?: number;
+    type: string;
+    description: string;
+    message_developer: string;
+    message_client: string;
+}
+
+export interface ErrorDataInterface {
+    type: string;
+    description: string;
+    message_general: string;
+    items: Array<ErrorInterface>;
+}
 
 export class CustomError {
 
@@ -17,39 +31,30 @@ export class CustomError {
     constructor(status: number = 500, additionalInfo?: any) {
         this.status = status;
         this.additionalInfo = additionalInfo ? additionalInfo : undefined;
-        this.setErrorData(status)
-            .then(res => this.setData(res))
-            .catch(err => this.setData(err))
+        this.setErrorData(status);
     }
 
-    setErrorData(status: number): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const ErrorsList = this.getErrorList(status);
-            if (ErrorsList && Array.isArray(ErrorsList.items)) {
-                const ItemsArr = ErrorsList.items.find(item => item.status === status);
-                if (ItemsArr) {
-                    let data: any = ErrorsList;
-                    delete data.items;
-                    data.item = ItemsArr;
-                    resolve(data)
-                } else {
-                    reject(this.defaultError())
-                }
-            }
-        })
+    setErrorData(status: number): void {
+        const ErrorsList = this.getErrorList(status);
+        const DefaultErr = this.defaultError();
+        if (ErrorsList && Array.isArray(ErrorsList.items)) {
+            const ItemsArr = ErrorsList.items.find(item => item.status === status);
+            if (ItemsArr) {
+                let data: any = ErrorsList;
+                delete data.items;
+                data.item = ItemsArr;
+                this.setData(data)
+            } else this.setData(DefaultErr)
+        } else this.setData(DefaultErr)
     }
 
     defaultError() {
+        const item = (Errors5xx.items ?? [])[0];
         return {
             type: Errors5xx.type,
             description: Errors5xx.description,
             message_general: Errors5xx.message_general,
-            item: {
-                type: Errors5xx.items[0].type,
-                description: Errors5xx.items[0].description,
-                message_developer: Errors5xx.items[0].message_developer,
-                message_client: Errors5xx.items[0].message_client
-            }
+            item: item
         }
     }
 
@@ -68,11 +73,13 @@ export class CustomError {
         this.type = errorData.type;
         this.description = errorData.description;
         this.message_general = errorData.message_general;
-        this.error = {
-            type: errorData.item.type,
-            description: errorData.item.description,
-            message_developer: errorData.item.message_developer,
-            message_client: errorData.item.message_client
+        if (errorData.item) {
+            this.error = {
+                type: errorData.item.type,
+                description: errorData.item.description,
+                message_developer: errorData.item.message_developer,
+                message_client: errorData.item.message_client
+            }
         }
     }
 }

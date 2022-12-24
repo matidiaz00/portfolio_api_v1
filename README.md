@@ -42,7 +42,10 @@ Tambien para descargar el proyecto se recomienda tener Git instalado.
 
 1. Abrir la consola y dirigirse a la carpeta donde quieras descargar el respositorio y correr el siguiente comando </br>```git clone https://github.com/matidiaz00/portfolio_api_v1.git```
 2. Dirigirse a la nueva carpeta "matidiaz-api" y correr el siguiente comando para instalar las dependencias </br>```npm install```
-3. Para correr el proyecto en local hay que correr el siguiente comando </br>```npm run start:local```
+3. Instalar [Firebase CLI](https://firebase.google.com/docs/cli) de manera global con el siguiente comando </br>```npm install -g firebase-tools@4.1.1```
+4. Iniciar sesion con Firebase CLI (abre el login en una pestaña del navegador) </br>```firebase login```
+5. Especificar en que proyecto de Firebase vamos a trabajar (con el comando `firebase projects:list` podemos ver el listado de proyectos) usando el siguiente comando </br>```firebase use --add PROJECT_ID```
+6. Para correr el proyecto en local hay que correr el siguiente comando </br>```npm run start:local```
 </p>
 </details>
 

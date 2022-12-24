@@ -1,4 +1,4 @@
-import { LoginInterface, SignUpInterface } from './auth.interface';
+import { LoginInterface, SignUpInterface } from './auth.model';
 import { auth, client_auth, signInWithEmailAndPassword } from '../../firebase';
 import { CustomError } from '../../models/error.model';
 import { environment } from '../../environment/environment';

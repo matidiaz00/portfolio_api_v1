@@ -66,7 +66,7 @@ const remove = (category_id, item_id, children_id) => __awaiter(void 0, void 0, 
     const docRef = collRef.doc(category_id).collection(collItemName).doc(item_id).collection(collChildrenName).doc(children_id);
     const res = yield docRef.delete();
     if (res)
-        return { message: `El documento #${children_id} se eliminó exitosamente de: /abilities/categories/${category_id}/${collItemName}/${item_id}/${collChildrenName}.` };
+        return new error_model_1.CustomError(200, `El documento #${children_id} se eliminó exitosamente de: /abilities/categories/${category_id}/${collItemName}/${item_id}/${collChildrenName}.`);
     else
         return new error_model_1.CustomError(500, `Error al intentar eliminar el documento #${children_id}: /abilities/categories/${category_id}/${collItemName}/${item_id}/${collChildrenName}.`);
 });

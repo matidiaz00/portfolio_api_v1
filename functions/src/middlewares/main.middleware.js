@@ -36,7 +36,8 @@ const HeadersMiddleWare = (req, res, next) => {
         'http://localhost:5000',
         'https://us-central1-matidiaz000.cloudfunctions.net',
         'https://matidiaz000.web.app',
-        'https://matidiaz.com'
+        'https://matidiaz.com',
+        'https://www.matidiaz.com'
     ];
     const origin = req.headers.origin;
     if (origin && allowedOrigins.includes(origin)) {

@@ -9,14 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const error_service_1 = require("./error.service");
 const ErrorController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const res = yield (0, error_service_1.error)();
-        return response.send(res);
-    }
-    catch (err) {
-        return response.status(500).send(err);
-    }
+    response.status(404).send({ error: null, message: `Not found` });
 });
 exports.default = ErrorController;

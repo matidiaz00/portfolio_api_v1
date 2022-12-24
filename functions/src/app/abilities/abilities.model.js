@@ -9,6 +9,6 @@ const DataRecord = (0, runtypes_1.Record)({
     order: runtypes_1.Number
 });
 const DataRecordChildren = DataRecord.extend({
-    item: (0, runtypes_1.Optional)((0, runtypes_1.Array)(DataRecord))
+    items: (0, runtypes_1.Optional)((0, runtypes_1.Array)(DataRecord))
 });
 exports.DataModel = (0, runtypes_1.Union)(DataRecordChildren);

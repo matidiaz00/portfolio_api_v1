@@ -1,6 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import { CustomError } from "../models/error.model";
 import { auth } from "../firebase";
+import { environment } from "../environment/environment";
 
 export interface IGetAuthTokenRequest extends Request {
     authToken: string | null;
@@ -22,11 +23,26 @@ const AuthMiddleware = (req: any, res: Response, next: NextFunction) => {
         if (authToken) {
             auth.verifyIdToken(authToken)
                 .then(userInfo => {
-                    if (userInfo.uid != 'RDuxbgSvGmUkw9CzkkvNOea8Dy13') return next();
-                    else new CustomError(401, 'You are not authorized to make this request')
+                    if (userInfo.uid != environment.FIREBASE_USER_UID) return next();
+                    else {
+                        const message = 'Este usuario no esta autorizado para hacer esta llamada.';
+                        const customErr = new CustomError(401, { error: userInfo, message: message });
+                        console.error(customErr);
+                        res.status(customErr.status).send(customErr);
+                    }
                 })
-                .catch(err => new CustomError(401, {error: err, message: 'You are not authorized to make this request' }))
-        } else return new CustomError(401, 'You are not authorized to make this request');
+                .catch(err => {
+                    const message = 'Este token no esta autorizado para hacer esta llamada.';
+                    const customErr = new CustomError(401, { error: err, message: message });
+                    console.error(customErr);
+                    res.status(customErr.status).send(customErr);
+                })
+        } else {
+            const message = 'Necesitas usar un token para hacer esta llamada.';
+            const customErr = new CustomError(401, message);
+            console.error(customErr);
+            res.status(customErr.status).send(customErr);
+        }
     });
 };
 

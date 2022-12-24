@@ -1,11 +1,11 @@
 import { db } from "../../../firebase";
-import { DataInterface } from "../abilities.interface";
+import { DataType } from "../../../models/abilities.model";
 import { CustomError } from "../../../models/error.model";
 
 const collName: string = 'abilities';
 let collRef: any = db.collection(collName);
 
-export const create = async (createDto: DataInterface): Promise<any> => {
+export const create = async (createDto: DataType): Promise<DataType[] | CustomError> => {
     const docRef = collRef.doc();
     await docRef.set(createDto);
     const newDocRef = collRef.doc(docRef.id);
@@ -15,7 +15,7 @@ export const create = async (createDto: DataInterface): Promise<any> => {
     return res;
 }
 
-export const findAll = async (): Promise<any> => {
+export const findAll = async (): Promise<DataType[] | CustomError> => {
     const snapshot = await collRef.get();
     let data: any = [];
     snapshot.forEach((doc: any) => {
@@ -26,7 +26,7 @@ export const findAll = async (): Promise<any> => {
     return data
 }
 
-export const findOne = async (category_id: string): Promise<any> => {
+export const findOne = async (category_id: string): Promise<DataType[] | CustomError> => {
     const docRef = collRef.doc(category_id);
     const doc = await docRef.get();
     if (!doc.exists) return new CustomError(500, `El documento #${category_id} no existe en: /abilities/categories".` );
@@ -37,7 +37,7 @@ export const findOne = async (category_id: string): Promise<any> => {
     }
 }
 
-export const update = async (category_id: string, updateDto: DataInterface): Promise<any> => {
+export const update = async (category_id: string, updateDto: DataType): Promise<DataType[] | CustomError> => {
     const docRef = collRef.doc(category_id);
     await docRef.set(updateDto);
     const doc = await docRef.get();
@@ -49,9 +49,9 @@ export const update = async (category_id: string, updateDto: DataInterface): Pro
     }
 }
 
-export const remove = async (category_id: string): Promise<any> => {
+export const remove = async (category_id: string): Promise<DataType[] | CustomError> => {
     const docRef = collRef.doc(category_id);
     const res = await docRef.delete();
-    if (res) return { message: `El documento #${category_id} se eliminó exitosamente de: /abilities/categories".` };
+    if (res) return new CustomError(200, `El documento #${category_id} se eliminó exitosamente de: /abilities/categories".` );
     else return new CustomError(500, `Error al intentar eliminar el documento #${category_id} de: /abilities/categories".` );
 }

@@ -91,6 +91,7 @@ const router = Router();
  */
 
 router.get('/login', LoginController);
+router.use('/signup', AuthMiddleware);
 router.post('/signup', SignUpController);
 
 export default router;
