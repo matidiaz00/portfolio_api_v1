@@ -1,9 +1,9 @@
-import { LoginInterface, SignUpInterface } from './auth.model';
+import { LoginType, SignUpType } from './auth.model';
 import { auth, client_auth, signInWithEmailAndPassword } from '../../firebase';
-import { CustomError } from '../../models/error.model';
+import { CustomError } from '../error/error.model';
 import { environment } from '../../environment/environment';
 
-export const login = async (body: LoginInterface): Promise<any> => {
+export const login = async (body: LoginType): Promise<any> => {
     return signInWithEmailAndPassword(client_auth, body.email, body.password)
         .then((userCredential) => {
             if (userCredential.user.uid == environment.FIREBASE_USER_UID) return userCredential.user
@@ -12,12 +12,12 @@ export const login = async (body: LoginInterface): Promise<any> => {
         .catch((err) => new CustomError(500, err) );
 }
 
-export const signup = async (body: SignUpInterface): Promise<any> => {
+export const signup = async (body: SignUpType): Promise<any> => {
     return auth
         .createUser({
             email: body.email,
             emailVerified: false,
-            phoneNumber: body.phone,
+            phoneNumber: body.phone.toString(),
             password: body.password,
             displayName: body.name,
             photoURL: 'http://www.example.com/12345678/photo.png',

@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { CustomError } from './../models/error.model';
+import { CustomError } from './error/error.model';
 import AuthRouting from './auth/auth.route';
 
 const router = Router();

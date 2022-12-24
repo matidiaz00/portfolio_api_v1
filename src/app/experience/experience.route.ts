@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ExperienceController from './experience.controller';
+import ExperienceMiddleware from './experience.middleware';
 
 const router = Router();
 
@@ -88,6 +89,8 @@ const router = Router();
  *       403:
  *         description: Access token does not have the required scope
  */
+
+router.use('*', ExperienceMiddleware);
 
 router.get('/', ExperienceController);
 

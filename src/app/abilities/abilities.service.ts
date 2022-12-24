@@ -1,6 +1,6 @@
-import { CustomError } from './../../models/error.model';
+import { CustomError } from '../error/error.model';
 import { db } from '../../firebase';
-import { DataType } from '../../models/abilities.model';
+import { DataType } from './abilities.model';
 
 const collRef = db.collection('abilities')
 

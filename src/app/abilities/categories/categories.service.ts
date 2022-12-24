@@ -1,6 +1,6 @@
 import { db } from "../../../firebase";
-import { DataType } from "../../../models/abilities.model";
-import { CustomError } from "../../../models/error.model";
+import { DataType } from "../abilities.model";
+import { CustomError } from "../../error/error.model";
 
 const collName: string = 'abilities';
 let collRef: any = db.collection(collName);

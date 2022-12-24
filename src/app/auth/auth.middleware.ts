@@ -1,7 +1,9 @@
 import { NextFunction, Response, Request } from "express";
-import { CustomError } from "../models/error.model";
-import { auth } from "../firebase";
-import { environment } from "../environment/environment";
+import { CustomError } from "../error/error.model";
+import { auth } from "../../firebase";
+import { environment } from "../../environment/environment";
+import { Result } from "runtypes";
+import { LoginModel, LoginType, SignUpModel, SignUpType } from "./auth.model";
 
 export interface IGetAuthTokenRequest extends Request {
     authToken: string | null;
@@ -17,7 +19,29 @@ const getAuthToken = (req: any, res: Response, next: NextFunction) => {
     return next();
 };
 
-const AuthMiddleware = (req: any, res: Response, next: NextFunction) => {
+export const SignUpMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+    if (SignUpModel.guard(req.body)) {
+        next();
+    } else {
+        const err: Result<SignUpType> = SignUpModel.validate(req.body);
+        const customErr = new CustomError(400, err);
+        console.error(customErr);
+        res.status(customErr.status).send(customErr);
+    }
+};
+
+export const LoginMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+    if (LoginModel.guard(req.body)) {
+        next();
+    } else {
+        const err: Result<LoginType> = LoginModel.validate(req.body);
+        const customErr = new CustomError(400, err);
+        console.error(customErr);
+        res.status(customErr.status).send(customErr);
+    }
+};
+
+export const AuthMiddleware = (req: any, res: Response, next: NextFunction) => {
     return getAuthToken(req, res, async () => {
         const { authToken } = req;
         if (authToken) {
@@ -45,5 +69,3 @@ const AuthMiddleware = (req: any, res: Response, next: NextFunction) => {
         }
     });
 };
-
-export default AuthMiddleware

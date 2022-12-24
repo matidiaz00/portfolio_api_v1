@@ -1,5 +1,5 @@
 import type { NextFunction, ErrorRequestHandler, Request, Response } from "express";
-import { CustomError } from "./../models/error.model";
+import { CustomError } from "./error.model";
 
 const ErrorMiddleware: ErrorRequestHandler = (err: TypeError | CustomError, req: Request, res: Response, next: NextFunction) => {
     let customError = err;

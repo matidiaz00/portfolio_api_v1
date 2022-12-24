@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signup = exports.login = void 0;
 const firebase_1 = require("../../firebase");
-const error_model_1 = require("../../models/error.model");
+const error_model_1 = require("../error/error.model");
 const environment_1 = require("../../environment/environment");
 const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
     return (0, firebase_1.signInWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
@@ -29,7 +29,7 @@ const signup = (body) => __awaiter(void 0, void 0, void 0, function* () {
         .createUser({
         email: body.email,
         emailVerified: false,
-        phoneNumber: body.phone,
+        phoneNumber: body.phone.toString(),
         password: body.password,
         displayName: body.name,
         photoURL: 'http://www.example.com/12345678/photo.png',

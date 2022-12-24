@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import AuthMiddleware from '../../middlewares/auth.middleware';
+import { AuthMiddleware, LoginMiddleware } from './auth.middleware';
 import { LoginController, SignUpController } from './auth.controller';
 
 const router = Router();
@@ -89,9 +89,10 @@ const router = Router();
  *       403:
  *         description: Access token does not have the required scope
  */
+router.use('/login', LoginMiddleware);
+router.use('/signup', AuthMiddleware, SignUpController);
 
 router.get('/login', LoginController);
-router.use('/signup', AuthMiddleware);
 router.post('/signup', SignUpController);
 
 export default router;

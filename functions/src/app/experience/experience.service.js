@@ -9,29 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAll = exports.findAll_official = void 0;
-const environment_1 = require("../../environment/environment");
-const findAll_official = () => {
-    return getEndpoint({
-        endpoint: 'https://api.linkedin.com/v2/me',
-        query: [
-            { name: 'fields', data: 'id' }, // si agregamos positions devuelve error de acceso
-        ],
-        token: environment_1.environment.LINKEDIN_ACCESS_TOKEN
-    }); //.pipe( map(response => response.data) );
-};
-exports.findAll_official = findAll_official;
-const findAll = () => {
-    return getEndpoint({
-        endpoint: 'https://nubela.co/proxycurl/api/v2/linkedin',
-        query: [
-            { name: 'url', data: `https://www.linkedin.com/in/${environment_1.environment.LINKEDIN_USER}` },
-            { name: 'use_cache', data: `if-present` }
-        ],
-        token: environment_1.environment.NUBELA_ACCESS_TOKEN
-    }); //.pipe( map(response => response.data.experiences) );
-};
-exports.findAll = findAll;
+exports.findAll = void 0;
 const getEndpoint = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const headersRequest = { 'Authorization': `Bearer ${data.token}` };
     let query = '?';
@@ -40,3 +18,9 @@ const getEndpoint = (data) => __awaiter(void 0, void 0, void 0, function* () {
     }
     return yield fetch(`${data.endpoint}${query}`, { headers: headersRequest });
 });
+const findAll = (data) => {
+    return getEndpoint(data);
+    //.pipe( map(response => response.data) );
+    //.pipe( map(response => response.data.experiences) );
+};
+exports.findAll = findAll;

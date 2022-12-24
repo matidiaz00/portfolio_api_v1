@@ -11,4 +11,4 @@ const DataRecord = (0, runtypes_1.Record)({
 const DataRecordChildren = DataRecord.extend({
     items: (0, runtypes_1.Optional)((0, runtypes_1.Array)(DataRecord))
 });
-exports.DataModel = (0, runtypes_1.Union)(DataRecordChildren);
+exports.DataModel = DataRecordChildren;

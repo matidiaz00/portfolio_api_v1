@@ -10,25 +10,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUpController = exports.LoginController = void 0;
-const error_model_1 = require("../../models/error.model");
 const auth_service_1 = require("./auth.service");
 const LoginController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, auth_service_1.login)(request.body);
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.LoginController = LoginController;
 const SignUpController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, auth_service_1.signup)(request.body);
-        return response.send(res);
+        response.send(res);
     }
     catch (err) {
-        return new error_model_1.CustomError(500, err);
+        next(err);
     }
 });
 exports.SignUpController = SignUpController;

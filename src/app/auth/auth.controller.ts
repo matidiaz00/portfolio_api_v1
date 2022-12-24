@@ -1,22 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import { CustomError } from '../../models/error.model';
 import { login, signup } from './auth.service';
 
-const LoginController = async (request: Request, response: Response, next: NextFunction): Promise<any> => { 
+const LoginController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
         const res = await login(request.body);
-        return response.send(res);
+        response.send(res);
     } catch (err) {
-        return new CustomError(500, err)
+        next(err)
     }
 }
 
-const SignUpController = async (request: Request, response: Response, next: NextFunction): Promise<any> => { 
+const SignUpController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
         const res = await signup(request.body);
-        return response.send(res);
+        response.send(res);
     } catch (err) {
-        return new CustomError(500, err)
+        next(err)
     }
 }
 
