@@ -13,7 +13,8 @@ exports.RemoveController = exports.UpdateController = exports.FindOneController 
 const items_service_1 = require("./items.service");
 const FindAllController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, items_service_1.findAll)(request.params.category_id);
+        const category_id = String(request.params.category_id);
+        const res = yield (0, items_service_1.findAll)(category_id);
         response.send(res);
     }
     catch (err) {
@@ -23,7 +24,8 @@ const FindAllController = (request, response, next) => __awaiter(void 0, void 0,
 exports.FindAllController = FindAllController;
 const CreateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, items_service_1.create)(request.params.category_id, request.body);
+        const category_id = String(request.params.category_id);
+        const res = yield (0, items_service_1.create)(category_id, request.body);
         response.send(res);
     }
     catch (err) {
@@ -33,7 +35,9 @@ const CreateController = (request, response, next) => __awaiter(void 0, void 0, 
 exports.CreateController = CreateController;
 const FindOneController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, items_service_1.findOne)(request.params.category_id, request.params.item_id);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const res = yield (0, items_service_1.findOne)(category_id, item_id);
         response.send(res);
     }
     catch (err) {
@@ -43,7 +47,9 @@ const FindOneController = (request, response, next) => __awaiter(void 0, void 0,
 exports.FindOneController = FindOneController;
 const UpdateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, items_service_1.update)(request.params.category_id, request.params.item_id, request.body);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const res = yield (0, items_service_1.update)(category_id, item_id, request.body);
         response.send(res);
     }
     catch (err) {
@@ -53,7 +59,9 @@ const UpdateController = (request, response, next) => __awaiter(void 0, void 0, 
 exports.UpdateController = UpdateController;
 const RemoveController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, items_service_1.remove)(request.params.category_id, request.params.item_id);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const res = yield (0, items_service_1.remove)(category_id, item_id);
         response.send(res);
     }
     catch (err) {

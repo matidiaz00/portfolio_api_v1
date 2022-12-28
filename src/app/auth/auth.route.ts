@@ -89,10 +89,8 @@ const router = Router();
  *       403:
  *         description: Access token does not have the required scope
  */
-router.use('/login', LoginMiddleware);
-router.use('/signup', AuthMiddleware, SignUpController);
 
-router.get('/login', LoginController);
-router.post('/signup', SignUpController);
+router.post('/login', LoginController);
+router.post('/signup', AuthMiddleware, SignUpController);
 
 export default router;

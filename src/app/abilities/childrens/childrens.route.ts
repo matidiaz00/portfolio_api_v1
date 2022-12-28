@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import AbilitiesMiddleware from '../abilities.middleware';
 import { FindAllController, CreateController, FindOneController, RemoveController, UpdateController } from './childrens.controller';
 
 const router = Router();
@@ -90,9 +91,9 @@ const router = Router();
  */
 
 router.get('/', FindAllController);
-router.post('/', CreateController);
+router.post('/', AbilitiesMiddleware, CreateController);
 router.get('/:children_id', FindOneController);
-router.patch('/:children_id', UpdateController);
+router.patch('/:children_id', AbilitiesMiddleware, UpdateController);
 router.delete('/:children_id', RemoveController);
 
 export default router;

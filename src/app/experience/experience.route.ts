@@ -90,8 +90,6 @@ const router = Router();
  *         description: Access token does not have the required scope
  */
 
-router.use('*', ExperienceMiddleware);
-
 router.get('/', ExperienceController);
 
 export default router;

@@ -9,7 +9,6 @@ const ExperienceMiddleware = (req: Request, res: Response, next: NextFunction): 
     } else {
         const err: Result<ExperienceType> = ExperienceModel.validate(req.body);
         const customErr = new CustomError(400, err);
-        console.error(customErr);
         res.status(customErr.status).send(customErr);
     }
 };

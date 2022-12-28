@@ -18,4 +18,6 @@ app.use('/', MainRoute);
 
 app.use( ErrorsMiddleware );
 
-export const api = https.onRequest(app)
+const api = https.onRequest(app)
+
+export default api

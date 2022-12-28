@@ -35,7 +35,7 @@ const environment_1 = require("./environment/environment");
 const serviceAccount = firebaseAccountCredentials;
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: environment_1.environment.production ? 'https://matidiaz000.firebaseio.com' : 'http://localhost:5001'
+    databaseURL: environment_1.environment.url
 });
 const db = admin.firestore();
 exports.db = db;

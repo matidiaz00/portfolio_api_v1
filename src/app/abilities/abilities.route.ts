@@ -91,8 +91,6 @@ const router = Router();
  *         description: Access token does not have the required scope
  */
 
-router.use('*', AbilitiesMiddleware);
-
 router.get('/', AbilitiesController);
 
 router.use('/categories', CategoriesRouting);

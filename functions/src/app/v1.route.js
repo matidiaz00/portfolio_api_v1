@@ -11,6 +11,6 @@ const swagger_route_1 = __importDefault(require("./swagger/swagger.route"));
 const router = (0, express_1.Router)();
 router.use('*', auth_middleware_1.AuthMiddleware);
 router.use('/abilities', abilities_route_1.default);
-router.use('/eperience', experience_route_1.default);
+router.use('/experience', experience_route_1.default);
 router.use('/swagger', swagger_route_1.default);
 exports.default = router;

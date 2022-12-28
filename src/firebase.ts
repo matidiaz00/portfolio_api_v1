@@ -9,7 +9,7 @@ const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: environment.production ? 'https://matidiaz000.firebaseio.com' : 'http://localhost:5001'
+  databaseURL: environment.url
 })
 
 const db = admin.firestore();

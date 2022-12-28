@@ -33,7 +33,8 @@ const CreateController = (request, response, next) => __awaiter(void 0, void 0, 
 exports.CreateController = CreateController;
 const FindOneController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, categories_service_1.findOne)(request.params.category_id);
+        const category_id = String(request.params.category_id);
+        const res = yield (0, categories_service_1.findOne)(category_id);
         response.send(res);
     }
     catch (err) {
@@ -43,7 +44,8 @@ const FindOneController = (request, response, next) => __awaiter(void 0, void 0,
 exports.FindOneController = FindOneController;
 const UpdateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, categories_service_1.update)(request.params.category_id, request.body);
+        const category_id = String(request.params.category_id);
+        const res = yield (0, categories_service_1.update)(category_id, request.body);
         response.send(res);
     }
     catch (err) {
@@ -53,7 +55,8 @@ const UpdateController = (request, response, next) => __awaiter(void 0, void 0, 
 exports.UpdateController = UpdateController;
 const RemoveController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield (0, categories_service_1.remove)(request.params.category_id);
+        const category_id = String(request.params.category_id);
+        const res = yield (0, categories_service_1.remove)(category_id);
         response.send(res);
     }
     catch (err) {

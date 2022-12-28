@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const experience_controller_1 = __importDefault(require("./experience.controller"));
-const experience_middleware_1 = __importDefault(require("./experience.middleware"));
 const router = (0, express_1.Router)();
 /**
  * @openapi
@@ -90,6 +89,5 @@ const router = (0, express_1.Router)();
  *       403:
  *         description: Access token does not have the required scope
  */
-router.use('*', experience_middleware_1.default);
 router.get('/', experience_controller_1.default);
 exports.default = router;

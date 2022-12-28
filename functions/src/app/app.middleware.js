@@ -30,17 +30,10 @@ exports.StaticMiddleWare = exports.ParserJSONMiddleWare = exports.ParserURLMiddl
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const path = __importStar(require("path"));
+const environment_1 = require("./../environment/environment");
 const HeadersMiddleWare = (req, res, next) => {
-    const allowedOrigins = [
-        'http://localhost:5001',
-        'http://localhost:5000',
-        'https://us-central1-matidiaz000.cloudfunctions.net',
-        'https://matidiaz000.web.app',
-        'https://matidiaz.com',
-        'https://www.matidiaz.com'
-    ];
     const origin = req.headers.origin;
-    if (origin && allowedOrigins.includes(origin)) {
+    if (origin && environment_1.environment.allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     //res.header('Access-Control-Allow-Origin', '*');

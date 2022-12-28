@@ -87,8 +87,6 @@ const router = (0, express_1.Router)();
  *       403:
  *         description: Access token does not have the required scope
  */
-router.use('/login', auth_middleware_1.LoginMiddleware);
-router.use('/signup', auth_middleware_1.AuthMiddleware, auth_controller_1.SignUpController);
-router.get('/login', auth_controller_1.LoginController);
-router.post('/signup', auth_controller_1.SignUpController);
+router.post('/login', auth_controller_1.LoginController);
+router.post('/signup', auth_middleware_1.AuthMiddleware, auth_controller_1.SignUpController);
 exports.default = router;

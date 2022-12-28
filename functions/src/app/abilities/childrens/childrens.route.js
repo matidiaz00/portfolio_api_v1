@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const abilities_middleware_1 = __importDefault(require("../abilities.middleware"));
 const childrens_controller_1 = require("./childrens.controller");
 const router = (0, express_1.Router)();
 /**
@@ -87,8 +91,8 @@ const router = (0, express_1.Router)();
  *         description: Access token does not have the required scope
  */
 router.get('/', childrens_controller_1.FindAllController);
-router.post('/', childrens_controller_1.CreateController);
+router.post('/', abilities_middleware_1.default, childrens_controller_1.CreateController);
 router.get('/:children_id', childrens_controller_1.FindOneController);
-router.patch('/:children_id', childrens_controller_1.UpdateController);
+router.patch('/:children_id', abilities_middleware_1.default, childrens_controller_1.UpdateController);
 router.delete('/:children_id', childrens_controller_1.RemoveController);
 exports.default = router;

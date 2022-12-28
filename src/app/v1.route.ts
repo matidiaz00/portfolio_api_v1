@@ -8,7 +8,7 @@ const router = Router();
 
 router.use('*', AuthMiddleware);
 router.use('/abilities', AbrilitiesRouting);
-router.use('/eperience', ExperienceRouting);
+router.use('/experience', ExperienceRouting);
 router.use('/swagger', SwaggerRouting);
 
 export default router;

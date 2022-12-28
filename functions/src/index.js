@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.api = void 0;
 const firebase_functions_1 = require("firebase-functions");
 const app_route_1 = __importDefault(require("./app/app.route"));
 const v1_route_1 = __importDefault(require("./app/v1.route"));
@@ -16,4 +15,5 @@ app.use(app_middleware_1.HeadersMiddleWare, app_middleware_1.ParserJSONMiddleWar
 app.use('/v1', v1_route_1.default);
 app.use('/', app_route_1.default);
 app.use(error_middleware_1.default);
-exports.api = firebase_functions_1.https.onRequest(app);
+const api = firebase_functions_1.https.onRequest(app);
+exports.default = api;

@@ -3,7 +3,9 @@ import { create, findAll, findOne, update, remove } from './childrens.service';
 
 const FindAllController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
-        const res = await findAll(request.params.category_id, request.params.item_id);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const res = await findAll(category_id, item_id);
         response.send(res);
     } catch (err) {
         next(err)
@@ -12,7 +14,9 @@ const FindAllController = async (request: Request, response: Response, next: Nex
 
 const CreateController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
-        const res = await create(request.params.category_id, request.params.item_id, request.body);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const res = await create(category_id, item_id, request.body);
         response.send(res);
     } catch (err) {
         next(err)
@@ -21,7 +25,10 @@ const CreateController = async (request: Request, response: Response, next: Next
 
 const FindOneController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
-        const res = await findOne(request.params.category_id, request.params.item_id, request.params.children_id);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const children_id = String(request.params.children_id);
+        const res = await findOne(category_id, item_id, children_id);
         response.send(res);
     } catch (err) {
         next(err)
@@ -30,7 +37,10 @@ const FindOneController = async (request: Request, response: Response, next: Nex
 
 const UpdateController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
-        const res = await update(request.params.category_id, request.params.item_id, request.params.children_id, request.body);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const children_id = String(request.params.children_id);
+        const res = await update(category_id, item_id, children_id, request.body);
         response.send(res);
     } catch (err) {
         next(err)
@@ -39,7 +49,10 @@ const UpdateController = async (request: Request, response: Response, next: Next
 
 const RemoveController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
-        const res = await remove(request.params.category_id, request.params.item_id, request.params.children_id);
+        const category_id = String(request.params.category_id);
+        const item_id = String(request.params.item_id);
+        const children_id = String(request.params.children_id);
+        const res = await remove(category_id, item_id, children_id);
         response.send(res);
     } catch (err) {
         next(err)

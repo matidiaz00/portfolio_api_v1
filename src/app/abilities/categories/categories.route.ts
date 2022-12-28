@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { CreateController, FindAllController, FindOneController, RemoveController, UpdateController } from './categories.controller';
 import ItemsRouting from '../items/items.route';
+import AbilitiesMiddleware from '../abilities.middleware';
 
 const router = Router();
 
@@ -91,9 +92,9 @@ const router = Router();
  */
 
 router.get('/', FindAllController);
-router.post('/', CreateController);
+router.post('/', AbilitiesMiddleware, CreateController);
 router.get('/:category_id', FindOneController);
-router.patch('/:category_id', UpdateController);
+router.patch('/:category_id', AbilitiesMiddleware, UpdateController);
 router.delete('/:category_id', RemoveController);
 
 router.use('/:category_id/items', ItemsRouting);

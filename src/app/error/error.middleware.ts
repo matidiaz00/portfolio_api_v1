@@ -3,9 +3,9 @@ import { CustomError } from "./error.model";
 
 const ErrorMiddleware: ErrorRequestHandler = (err: TypeError | CustomError, req: Request, res: Response, next: NextFunction) => {
     let customError = err;
-    console.error(err);
     if (!(err instanceof CustomError)) {
-        customError = new CustomError(500);
+        const error = err.message ? err.message : err;
+        customError = new CustomError(500, error);
     }
     res.status((customError as CustomError).status).send(customError);
 }

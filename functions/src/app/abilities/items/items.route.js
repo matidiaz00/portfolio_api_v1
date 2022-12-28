@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const items_controller_1 = require("./items.controller");
 const childrens_route_1 = __importDefault(require("../childrens/childrens.route"));
+const abilities_middleware_1 = __importDefault(require("../abilities.middleware"));
 const router = (0, express_1.Router)();
 /**
  * @openapi
@@ -91,9 +92,9 @@ const router = (0, express_1.Router)();
  *         description: Access token does not have the required scope
  */
 router.get('/', items_controller_1.FindAllController);
-router.post('/', items_controller_1.CreateController);
+router.post('/', abilities_middleware_1.default, items_controller_1.CreateController);
 router.get('/:item_id', items_controller_1.FindOneController);
-router.patch('/:item_id', items_controller_1.UpdateController);
+router.patch('/:item_id', abilities_middleware_1.default, items_controller_1.UpdateController);
 router.delete('/:item_id', items_controller_1.RemoveController);
 router.use('/:item_id/childrens', childrens_route_1.default);
 exports.default = router;

@@ -16,10 +16,10 @@ const environment_1 = require("../../environment/environment");
 const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
     return (0, firebase_1.signInWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
         .then((userCredential) => {
-        if (userCredential.user.uid == environment_1.environment.FIREBASE_USER_UID)
+        if (userCredential.user.email === environment_1.environment.user.email)
             return userCredential.user;
         else
-            return new error_model_1.CustomError(403, `El usuario con ID ${userCredential.user.uid} no tiene permisos para utilizar esta API.`);
+            return new error_model_1.CustomError(403, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
     })
         .catch((err) => new error_model_1.CustomError(500, err));
 });

@@ -1,6 +1,7 @@
 import express, { NextFunction, Response, Request } from "express";
 import bodyParser from 'body-parser';
 import * as path from 'path';
+import { environment } from "./../environment/environment";
 
 declare module 'express-serve-static-core' {
     interface Response {
@@ -10,16 +11,8 @@ declare module 'express-serve-static-core' {
 }
 
 export const HeadersMiddleWare = (req: Request, res: Response, next: NextFunction) => {
-    const allowedOrigins = [
-        'http://localhost:5001',
-        'http://localhost:5000',
-        'https://us-central1-matidiaz000.cloudfunctions.net',
-        'https://matidiaz000.web.app',
-        'https://matidiaz.com',
-        'https://www.matidiaz.com'
-    ];
     const origin: string | undefined = req.headers.origin;
-    if (origin && allowedOrigins.includes(origin)) {
+    if (origin && environment.allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     //res.header('Access-Control-Allow-Origin', '*');
