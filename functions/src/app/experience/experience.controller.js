@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FindByTypeController = exports.ExperienceController = void 0;
 const environment_1 = require("../../environment/environment");
 const experience_service_1 = require("./experience.service");
 const official = {
@@ -21,7 +22,8 @@ const official = {
 const nubela = {
     endpoint: 'https://nubela.co/proxycurl/api/v2/linkedin',
     query: [
-        { name: 'url', data: `https://www.linkedin.com/in/${environment_1.environment.LINKEDIN_USER}` },
+        { name: 'url', data: `https://www.linkedin.com/in/${environment_1.environment.LINKEDIN_USER}/` },
+        { name: 'fallback_to_cache', data: 'on-error' },
         { name: 'use_cache', data: `if-present` }
     ],
     token: environment_1.environment.NUBELA_ACCESS_TOKEN
@@ -29,10 +31,22 @@ const nubela = {
 const ExperienceController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, experience_service_1.findAll)(nubela);
-        response.send(res.data.experiences);
+        response.json(res.experiences);
     }
     catch (err) {
         next(err);
     }
 });
-exports.default = ExperienceController;
+exports.ExperienceController = ExperienceController;
+const FindByTypeController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const category = String(request.params.category);
+        const type = category == 'linkedin' ? official : nubela;
+        const res = yield (0, experience_service_1.findAll)(type);
+        response.json(category == 'linkedin' ? res : res.experiences);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.FindByTypeController = FindByTypeController;

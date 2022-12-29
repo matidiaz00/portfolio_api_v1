@@ -14,7 +14,7 @@ const categories_service_1 = require("./categories.service");
 const FindAllController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, categories_service_1.findAll)();
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -24,7 +24,7 @@ exports.FindAllController = FindAllController;
 const CreateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, categories_service_1.create)(request.body);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -35,7 +35,7 @@ const FindOneController = (request, response, next) => __awaiter(void 0, void 0,
     try {
         const category_id = String(request.params.category_id);
         const res = yield (0, categories_service_1.findOne)(category_id);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -46,7 +46,7 @@ const UpdateController = (request, response, next) => __awaiter(void 0, void 0, 
     try {
         const category_id = String(request.params.category_id);
         const res = yield (0, categories_service_1.update)(category_id, request.body);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -57,7 +57,7 @@ const RemoveController = (request, response, next) => __awaiter(void 0, void 0, 
     try {
         const category_id = String(request.params.category_id);
         const res = yield (0, categories_service_1.remove)(category_id);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);

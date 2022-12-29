@@ -9,7 +9,7 @@ const AbilitiesMiddleware = (req, res, next) => {
     else {
         const err = abilities_model_1.DataModel.validate(req.body);
         const customErr = new error_model_1.CustomError(400, err);
-        res.status(customErr.status).send(customErr);
+        res.status(customErr.status).json(customErr);
     }
 };
 exports.default = AbilitiesMiddleware;

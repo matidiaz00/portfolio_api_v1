@@ -14,7 +14,7 @@ const auth_service_1 = require("./auth.service");
 const LoginController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, auth_service_1.login)(request.body);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -24,7 +24,7 @@ exports.LoginController = LoginController;
 const SignUpController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, auth_service_1.signup)(request.body);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);

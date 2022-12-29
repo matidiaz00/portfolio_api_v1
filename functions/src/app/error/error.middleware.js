@@ -7,6 +7,6 @@ const ErrorMiddleware = (err, req, res, next) => {
         const error = err.message ? err.message : err;
         customError = new error_model_1.CustomError(500, error);
     }
-    res.status(customError.status).send(customError);
+    res.status(customError.status).json(customError);
 };
 exports.default = ErrorMiddleware;

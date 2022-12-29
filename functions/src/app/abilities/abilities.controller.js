@@ -13,7 +13,7 @@ const abilities_service_1 = require("./abilities.service");
 const AbilitiesController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, abilities_service_1.findAll)();
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);

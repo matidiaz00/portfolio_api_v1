@@ -13,10 +13,10 @@ const swagger_service_1 = require("./swagger.service");
 const SwaggerController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, swagger_service_1.swagger)();
-        return response.send(res);
+        return response.json(res);
     }
     catch (err) {
-        return response.status(500).send(err);
+        return response.status(500).json(err);
     }
 });
 exports.default = SwaggerController;

@@ -5,7 +5,11 @@
       ".runtimeconfig.json",
       "firebase-debug.log",
       "firebase-debug.*.log",
-      "node_modules"
+      "node_modules",
+      "e2e",
+      "readmes",
+      "jest.config.js",
+      "babel-config.js"
     ],
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint"

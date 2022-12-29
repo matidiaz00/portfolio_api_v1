@@ -1,10 +1,9 @@
 "use strict";
 /*
- * For a detailed explanation regarding each configuration property and type check, visit:
+ * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-const jestConfig = {
+module.exports = {
     // All imported modules in your tests should be mocked automatically
     // automock: false,
     // Stop running tests after `n` failures
@@ -12,17 +11,17 @@ const jestConfig = {
     // The directory where Jest should store its cached dependency information
     // cacheDirectory: "C:\\Users\\matid\\AppData\\Local\\Temp\\jest",
     // Automatically clear mock calls, instances, contexts and results before every test
-    // clearMocks: true,
+    // clearMocks: false,
     // Indicates whether the coverage information should be collected while executing the test
-    collectCoverage: true,
+    collectCoverage: false,
     // An array of glob patterns indicating a set of files for which coverage information should be collected
     // collectCoverageFrom: undefined,
     // The directory where Jest should output its coverage files
-    coverageDirectory: "coverage",
+    // coverageDirectory: "coverage",
     // An array of regexp pattern strings used to skip coverage collection
-    coveragePathIgnorePatterns: [
-        "\\\\node_modules\\\\"
-    ],
+    // coveragePathIgnorePatterns: [
+    //   "\\\\node_modules\\\\"
+    // ],
     // Indicates which provider should be used to instrument code for coverage
     // coverageProvider: "babel",
     // A list of reporter names that Jest uses when writing coverage reports
@@ -113,13 +112,15 @@ const jestConfig = {
     // testLocationInResults: false,
     // The glob patterns Jest uses to detect test files
     testMatch: [
+        "**/e2e/**/*.[jt]s?(x)",
         "**/__tests__/**/*.[jt]s?(x)",
         "**/?(*.)+(spec|test).[tj]s?(x)"
     ],
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-    // testPathIgnorePatterns: [
-    //   "\\\\node_modules\\\\"
-    // ],
+    testPathIgnorePatterns: [
+        "\\\\node_modules\\\\"
+    ],
+    testTimeout: 20000,
     // The regexp pattern or array of patterns that Jest uses to detect test files
     // testRegex: [],
     // This option allows the use of a custom results processor
@@ -136,10 +137,9 @@ const jestConfig = {
     // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
     // unmockedModulePathPatterns: undefined,
     // Indicates whether each individual test should be reported during the run
-    // verbose: undefined,
+    verbose: true,
     // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
     // watchPathIgnorePatterns: [],
     // Whether to use watchman for file crawling
     // watchman: true,
 };
-exports.default = jestConfig;

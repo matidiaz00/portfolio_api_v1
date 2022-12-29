@@ -7,7 +7,7 @@ const ErrorMiddleware: ErrorRequestHandler = (err: TypeError | CustomError, req:
         const error = err.message ? err.message : err;
         customError = new CustomError(500, error);
     }
-    res.status((customError as CustomError).status).send(customError);
+    res.status((customError as CustomError).status).json(customError);
 }
 
 export default ErrorMiddleware;

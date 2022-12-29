@@ -15,7 +15,7 @@ const FindAllController = (request, response, next) => __awaiter(void 0, void 0,
     try {
         const category_id = String(request.params.category_id);
         const res = yield (0, items_service_1.findAll)(category_id);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -26,7 +26,7 @@ const CreateController = (request, response, next) => __awaiter(void 0, void 0, 
     try {
         const category_id = String(request.params.category_id);
         const res = yield (0, items_service_1.create)(category_id, request.body);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -38,7 +38,7 @@ const FindOneController = (request, response, next) => __awaiter(void 0, void 0,
         const category_id = String(request.params.category_id);
         const item_id = String(request.params.item_id);
         const res = yield (0, items_service_1.findOne)(category_id, item_id);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -50,7 +50,7 @@ const UpdateController = (request, response, next) => __awaiter(void 0, void 0, 
         const category_id = String(request.params.category_id);
         const item_id = String(request.params.item_id);
         const res = yield (0, items_service_1.update)(category_id, item_id, request.body);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);
@@ -62,7 +62,7 @@ const RemoveController = (request, response, next) => __awaiter(void 0, void 0, 
         const category_id = String(request.params.category_id);
         const item_id = String(request.params.item_id);
         const res = yield (0, items_service_1.remove)(category_id, item_id);
-        response.send(res);
+        response.json(res);
     }
     catch (err) {
         next(err);

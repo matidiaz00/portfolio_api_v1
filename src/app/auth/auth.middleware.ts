@@ -26,7 +26,7 @@ export const SignUpMiddleware = (req: Request, res: Response, next: NextFunction
     } else {
         const err: Result<SignUpType> = SignUpModel.validate(req.body);
         const customErr = new CustomError(400, err);
-        res.status(customErr.status).send(customErr);
+        res.status(customErr.status).json(customErr);
     }
 };
 
@@ -36,7 +36,7 @@ export const LoginMiddleware = (req: Request, res: Response, next: NextFunction)
     } else {
         const err: Result<LoginType> = LoginModel.validate(req.body);
         const customErr = new CustomError(400, err);
-        res.status(customErr.status).send(customErr);
+        res.status(customErr.status).json(customErr);
     }
 };
 
@@ -50,18 +50,18 @@ export const AuthMiddleware = (req: any, res: Response, next: NextFunction) => {
                     else {
                         const message = 'Este usuario no esta autorizado para hacer esta llamada.';
                         const customErr = new CustomError(401, { error: userInfo, message: message });
-                        res.status(customErr.status).send(customErr);
+                        res.status(customErr.status).json(customErr);
                     }
                 })
                 .catch((err: Error) => {
                     const message = 'Este token no esta autorizado para hacer esta llamada.';
                     const customErr = new CustomError(401, { error: err, message: message });
-                    res.status(customErr.status).send(customErr);
+                    res.status(customErr.status).json(customErr);
                 })
         } else {
             const message = 'Necesitas usar un token para hacer esta llamada.';
             const customErr = new CustomError(401, message);
-            res.status(customErr.status).send(customErr);
+            res.status(customErr.status).json(customErr);
         }
     });
 };

@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import ExperienceController from './experience.controller';
-import ExperienceMiddleware from './experience.middleware';
+import { ExperienceController, FindByTypeController } from './experience.controller';
 
 const router = Router();
 
@@ -91,5 +90,6 @@ const router = Router();
  */
 
 router.get('/', ExperienceController);
+router.get('/:category', FindByTypeController);
 
 export default router;

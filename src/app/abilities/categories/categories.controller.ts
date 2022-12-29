@@ -4,7 +4,7 @@ import { create, findAll, findOne, update, remove } from './categories.service';
 const FindAllController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
         const res = await findAll();
-        response.send(res);
+        response.json(res);
     } catch (err: any) {
         next(err)
     }
@@ -13,7 +13,7 @@ const FindAllController = async (request: Request, response: Response, next: Nex
 const CreateController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
         const res = await create(request.body);
-        response.send(res);
+        response.json(res);
     } catch (err) {
         next(err)
     }
@@ -23,7 +23,7 @@ const FindOneController = async (request: Request, response: Response, next: Nex
     try {
         const category_id = String(request.params.category_id);
         const res = await findOne(category_id);
-        response.send(res);
+        response.json(res);
     } catch (err) {
         next(err)
     }
@@ -33,7 +33,7 @@ const UpdateController = async (request: Request, response: Response, next: Next
     try {
         const category_id = String(request.params.category_id);
         const res = await update(category_id, request.body);
-        response.send(res);
+        response.json(res);
     } catch (err) {
         next(err)
     }
@@ -43,7 +43,7 @@ const RemoveController = async (request: Request, response: Response, next: Next
     try {
         const category_id = String(request.params.category_id);
         const res = await remove(category_id);
-        response.send(res);
+        response.json(res);
     } catch (err) {
         next(err)
     }

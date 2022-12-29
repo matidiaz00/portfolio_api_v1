@@ -4,7 +4,7 @@ import { login, signup } from './auth.service';
 const LoginController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
         const res = await login(request.body);
-        response.send(res);
+        response.json(res);
     } catch (err) {
         next(err)
     }
@@ -13,7 +13,7 @@ const LoginController = async (request: Request, response: Response, next: NextF
 const SignUpController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
         const res = await signup(request.body);
-        response.send(res);
+        response.json(res);
     } catch (err) {
         next(err)
     }

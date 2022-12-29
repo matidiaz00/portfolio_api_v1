@@ -11,7 +11,7 @@ let NewPost = {
         description: 'This is a example created by the test.',
         order: 0
     },
-    id: null
+    id: ''
 }
 
 describe('Items of a specific ability', () => {

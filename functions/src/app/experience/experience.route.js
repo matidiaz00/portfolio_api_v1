@@ -1,10 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const experience_controller_1 = __importDefault(require("./experience.controller"));
+const experience_controller_1 = require("./experience.controller");
 const router = (0, express_1.Router)();
 /**
  * @openapi
@@ -89,5 +86,6 @@ const router = (0, express_1.Router)();
  *       403:
  *         description: Access token does not have the required scope
  */
-router.get('/', experience_controller_1.default);
+router.get('/', experience_controller_1.ExperienceController);
+router.get('/:category', experience_controller_1.FindByTypeController);
 exports.default = router;

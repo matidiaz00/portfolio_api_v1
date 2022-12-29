@@ -8,19 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAll = void 0;
+const node_fetch_1 = __importDefault(require("node-fetch"));
+const error_model_1 = require("../error/error.model");
 const getEndpoint = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const headersRequest = { 'Authorization': `Bearer ${data.token}` };
+    const headersRequest = { 'Authorization': `Bearer ${data.token}`, 'Accept': 'application/json', "User-Agent": "node-fetch" };
     let query = '?';
     for (let val of data.query) {
         query += `${val.name}=${val.data}&`;
     }
-    return yield fetch(`${data.endpoint}${query}`, { headers: headersRequest });
+    return yield (0, node_fetch_1.default)(`${data.endpoint}${query}`, { method: "GET", headers: headersRequest });
 });
-const findAll = (data) => {
-    return getEndpoint(data);
-    //.pipe( map(response => response.data) );
-    //.pipe( map(response => response.data.experiences) );
-};
+const findAll = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield getEndpoint(data)
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch((err) => new error_model_1.CustomError(500, err));
+});
 exports.findAll = findAll;

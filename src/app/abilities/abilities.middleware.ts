@@ -9,7 +9,7 @@ const AbilitiesMiddleware = (req: Request, res: Response, next: NextFunction): v
     } else {
         const err: Result<DataType> = DataModel.validate(req.body);
         const customErr = new CustomError(400, err);
-        res.status(customErr.status).send(customErr);
+        res.status(customErr.status).json(customErr);
     }
 };
 
