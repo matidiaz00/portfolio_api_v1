@@ -37,6 +37,7 @@ describe('Childrens of a specific item of a one ability', () => {
 
     afterAll(async () => {
         await req.delete(`/v1/abilities/categories/${category_id}/items/${item_id}`).set('Authorization', token);
+        await req.post('/auth/logout');
     });
 
     it(`POST ${baseURL}`, async () => {

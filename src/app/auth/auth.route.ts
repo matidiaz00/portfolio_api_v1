@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { AuthMiddleware, LoginMiddleware } from './auth.middleware';
-import { LoginController, SignUpController } from './auth.controller';
+import { LoginController, LogoutController } from './auth.controller';
 
 const router = Router();
 
@@ -91,6 +90,6 @@ const router = Router();
  */
 
 router.post('/login', LoginController);
-router.post('/signup', AuthMiddleware, SignUpController);
+router.post('/logout', LogoutController);
 
 export default router;

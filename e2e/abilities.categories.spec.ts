@@ -1,7 +1,7 @@
-import { beforeAll, describe, expect, it } from '@jest/globals';
+import request from 'supertest';
+import { beforeAll, describe, expect, it, afterAll } from '@jest/globals';
 import api from '../src/index';
 import { environment } from '../src/environment/environment';
-import request from 'supertest';
 
 const req = request(api);
 
@@ -24,6 +24,10 @@ describe('Specific ability', () => {
         const resAuth = await req.post('/auth/login').send(environment.user);
         const accessToken = resAuth.body.stsTokenManager.accessToken;
         token = `Bearer ${accessToken}`;
+    });
+
+    afterAll(async () => {
+        await req.post('/auth/logout');
     });
 
     it(`POST ${baseURL}`, async () => {

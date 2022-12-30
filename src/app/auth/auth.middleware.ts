@@ -3,7 +3,7 @@ import { CustomError } from "../error/error.model";
 import { auth } from "../../firebase";
 import { environment } from "../../environment/environment";
 import { Result } from "runtypes";
-import { LoginModel, LoginType, SignUpModel, SignUpType } from "./auth.model";
+import { LoginModel, LoginType } from "./auth.model";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export interface IGetAuthTokenRequest extends Request {
@@ -18,16 +18,6 @@ const getAuthToken = (req: any, res: Response, next: NextFunction) => {
         req.authToken = null;
     }
     return next();
-};
-
-export const SignUpMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-    if (SignUpModel.guard(req.body)) {
-        next();
-    } else {
-        const err: Result<SignUpType> = SignUpModel.validate(req.body);
-        const customErr = new CustomError(400, err);
-        res.status(customErr.status).json(customErr);
-    }
 };
 
 export const LoginMiddleware = (req: Request, res: Response, next: NextFunction): void => {

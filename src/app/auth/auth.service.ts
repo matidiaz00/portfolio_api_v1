@@ -1,5 +1,5 @@
-import { LoginType, SignUpType } from './auth.model';
-import { auth, client_auth, signInWithEmailAndPassword } from '../../firebase';
+import { LoginType } from './auth.model';
+import { client_auth, signInWithEmailAndPassword } from '../../firebase';
 import { CustomError } from '../error/error.model';
 import { environment } from '../../environment/environment';
 
@@ -9,20 +9,12 @@ export const login = async (body: LoginType): Promise<any> => {
             if (userCredential.user.email === environment.user.email) return userCredential.user
             else return new CustomError(403, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
         })
-        .catch((err) => new CustomError(500, err) );
+        .catch((err) => new CustomError(err.code, err.message) );
 }
 
-export const signup = async (body: SignUpType): Promise<any> => {
-    return auth
-        .createUser({
-            email: body.email,
-            emailVerified: false,
-            phoneNumber: body.phone.toString(),
-            password: body.password,
-            displayName: body.name,
-            photoURL: 'http://www.example.com/12345678/photo.png',
-            disabled: false,
-        })
-        .then((userRecord) => userRecord)
+export const logout = async (): Promise<any> => {
+    return client_auth
+        .signOut()
+        .then((res) => res)
         .catch((err) => new CustomError(500, err) );
 }

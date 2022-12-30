@@ -14,11 +14,9 @@ describe('Authentication', () => {
         expect(res.statusCode).toEqual(200)
     });
 
-    /*
-    it(`POST ${baseURL}/signup`, async () => {
-        const res = await request(api).get(baseURL + '/signup');
+    it(`POST ${baseURL}/logout`, async () => {
+        const res = await request(api).post(baseURL + '/logout');
         expect(res.statusCode).toEqual(200)
     });
-    */
 
 });

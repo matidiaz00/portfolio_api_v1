@@ -3,7 +3,8 @@
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
  */
-module.exports = {
+Object.defineProperty(exports, "__esModule", { value: true });
+const config = {
     // All imported modules in your tests should be mocked automatically
     // automock: false,
     // Stop running tests after `n` failures
@@ -44,11 +45,11 @@ module.exports = {
     // Force coverage collection from ignored files using an array of glob patterns
     // forceCoverageMatch: [],
     // A path to a module which exports an async function that is triggered once before all test suites
-    // globalSetup: undefined,
+    // globalSetup: "./e2e/globalSetup.ts",
     // A path to a module which exports an async function that is triggered once after all test suites
     // globalTeardown: undefined,
     // A set of global variables that need to be available in all test environments
-    // globals: {},
+    // globals: { token: token, example: 'hola mundo' },
     // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
     // maxWorkers: "50%",
     // An array of directory names to be searched recursively up from the requiring module's location
@@ -97,7 +98,11 @@ module.exports = {
     // Allows you to use a custom runner instead of Jest's default test runner
     // runner: "jest-runner",
     // The paths to modules that run some code to configure or set up the testing environment before each test
-    // setupFiles: [],
+    /*
+    setupFiles: [
+      "./e2e/login.ts"
+    ],
+    */
     // A list of paths to modules that run some code to configure or set up the testing framework before each test
     // setupFilesAfterEnv: [],
     // The number of seconds after which a test is considered as slow and reported as such in the results.
@@ -112,7 +117,7 @@ module.exports = {
     // testLocationInResults: false,
     // The glob patterns Jest uses to detect test files
     testMatch: [
-        "**/e2e/**/*.[jt]s?(x)",
+        "**/e2e/**/?(*.)+(spec|test).[tj]s?(x)",
         "**/__tests__/**/*.[jt]s?(x)",
         "**/?(*.)+(spec|test).[tj]s?(x)"
     ],
@@ -143,3 +148,4 @@ module.exports = {
     // Whether to use watchman for file crawling
     // watchman: true,
 };
+exports.default = config;

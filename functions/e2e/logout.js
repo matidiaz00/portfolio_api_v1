@@ -8,26 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogoutController = exports.LoginController = void 0;
-const auth_service_1 = require("./auth.service");
-const LoginController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const res = yield (0, auth_service_1.login)(request.body);
-        response.json(res);
-    }
-    catch (err) {
-        next(err);
-    }
+const environment_1 = require("../src/environment/environment");
+const node_fetch_1 = __importDefault(require("node-fetch"));
+const getToken = () => __awaiter(void 0, void 0, void 0, function* () {
+    const config = {
+        method: "POST",
+        Headers: { "User-Agent": "node-fetch" }
+    };
+    return (0, node_fetch_1.default)(`${environment_1.environment.url}/auth/logout`, config)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.error(err));
 });
-exports.LoginController = LoginController;
-const LogoutController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const res = yield (0, auth_service_1.logout)();
-        response.json(res);
-    }
-    catch (err) {
-        next(err);
-    }
-});
-exports.LogoutController = LogoutController;
+exports.default = getToken;

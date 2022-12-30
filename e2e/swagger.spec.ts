@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { describe, expect, it, beforeAll } from '@jest/globals';
+import { describe, expect, it, beforeAll, afterAll } from '@jest/globals';
 import api from '../src/index';
 import { environment } from '../src/environment/environment';
 
@@ -17,8 +17,12 @@ describe('Documentation', () => {
         token = `Bearer ${accessToken}`;
     });
 
+    afterAll(async () => {
+        await req.post('/auth/logout');
+    });
+
     it(`GET ${baseURL}`, async () => {
-        const res = await req.get(baseURL).set('Authorization', token);;
+        const res = await req.get(baseURL).set('Authorization', token);
         expect(res.statusCode).toEqual(200)
     });
 

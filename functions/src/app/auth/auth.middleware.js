@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthMiddleware = exports.LoginMiddleware = exports.SignUpMiddleware = void 0;
+exports.AuthMiddleware = exports.LoginMiddleware = void 0;
 const error_model_1 = require("../error/error.model");
 const firebase_1 = require("../../firebase");
 const environment_1 = require("../../environment/environment");
@@ -23,17 +23,6 @@ const getAuthToken = (req, res, next) => {
     }
     return next();
 };
-const SignUpMiddleware = (req, res, next) => {
-    if (auth_model_1.SignUpModel.guard(req.body)) {
-        next();
-    }
-    else {
-        const err = auth_model_1.SignUpModel.validate(req.body);
-        const customErr = new error_model_1.CustomError(400, err);
-        res.status(customErr.status).json(customErr);
-    }
-};
-exports.SignUpMiddleware = SignUpMiddleware;
 const LoginMiddleware = (req, res, next) => {
     if (auth_model_1.LoginModel.guard(req.body)) {
         next();
