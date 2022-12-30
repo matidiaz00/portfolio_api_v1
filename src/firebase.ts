@@ -1,9 +1,9 @@
-import * as admin from 'firebase-admin';
-import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import * as firebaseAccountCredentials from './firebase.sdk.key.json';
-import * as FirebaseClientKey from './firebase.sdk.client.key.json';
-import { environment } from './environment/environment';
+import * as admin from "firebase-admin";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import * as firebaseAccountCredentials from "./firebase.sdk.key.json";
+import * as FirebaseClientKey from "./firebase.sdk.client.key.json";
+import { environment } from "./environment/environment";
 
 const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
 

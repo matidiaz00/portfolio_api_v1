@@ -26,11 +26,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.StaticMiddleWare = exports.ParserJSONMiddleWare = exports.ParserURLMiddleWare = exports.HeadersMiddleWare = void 0;
+exports.CacheMiddleWare = exports.StaticMiddleWare = exports.ParserJSONMiddleWare = exports.ParserURLMiddleWare = exports.HeadersMiddleWare = void 0;
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const path = __importStar(require("path"));
 const environment_1 = require("./../environment/environment");
+const apicache_1 = __importDefault(require("apicache"));
 const HeadersMiddleWare = (req, res, next) => {
     const origin = req.headers.origin;
     if (origin && environment_1.environment.allowedOrigins.includes(origin)) {
@@ -53,3 +54,4 @@ exports.ParserJSONMiddleWare = body_parser_1.default.json({
     type: 'application/json',
 });
 exports.StaticMiddleWare = express_1.default.static(path.join(__dirname, 'public'));
+exports.CacheMiddleWare = apicache_1.default.middleware;

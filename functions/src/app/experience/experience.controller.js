@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FindByTypeController = exports.ExperienceController = void 0;
-const environment_1 = require("../../environment/environment");
+const environment_1 = require("./../../environment/environment");
 const experience_service_1 = require("./experience.service");
 const official = {
     endpoint: 'https://api.linkedin.com/v2/me',

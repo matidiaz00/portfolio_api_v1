@@ -2,11 +2,11 @@
     "name": "matidiaz-api",
     "description": "",
     "version": "1.0.0",
-    "main": "functions/src/index.js",
+    "main": "src/index.js",
     "scripts": {
         "build": "tsc",
         "lint": "eslint .",
-        "start:local": "tsc --watch",
+        "start:local": "tsc --watch && npm run serve",
         "start:shell": "npm run build && npm run shell",
         "serve": "firebase emulators:start",
         "shell": "firebase functions:shell",
@@ -26,7 +26,9 @@
     },
     "homepage": "https://github.com/matidiaz00/portfolio_api_v1#readme",
     "dependencies": {
+        "apicache": "^1.6.3",
         "body-parser": "^1.20.0",
+        "compression": "^1.7.4",
         "express": "^4.18.1",
         "firebase": "^9.9.3",
         "firebase-admin": "^11.0.1",
@@ -36,6 +38,8 @@
         "runtypes": "^6.6.0"
     },
     "devDependencies": {
+        "@types/apicache": "^1.6.1",
+        "@types/compression": "^1.7.2",
         "@types/express": "^4.17.13",
         "@types/method-override": "^0.0.32",
         "@types/node-fetch": "^2.6.2",

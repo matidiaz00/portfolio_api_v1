@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const categories_controller_1 = require("./categories.controller");
-const items_route_1 = __importDefault(require("../items/items.route"));
-const abilities_middleware_1 = __importDefault(require("../abilities.middleware"));
+const items_route_1 = __importDefault(require("./../items/items.route"));
+const abilities_middleware_1 = __importDefault(require("./../abilities.middleware"));
+const app_middleware_1 = require("./../../app.middleware");
 const router = (0, express_1.Router)();
 /**
  * @openapi
@@ -91,9 +92,9 @@ const router = (0, express_1.Router)();
  *       403:
  *         description: Access token does not have the required scope
  */
-router.get('/', categories_controller_1.FindAllController);
+router.get('/', (0, app_middleware_1.CacheMiddleWare)('5 minutes'), categories_controller_1.FindAllController);
 router.post('/', abilities_middleware_1.default, categories_controller_1.CreateController);
-router.get('/:category_id', categories_controller_1.FindOneController);
+router.get('/:category_id', (0, app_middleware_1.CacheMiddleWare)('5 minutes'), categories_controller_1.FindOneController);
 router.patch('/:category_id', abilities_middleware_1.default, categories_controller_1.UpdateController);
 router.delete('/:category_id', categories_controller_1.RemoveController);
 router.use('/:category_id/items', items_route_1.default);

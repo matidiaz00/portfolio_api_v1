@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
-import { findAll } from './abilities.service';
+import { NextFunction, Request, Response } from "express";
+import { findAll } from "./abilities.service";
 
 const AbilitiesController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {

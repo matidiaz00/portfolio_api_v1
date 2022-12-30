@@ -1,4 +1,4 @@
-import { Static, String, Array, Record } from 'runtypes';
+import { Static, String, Array, Record } from "runtypes";
 
 const ExperienceRecordQuery = Record({
     name: String,

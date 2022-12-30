@@ -1,7 +1,7 @@
-import { environment } from '../../environment/environment';
-import { Request, Response, NextFunction } from 'express';
-import { ExperienceType } from './experience.model';
-import { findAll } from './experience.service';
+import { environment } from "./../../environment/environment";
+import { Request, Response, NextFunction } from "express";
+import { ExperienceType } from "./experience.model";
+import { findAll } from "./experience.service";
 
 const official: ExperienceType = {
   endpoint: 'https://api.linkedin.com/v2/me',

@@ -1,5 +1,6 @@
-import { Router } from 'express';
-import SwaggerController from './swagger.controller';
+import { CacheMiddleWare } from "./../app.middleware";
+import { Router } from "express";
+import SwaggerController from "./swagger.controller";
 
 const router = Router();
 
@@ -89,6 +90,6 @@ const router = Router();
  *         description: Access token does not have the required scope
  */
 
-router.get('/', SwaggerController);
+router.get('/', CacheMiddleWare('5 minutes'), SwaggerController);
 
 export default router;

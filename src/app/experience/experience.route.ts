@@ -1,5 +1,6 @@
-import { Router } from 'express';
-import { ExperienceController, FindByTypeController } from './experience.controller';
+import { CacheMiddleWare } from "./../app.middleware";
+import { Router } from "express";
+import { ExperienceController, FindByTypeController } from "./experience.controller";
 
 const router = Router();
 
@@ -89,7 +90,7 @@ const router = Router();
  *         description: Access token does not have the required scope
  */
 
-router.get('/', ExperienceController);
-router.get('/:category', FindByTypeController);
+router.get('/', CacheMiddleWare('5 minutes'), ExperienceController);
+router.get('/:category', CacheMiddleWare('5 minutes'), FindByTypeController);
 
 export default router;

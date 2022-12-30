@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const app_middleware_1 = require("./../app.middleware");
 const express_1 = require("express");
 const swagger_controller_1 = __importDefault(require("./swagger.controller"));
 const router = (0, express_1.Router)();
@@ -89,5 +90,5 @@ const router = (0, express_1.Router)();
  *       403:
  *         description: Access token does not have the required scope
  */
-router.get('/', swagger_controller_1.default);
+router.get('/', (0, app_middleware_1.CacheMiddleWare)('5 minutes'), swagger_controller_1.default);
 exports.default = router;

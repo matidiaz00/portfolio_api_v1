@@ -1,8 +1,8 @@
-import { writeFile } from 'fs';
+import { writeFile } from "fs";
 
-import { name, version } from '../../package.json';
+import { name, version } from "../../package.json";
 
-const targetPath = './environments/environment.ts';
+const targetPath = "./environments/environment.ts";
 
 const environment = {
     production: true,

@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from "express";
-import { CustomError } from "../error/error.model";
-import { auth } from "../../firebase";
-import { environment } from "../../environment/environment";
+import { CustomError } from "./../error/error.model";
+import { auth } from "./../../firebase";
+import { environment } from "./../../environment/environment";
 import { Result } from "runtypes";
 import { LoginModel, LoginType } from "./auth.model";
 import { DecodedIdToken } from "firebase-admin/auth";

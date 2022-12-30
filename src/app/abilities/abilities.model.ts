@@ -1,4 +1,4 @@
-import { Static, Number, String, Array, Record, Optional } from 'runtypes';
+import { Static, Number, String, Array, Record, Optional } from "runtypes";
 
 const DataRecord = Record({
     id: Optional(String),

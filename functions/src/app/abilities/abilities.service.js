@@ -17,8 +17,8 @@ var __asyncValues = (this && this.__asyncValues) || function (o) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAll = void 0;
-const error_model_1 = require("../error/error.model");
-const firebase_1 = require("../../firebase");
+const error_model_1 = require("./../error/error.model");
+const firebase_1 = require("./../../firebase");
 const collRef = firebase_1.db.collection('abilities');
 const findAll = () => __awaiter(void 0, void 0, void 0, function* () {
     let all_data;

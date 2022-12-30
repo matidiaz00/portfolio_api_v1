@@ -1,4 +1,4 @@
-import { ErrorDataInterface } from "../error.model";
+import { ErrorDataInterface } from "./../error.model";
 
 export const Errors4xx: ErrorDataInterface = {
     type: "Client Error",

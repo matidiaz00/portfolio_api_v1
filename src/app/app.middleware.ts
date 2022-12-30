@@ -1,7 +1,8 @@
 import express, { NextFunction, Response, Request } from "express";
-import bodyParser from 'body-parser';
-import * as path from 'path';
+import bodyParser from "body-parser";
+import * as path from "path";
 import { environment } from "./../environment/environment";
+import apicache from "apicache";
 
 declare module 'express-serve-static-core' {
     interface Response {
@@ -33,4 +34,6 @@ export const ParserJSONMiddleWare = bodyParser.json({
     type: 'application/json',
 })
 
-export const StaticMiddleWare = express.static(path.join(__dirname, 'public'))
+export const StaticMiddleWare = express.static(path.join(__dirname, 'public'));
+
+export const CacheMiddleWare = apicache.middleware;

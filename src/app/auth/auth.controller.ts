@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { login, logout } from './auth.service';
+import { Request, Response, NextFunction } from "express";
+import { login, logout } from "./auth.service";
 
 const LoginController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {

@@ -1,6 +1,6 @@
-import { ExperienceType } from './experience.model';
+import { ExperienceType } from "./experience.model";
 import fetch from "node-fetch";
-import { CustomError } from '../error/error.model';
+import { CustomError } from "./../error/error.model";
 
 const getEndpoint = async (data: ExperienceType): Promise<any> => {
   const headersRequest = { 'Authorization': `Bearer ${data.token}`, 'Accept': 'application/json', "User-Agent": "node-fetch" };

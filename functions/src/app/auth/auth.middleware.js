@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthMiddleware = exports.LoginMiddleware = void 0;
-const error_model_1 = require("../error/error.model");
-const firebase_1 = require("../../firebase");
-const environment_1 = require("../../environment/environment");
+const error_model_1 = require("./../error/error.model");
+const firebase_1 = require("./../../firebase");
+const environment_1 = require("./../../environment/environment");
 const auth_model_1 = require("./auth.model");
 const getAuthToken = (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {

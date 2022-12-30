@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import AbilitiesController from './abilities.controller';
-import AbilitiesMiddleware from './abilities.middleware';
-import CategoriesRouting from './categories/categories.route';
+import { CacheMiddleWare } from "./../app.middleware";
+import { Router } from "express";
+import AbilitiesController from "./abilities.controller";
+import CategoriesRouting from "./categories/categories.route";
 
 const router = Router();
 
@@ -91,7 +91,7 @@ const router = Router();
  *         description: Access token does not have the required scope
  */
 
-router.get('/', AbilitiesController);
+router.get('/', CacheMiddleWare('5 minutes'), AbilitiesController);
 
 router.use('/categories', CategoriesRouting);
 

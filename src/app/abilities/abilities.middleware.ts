@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { CustomError } from "../error/error.model";
+import { CustomError } from "./../error/error.model";
 import { DataModel, DataType } from "./abilities.model";
 import { Result } from "runtypes";
 

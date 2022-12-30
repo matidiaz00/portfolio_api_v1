@@ -1,4 +1,4 @@
-import { Static, String, Record, Number } from 'runtypes';
+import { Static, String, Record, Number } from "runtypes";
 
 export const LoginModel = Record({
     email: String,

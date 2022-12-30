@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.remove = exports.update = exports.findOne = exports.findAll = exports.create = void 0;
-const error_model_1 = require("../../error/error.model");
-const firebase_1 = require("../../../firebase");
+const error_model_1 = require("./../../error/error.model");
+const firebase_1 = require("./../../../firebase");
 const collName = 'abilities';
 const collItemName = 'items';
 let collRef = firebase_1.db.collection(collName);

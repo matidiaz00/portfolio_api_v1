@@ -1,7 +1,7 @@
-import { LoginType } from './auth.model';
-import { client_auth, signInWithEmailAndPassword } from '../../firebase';
-import { CustomError } from '../error/error.model';
-import { environment } from '../../environment/environment';
+import { LoginType } from "./auth.model";
+import { client_auth, signInWithEmailAndPassword } from "./../../firebase";
+import { CustomError } from "./../error/error.model";
+import { environment } from "./../../environment/environment";
 
 export const login = async (body: LoginType): Promise<any> => {
     return signInWithEmailAndPassword(client_auth, body.email, body.password)

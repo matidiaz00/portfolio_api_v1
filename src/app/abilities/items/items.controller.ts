@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
-import { create, findAll, findOne, remove, update } from './items.service';
+import { NextFunction, Request, Response } from "express";
+import { create, findAll, findOne, remove, update } from "./items.service";
 
 const FindAllController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
