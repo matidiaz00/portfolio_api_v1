@@ -21,4 +21,4 @@ app.use( ErrorsMiddleware );
 
 const api = https.onRequest(app)
 
-export default api;
+export {api};

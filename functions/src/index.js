@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.api = void 0;
 const firebase_functions_1 = require("firebase-functions");
 const compression_1 = __importDefault(require("compression"));
 const app_route_1 = __importDefault(require("./app/app.route"));
@@ -17,4 +18,4 @@ app.use('/v1', v1_route_1.default);
 app.use('/', app_route_1.default);
 app.use(error_middleware_1.default);
 const api = firebase_functions_1.https.onRequest(app);
-exports.default = api;
+exports.api = api;
