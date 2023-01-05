@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { describe, expect, it, beforeAll, afterAll } from '@jest/globals';
-import api from '../src/index';
+import { api } from '../src/index';
 import { environment } from '../src/environment/environment';
 
 const req = request.agent(api);

@@ -8,13 +8,6 @@ const express_1 = require("express");
 const abilities_controller_1 = __importDefault(require("./abilities.controller"));
 const categories_route_1 = __importDefault(require("./categories/categories.route"));
 const router = (0, express_1.Router)();
-/**
- * @swagger
- * /abilities:
- *   get:
- *     summary: Retrieve a list of JSONPlaceholder users
- *     description: Retrieve a list of users from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
-*/
-router.get('/', (0, app_middleware_1.CacheMiddleWare)('5 minutes'), abilities_controller_1.default);
-router.use('/categories', categories_route_1.default);
+router.get('/all', (0, app_middleware_1.CacheMiddleWare)('5 minutes'), abilities_controller_1.default);
+router.use('/', categories_route_1.default);
 exports.default = router;

@@ -5,16 +5,8 @@ import CategoriesRouting from "./categories/categories.route";
 
 const router = Router();
 
-/**
- * @swagger
- * /abilities:
- *   get:
- *     summary: Retrieve a list of JSONPlaceholder users
- *     description: Retrieve a list of users from JSONPlaceholder. Can be used to populate a list of fake users when prototyping or testing an API.
-*/
+router.get('/all', CacheMiddleWare('5 minutes'), AbilitiesController);
 
-router.get('/', CacheMiddleWare('5 minutes'), AbilitiesController);
-
-router.use('/categories', CategoriesRouting);
+router.use('/', CategoriesRouting);
 
 export default router;
