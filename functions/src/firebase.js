@@ -43,5 +43,14 @@ const auth = admin.auth();
 exports.auth = auth;
 const app = (0, app_1.initializeApp)(FirebaseClientKey);
 exports.app = app;
-const client_auth = (0, auth_1.getAuth)(app);
+let client_auth;
 exports.client_auth = client_auth;
+if (!environment_1.environment.production) {
+    exports.client_auth = client_auth = (0, auth_1.getAuth)();
+    (0, auth_1.connectAuthEmulator)(client_auth, "http://localhost:9099", { disableWarnings: true });
+    process.env['FIREBASE_AUTH_EMULATOR_HOST'] = 'localhost:9099';
+    process.env['FIRESTORE_EMULATOR_HOST'] = 'localhost:8080';
+}
+else {
+    exports.client_auth = client_auth = (0, auth_1.getAuth)(app);
+}

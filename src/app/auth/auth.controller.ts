@@ -1,5 +1,14 @@
 import { Request, Response, NextFunction } from "express";
-import { login, logout } from "./auth.service";
+import { login, logout, currentUser } from "./auth.service";
+
+const CurrentUserController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
+    try {
+        const res = await currentUser(request.headers);
+        response.json(res);
+    } catch (err) {
+        next(err)
+    }
+}
 
 const LoginController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
@@ -19,4 +28,4 @@ const LogoutController = async (request: Request, response: Response, next: Next
     }
 }
 
-export { LoginController, LogoutController };
+export { LoginController, LogoutController, CurrentUserController };

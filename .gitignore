@@ -69,3 +69,4 @@ functions/index.js
 gha-creds-*.json
 **/**.key.json
 package-lock.json
+.firebase-emulators/**/*

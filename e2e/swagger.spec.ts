@@ -5,7 +5,7 @@ import { environment } from '../src/environment/environment';
 
 const req = request.agent(api);
 
-const baseURL = '/v1/swagger';
+const baseURL = '/swagger';
 
 describe('Documentation', () => {
 
@@ -13,7 +13,7 @@ describe('Documentation', () => {
 
     beforeAll(async () => {
         const resAuth = await req.post('/auth/login').send(environment.user);
-        const accessToken = resAuth.body.stsTokenManager.accessToken;
+        const accessToken = resAuth.body.idToken;
         token = `Bearer ${accessToken}`;
     });
 
@@ -22,8 +22,13 @@ describe('Documentation', () => {
     });
 
     it(`GET ${baseURL}`, async () => {
+        const res = await req.get(baseURL);
+        expect(res.statusCode).toEqual(301);
+    });
+
+    it(`GET ${baseURL}/swagger.json`, async () => {
         const res = await req.get(baseURL).set('Authorization', token);
-        expect(res.statusCode).toEqual(200)
+        expect(res.statusCode).toEqual(301);
     });
 
 });

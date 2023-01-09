@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = void 0;
+exports.currentUser = exports.logout = exports.login = void 0;
 const firebase_1 = require("./../../firebase");
 const error_model_1 = require("./../error/error.model");
 const environment_1 = require("./../../environment/environment");
@@ -37,3 +37,19 @@ const logout = () => __awaiter(void 0, void 0, void 0, function* () {
         .catch((err) => new error_model_1.CustomError(500, err));
 });
 exports.logout = logout;
+const currentUser = (headers) => __awaiter(void 0, void 0, void 0, function* () {
+    const autorization = headers.authorization ? headers.authorization.split(' ') : undefined;
+    if (autorization && autorization[0] === 'Bearer') {
+        try {
+            const decodedToken = yield firebase_1.auth.verifyIdToken(autorization[1]);
+            return decodedToken;
+        }
+        catch (err) {
+            return new error_model_1.CustomError(500, err);
+        }
+    }
+    else {
+        return new error_model_1.CustomError(403, "Necesitas un token para hacer esta llamada.");
+    }
+});
+exports.currentUser = currentUser;

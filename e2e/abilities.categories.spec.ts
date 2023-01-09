@@ -5,7 +5,7 @@ import { environment } from '../src/environment/environment';
 
 const req = request(api);
 
-const baseURL = '/v1/abilities/categories';
+const baseURL = '/v1/abilities';
 
 let NewPost = {
     body: {
@@ -22,7 +22,7 @@ describe('Specific ability', () => {
 
     beforeAll(async () => {
         const resAuth = await req.post('/auth/login').send(environment.user);
-        const accessToken = resAuth.body.stsTokenManager.accessToken;
+        const accessToken = resAuth.body.idToken;
         token = `Bearer ${accessToken}`;
     });
 

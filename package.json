@@ -4,14 +4,15 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
+    "clean": "npx rimraf functions/src",
     "build": "tsc",
     "lint": "eslint .",
-    "start:local": "tsc --watch",
+    "start:local": "npm run clean && tsc --watch",
     "start:shell": "npm run build && npm run shell",
-    "serve": "firebase emulators:start",
+    "serve": "firebase emulators:start --import ./.firebase-emulators --export-on-exit",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
-    "deploy": "npm run build && firebase deploy",
+    "deploy": "npm run clean && npm run build && firebase deploy",
     "logs": "firebase functions:log",
     "test": "jest"
   },

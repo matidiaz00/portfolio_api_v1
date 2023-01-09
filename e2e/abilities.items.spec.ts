@@ -18,21 +18,21 @@ describe('Items of a specific ability', () => {
 
     let token: string;
     let category_id: string;
-    let baseURL: string = `/v1/abilities/categories/:category_id/items`;
+    let baseURL: string = `/v1/abilities/:category_id/items`;
 
     beforeAll(async () => {
         const resAuth = await req.post('/auth/login').send(environment.user);
-        const accessToken = resAuth.body.stsTokenManager.accessToken;
+        const accessToken = resAuth.body.idToken;
         token = `Bearer ${accessToken}`;
 
-        const resNewCategory = await req.post('/v1/abilities/categories').send(NewPost.body).set('Authorization', token);
+        const resNewCategory = await req.post('/v1/abilities').send(NewPost.body).set('Authorization', token);
         category_id = resNewCategory.body.id;
 
-        baseURL = `/v1/abilities/categories/${category_id}/items`
+        baseURL = `/v1/abilities/${category_id}/items`
     });
 
     afterAll(async () => {
-        await req.delete(`/v1/abilities/categories/${category_id}`).set('Authorization', token);
+        await req.delete(`/v1/abilities/${category_id}`).set('Authorization', token);
         await req.post('/auth/logout');
     });
 

@@ -1,6 +1,8 @@
-import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerJsdoc, { Options, SwaggerDefinition } from 'swagger-jsdoc';
+import { SwaggerOptions } from 'swagger-ui-express';
+import { customCss } from './swagger.style';
 
-const swaggerDefinition = {
+const swaggerDefinition: SwaggerDefinition = {
   openapi: '3.0.3',
   info: {
     title: 'Documentation for the matidiaz api ',
@@ -19,13 +21,19 @@ const swaggerDefinition = {
   ]
 };
 
-const options = {
+const specsoptions: Options = {
   swaggerDefinition,
-  apis: ['./**/*.doc.*'],
+  apis: ['./**/*.doc.*']
 };
 
-const specs = swaggerJsdoc(options);
+const specs = swaggerJsdoc(specsoptions);
 
 const customSwaggerCSS = "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-flattop.css";
 
-export { specs, customSwaggerCSS }
+const options: SwaggerOptions = {
+  //customCssUrl: customSwaggerCSS,
+  customCss: customCss,
+  swaggerOptions: { docExpansion:"none" }
+}
+
+export { specs, options, customSwaggerCSS }

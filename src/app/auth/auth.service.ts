@@ -1,8 +1,10 @@
 import { LoginType } from "./auth.model";
-import { client_auth, signInWithEmailAndPassword } from "./../../firebase";
+import { auth, client_auth, signInWithEmailAndPassword } from "./../../firebase";
 import { CustomError } from "./../error/error.model";
 import { environment } from "./../../environment/environment";
 import { UserCredential } from "firebase/auth";
+import { Request } from "express";
+import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
     return signInWithEmailAndPassword(client_auth, body.email, body.password)
@@ -24,4 +26,18 @@ export const logout = async (): Promise<any> => {
         .signOut()
         .then((res) => res)
         .catch((err) => new CustomError(500, err) );
+}
+
+export const currentUser = async (headers: Request["headers"]): Promise<DecodedIdToken | CustomError> => {
+    const autorization = headers.authorization ? headers.authorization.split(' ') : undefined;
+    if (autorization && autorization[0] === 'Bearer') {
+        try {
+            const decodedToken = await auth.verifyIdToken(autorization[1]);
+            return decodedToken;
+        } catch (err) {
+            return new CustomError(500, err)
+        }
+    } else {
+        return new CustomError(403, "Necesitas un token para hacer esta llamada.")
+    }
 }

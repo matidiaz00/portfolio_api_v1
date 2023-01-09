@@ -1,9 +1,10 @@
+"use strict";
 /**
  * @openapi
- * /swagger:
+ * /error:
  *   get:
  *     description: Welcome to swagger-jsdoc!
  *     responses:
  *       200:
  *         description: Returns a mysterious string.
- */
+ */ 

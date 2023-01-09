@@ -13,7 +13,7 @@ describe('Experience', () => {
 
     beforeAll(async () => {
         const resAuth = await req.post('/auth/login').send(environment.user);
-        const accessToken = resAuth.body.stsTokenManager.accessToken;
+        const accessToken = resAuth.body.idToken;
         token = `Bearer ${accessToken}`;
     });
 

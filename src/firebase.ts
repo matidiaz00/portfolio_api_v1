@@ -1,11 +1,11 @@
 import * as admin from "firebase-admin";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, connectAuthEmulator } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, connectAuthEmulator, Auth } from "firebase/auth";
 import * as firebaseAccountCredentials from "./firebase.sdk.key.json";
 import * as FirebaseClientKey from "./firebase.sdk.client.key.json";
 import { environment } from "./environment/environment";
 
-const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
+const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount;
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -15,8 +15,15 @@ admin.initializeApp({
 const db = admin.firestore();
 const auth = admin.auth();
 const app = initializeApp(FirebaseClientKey);
-const client_auth = getAuth(app);
+let client_auth: Auth;
 
-//if (!environment.production) connectAuthEmulator(client_auth, "http://localhost:9099");
+if (!environment.production) {
+  client_auth = getAuth();
+  connectAuthEmulator(client_auth, "http://localhost:9099", { disableWarnings: true });
+  process.env['FIREBASE_AUTH_EMULATOR_HOST'] = 'localhost:9099';
+  process.env['FIRESTORE_EMULATOR_HOST'] = 'localhost:8080';
+} else {
+  client_auth = getAuth(app);
+}
 
 export { admin, db, auth, client_auth, app, signInWithEmailAndPassword }

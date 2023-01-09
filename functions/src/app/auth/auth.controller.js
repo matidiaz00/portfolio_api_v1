@@ -9,8 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LogoutController = exports.LoginController = void 0;
+exports.CurrentUserController = exports.LogoutController = exports.LoginController = void 0;
 const auth_service_1 = require("./auth.service");
+const CurrentUserController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const res = yield (0, auth_service_1.currentUser)(request.headers);
+        response.json(res);
+    }
+    catch (err) {
+        next(err);
+    }
+});
+exports.CurrentUserController = CurrentUserController;
 const LoginController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield (0, auth_service_1.login)(request.body);

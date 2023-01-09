@@ -1,6 +1,6 @@
 /**
  * @openapi
- * /swagger:
+ * /error:
  *   get:
  *     description: Welcome to swagger-jsdoc!
  *     responses:
