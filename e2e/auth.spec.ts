@@ -1,39 +1,32 @@
-import request from 'supertest';
-import { describe, expect, it, beforeAll, afterAll } from '@jest/globals';
-import { api } from '../src/index';
+import { describe, expect, it } from '@jest/globals';
 import { environment } from '../src/environment/environment';
+import request from 'supertest';
+import { app } from './../src/index';
 
-const req = request.agent(api);
+const title_url = `/auth`;
 
-const baseURL = '/auth';
+const baseURL = title_url;
 
 describe('Authentication', () => {
 
-    let token: string;
-
-    beforeAll(async () => {
-        const resAuth = await req.post('/auth/login').send(environment.user);
-        const accessToken = resAuth.body.idToken;
-        token = `Bearer ${accessToken}`;
+    it(`GET ${title_url}/user`, async () => {
+        const res = await request(app)
+            .get(`${baseURL}/user`)
+            .set({ 'Authorization': process.env.TEST_JWT });
+        expect(res.status).toEqual(200);
     });
 
-    afterAll(async () => {
-        await req.post('/auth/logout');
+    it(`POST ${title_url}/login`, async () => {
+        const res = await request(app)
+            .post(`${baseURL}/login`)
+            .send(environment.user);
+        expect(res.status).toEqual(200);
     });
 
-    it(`GET ${baseURL}/user`, async () => {
-        const res = await request(api).get(baseURL + '/user').set('Authorization', token);
-        expect(res.statusCode).toEqual(200);
-    });
-
-    it(`POST ${baseURL}/login`, async () => {
-        const res = await req.post(baseURL + '/login').send(environment.user);
-        expect(res.statusCode).toEqual(200);
-    });
-
-    it(`POST ${baseURL}/logout`, async () => {
-        const res = await request(api).post(baseURL + '/logout');
-        expect(res.statusCode).toEqual(200);
+    it(`GET ${title_url}/logout`, async () => {
+        const res = await request(app)
+            .get(`${baseURL}/logout`);
+        expect(res.status).toEqual(200);
     });
 
 });

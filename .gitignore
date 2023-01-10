@@ -65,8 +65,9 @@ node_modules/
 # dotenv environment variables file
 .env
 .firebaserc
-functions/index.js
 gha-creds-*.json
 **/**.key.json
 package-lock.json
 .firebase-emulators/**/*
+functions/e2e
+functions/jest.config.js

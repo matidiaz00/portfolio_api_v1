@@ -9,6 +9,6 @@ router.use('/user', CacheMiddleWare('5 minutes'), AuthMiddleware);
 router.get('/user', CurrentUserController);
 
 router.post('/login', LoginController);
-router.post('/logout', LogoutController);
+router.get('/logout', LogoutController);
 
 export default router;

@@ -1,32 +1,19 @@
+import { describe, expect, it } from '@jest/globals';
 import request from 'supertest';
-import { describe, expect, it, beforeAll, afterAll } from '@jest/globals';
-import { environment } from '../src/environment/environment';
-import { api } from '../src/index';
+import { app } from './../src/index';
 
-const req = request.agent(api);
+const title_url = `/v1/abilities`;
 
-const baseURL = '/v1/abilities';
+const baseURL = title_url;
 
 describe('Abilities', () => {
-
-    /*
-    let token: string;
-
-    beforeAll(async () => {
-        const resAuth = await req.post('/auth/login').send(environment.user);
-        const accessToken = resAuth.body.idToken;
-        token = `Bearer ${accessToken}`;
-    });
-
-    afterAll(async () => {
-        await req.post('/auth/logout');
-    });
-    */
    
-    it(`GET ${baseURL}`, async () => {
+    it(`GET ${title_url}/all`, async () => {
         /*
-        const res = await req.get(baseURL + '/all').set('Authorization', token);
-        expect(res.statusCode).toEqual(200);
+        const res = await request(app)
+            .get(`${baseURL}/all`)
+            .set({ 'Authorization': process.env.TEST_JWT });
+        expect(res.status).toEqual(200);
         */
     });
 

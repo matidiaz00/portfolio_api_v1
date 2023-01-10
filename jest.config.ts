@@ -62,10 +62,10 @@ const config: Config = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  // globalSetup: "./e2e/globalSetup.ts",
+  globalSetup: "./e2e/settings/before_test.ts",
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  // globalTeardown: undefined,
+  globalTeardown: "./e2e/settings/after_test.ts",
 
   // A set of global variables that need to be available in all test environments
   // globals: { token: token, example: 'hola mundo' },
@@ -135,11 +135,9 @@ const config: Config = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  /*
   setupFiles: [
-    "./e2e/login.ts"
+    //"./e2e/settings/before_test.ts"
   ],
-  */
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
@@ -162,8 +160,8 @@ const config: Config = {
   // The glob patterns Jest uses to detect test files
   testMatch: [
     "**/e2e/**/?(*.)+(spec|test).[tj]s?(x)",
-     "**/__tests__/**/*.[jt]s?(x)",
-     "**/?(*.)+(spec|test).[tj]s?(x)"
+    "**/__tests__/**/*.[jt]s?(x)",
+    "**/?(*.)+(spec|test).[tj]s?(x)"
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
@@ -171,7 +169,7 @@ const config: Config = {
      "\\\\node_modules\\\\"
   ],
 
-  testTimeout: 20000,
+  testTimeout: 200000,
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

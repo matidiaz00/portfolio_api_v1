@@ -1,14 +1,15 @@
-import request from 'supertest';
 import { describe, expect, it } from '@jest/globals';
-import { api } from '../src/index';
+import request from 'supertest';
+import { app } from './../src/index';
 
-const req = request.agent(api);
+const baseURL = '/404';
 
 describe('Error', () => {
 
     it('GET error 404', async () => {
-        const res = await req.get('/404');
-        expect(res.statusCode).toEqual(404)
+        const res = await request(app)
+            .get(`${baseURL}`);
+        expect(res.status).toEqual(404);
     });
 
 });

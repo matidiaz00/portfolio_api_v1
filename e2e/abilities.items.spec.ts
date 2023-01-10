@@ -1,65 +1,53 @@
+import { describe, expect, it } from '@jest/globals';
+import { body } from './settings/settings'
 import request from 'supertest';
-import { afterAll, describe, expect, it, beforeAll } from '@jest/globals';
-import { api } from '../src/index';
-import { environment } from '../src/environment/environment';
+import { app } from './../src/index';
 
-const req = request.agent(api);
+const title_url = `/v1/abilities/:category_id/items`;
 
-let NewPost = {
-    body: {
-        title: 'Test example children of category title',
-        description: 'This is a example created by the test.',
-        order: 0
-    },
-    id: ''
-}
+const baseURL = `/v1/abilities/${process.env.TEST_CATEGORY_ID}/items`;
+
+let NewPost = { body: body, id: '' }
 
 describe('Items of a specific ability', () => {
 
-    let token: string;
-    let category_id: string;
-    let baseURL: string = `/v1/abilities/:category_id/items`;
-
-    beforeAll(async () => {
-        const resAuth = await req.post('/auth/login').send(environment.user);
-        const accessToken = resAuth.body.idToken;
-        token = `Bearer ${accessToken}`;
-
-        const resNewCategory = await req.post('/v1/abilities').send(NewPost.body).set('Authorization', token);
-        category_id = resNewCategory.body.id;
-
-        baseURL = `/v1/abilities/${category_id}/items`
-    });
-
-    afterAll(async () => {
-        await req.delete(`/v1/abilities/${category_id}`).set('Authorization', token);
-        await req.post('/auth/logout');
-    });
-
-    it(`POST ${baseURL}`, async () => {
-        const res = await req.post(baseURL).send(NewPost.body).set('Authorization', token);
+    it(`POST ${title_url}`, async () => {
+        const res = await request(app)
+            .post(`${baseURL}`)
+            .send(NewPost.body)
+            .set({ 'Authorization': process.env.TEST_JWT });
         NewPost.id = res.body.id;
-        expect(res.statusCode).toEqual(200)
+        expect(res.status).toEqual(200);
     });
 
-    it(`GET ${baseURL}`, async () => {
-        const res = await req.get(baseURL).set('Authorization', token);
-        expect(res.statusCode).toEqual(200)
+    it(`GET ${title_url}`, async () => {
+        const res = await request(app)
+            .get(`${baseURL}`)
+            .set({ 'Authorization': process.env.TEST_JWT });
+        expect(res.status).toEqual(200);
     });
 
-    it(`GET ${baseURL}/:item_id`, async () => {
-        const res = await request(api).get(baseURL + '/' + NewPost.id).set('Authorization', token);
-        expect(res.statusCode).toEqual(200)
+    it(`GET ${title_url}/:item_id`, async () => {
+        const res = await request(app)
+            .get(`${baseURL}/${NewPost.id}`)
+            .set({ 'Authorization': process.env.TEST_JWT });
+        expect(res.status).toEqual(200);
     });
 
-    it(`PATCH ${baseURL}/:item_id`, async () => {
-        const res = await request(api).get(baseURL + '/' + NewPost.id).set('Authorization', token);
-        expect(res.statusCode).toEqual(200)
+    it(`PATCH ${title_url}/:item_id`, async () => {
+        NewPost.body.title = "New Test Title";
+        const res = await request(app)
+            .patch(`${baseURL}/${NewPost.id}`)
+            .send(NewPost.body)
+            .set({ 'Authorization': process.env.TEST_JWT });
+        expect(res.status).toEqual(200);
     });
 
-    it(`DELETE ${baseURL}/:item_id`, async () => {
-        const res = await request(api).get(baseURL + '/' + NewPost.id).set('Authorization', token);
-        expect(res.statusCode).toEqual(200)
+    it(`DELETE ${title_url}/:item_id`, async () => {
+        const res = await request(app)
+            .delete(`${baseURL}/${NewPost.id}`)
+            .set({ 'Authorization': process.env.TEST_JWT });
+        expect(res.status).toEqual(200);
     });
 
 });

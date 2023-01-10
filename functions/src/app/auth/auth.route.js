@@ -8,5 +8,5 @@ const router = (0, express_1.Router)();
 router.use('/user', (0, app_middleware_1.CacheMiddleWare)('5 minutes'), auth_middleware_1.AuthMiddleware);
 router.get('/user', auth_controller_1.CurrentUserController);
 router.post('/login', auth_controller_1.LoginController);
-router.post('/logout', auth_controller_1.LogoutController);
+router.get('/logout', auth_controller_1.LogoutController);
 exports.default = router;
