@@ -44,25 +44,25 @@ jobs:
         run: npm ci
 
       - name: 💫 Run unit testing
-        if: on.workflow_call.inputs.server == 'true'
+        if: inputs.server == 'true'
         run: npm run test
         #run: |
           #npx nyc jasmine
           #npx nyc report --reporter=html -t coverage --report-dir=coverage/server
 
       #- name: Archive Production Artifact
-        #if: on.workflow_call.inputs.server == 'true'
+        #if: inputs.server == 'true'
         #uses: actions/upload-artifact@master
         #with:
           #name: coverage_server
           #path: coverage/server
 
       - name: 💫 Run unit testing
-        if: on.workflow_call.inputs.browser == 'true'
+        if: inputs.browser == 'true'
         run: npx @angular/cli test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
 
       - name: Archive Production Artifact
-        if: on.workflow_call.inputs.browser == 'true'
+        if: inputs.browser == 'true'
         uses: actions/upload-artifact@master
         with:
           name: coverage_browser
