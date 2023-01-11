@@ -12,8 +12,6 @@ jobs:
     with:
       browser: false
       server: true
-    secrets:
-      environment: ${{ secrets.ENVIRONMENT }}
 
 
   Build:
@@ -23,18 +21,18 @@ jobs:
       browser: false
       server: true
     secrets:
-      environment: ${{ secrets.ENVIRONMENT }}
+      sdk_client_key: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
+      sdk_key: ${{ secrets.FIREBASE_SDK_KEY }}
 
   Deploy:
     needs: Build
     uses: ./.github/workflows/_deploy.yml
     with:
-      browser: false
-      server: true
+      functions: true
     secrets:
       sdk_key: ${{ secrets.FIREBASE_SDK_KEY }}
       project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
       #browser_target: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
-      documentation_target: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
+      #documentation_target: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
       #browser_coverage_target: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
-      server_coverage_target: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
+      #server_coverage_target: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}

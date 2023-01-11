@@ -10,7 +10,9 @@ on:
         required: true
         type: boolean
     secrets:
-      environment:
+      sdk_client_key:
+        required: true
+      sdk_key:
         required: true
 
 jobs:
@@ -51,22 +53,20 @@ jobs:
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
-          json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
-          dir: 'src/services'
+          json: ${{ on.workflow_call.secrets.sdk_client_key }}
+          dir: 'src'
 
       - name: Create firebase.sdk.key.json file
         if: on.workflow_call.inputs.server == 'true'
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
-          json: ${{ secrets.FIREBASE_SDK_KEY }}
-          dir: 'src/services'
+          json: ${{ on.workflow_call.secrets.sdk_key }}
+          dir: 'src'
 
       - name: 💥 Build project
         if: on.workflow_call.inputs.server == 'true'
-        run: npx tsc
-        env:
-          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
+        run: npm run clean && npm run build
 
       - name: Archive Production Artifact
         if: on.workflow_call.inputs.server == 'true'
@@ -74,8 +74,8 @@ jobs:
         with:
           name: functions
           path: |
-            swagger
             functions/
+            firestore.rules
             firebase.json
 
       - name: 💥 Build project
@@ -83,8 +83,6 @@ jobs:
         run: |
           npx ts-node -O '{\"module\": \"commonjs\"}' ./src/environment/environment.config.ts
           npx @angular/cli build --configuration production
-        env:
-          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
 
       - name: Archive Production Artifact
         if: on.workflow_call.inputs.browser == 'true'

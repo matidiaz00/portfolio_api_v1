@@ -9,9 +9,6 @@ on:
       server:
         required: true
         type: boolean
-    secrets:
-      environment:
-        required: true
 
 jobs:
   build:
@@ -48,24 +45,21 @@ jobs:
 
       - name: 💫 Run unit testing
         if: on.workflow_call.inputs.server == 'true'
-        run: |
-          npx nyc jasmine
-          npx nyc report --reporter=html -t coverage --report-dir=coverage/server
-        env:
-          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
+        run: npm run test
+        #run: |
+          #npx nyc jasmine
+          #npx nyc report --reporter=html -t coverage --report-dir=coverage/server
 
-      - name: Archive Production Artifact
-        if: on.workflow_call.inputs.server == 'true'
-        uses: actions/upload-artifact@master
-        with:
-          name: coverage_server
-          path: coverage/server
+      #- name: Archive Production Artifact
+        #if: on.workflow_call.inputs.server == 'true'
+        #uses: actions/upload-artifact@master
+        #with:
+          #name: coverage_server
+          #path: coverage/server
 
       - name: 💫 Run unit testing
         if: on.workflow_call.inputs.browser == 'true'
         run: npx @angular/cli test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
-        env:
-          GITHUB_SECRETS: ${{ on.workflow_call.secrets.environment }}
 
       - name: Archive Production Artifact
         if: on.workflow_call.inputs.browser == 'true'
