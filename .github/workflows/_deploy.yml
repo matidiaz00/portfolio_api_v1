@@ -7,9 +7,9 @@ on:
         required: true
         type: boolean
     secrets:
-      FIREBASE_SDK_KEY:
+      sdk_key:
         required: true
-      FIREBASE_PROJECT_ID:
+      project_id:
         required: true
       FIREBASE_BROWSER_TARGET_NAME:
         required: false
@@ -81,10 +81,10 @@ jobs:
         name: 📝 Create firebase.sdk.key.json file
         uses: google-github-actions/auth@v0.8.0
         with:
-          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
+          credentials_json: ${{ secrets.sdk_key }}
 
       - name: Assign project ID to Firebase config
-        run: npx firebase-tools use ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: npx firebase-tools use ${{ secrets.project_id }}
 
       - name: Assign target to Firebase Hosting Multisite config
         if: secrets.FIREBASE_BROWSER_TARGET_NAME
