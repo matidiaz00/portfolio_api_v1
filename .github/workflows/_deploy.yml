@@ -6,19 +6,6 @@ on:
       functions:
         required: true
         type: boolean
-    secrets:
-      sdk_key:
-        required: true
-      project_id:
-        required: true
-      browser_target:
-        required: false
-      documentation_target:
-        required: false
-      browser_coverage_target:
-        required: false
-      server_coverage_target:
-        required: false
 
 jobs:
   build:
@@ -30,25 +17,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download Artifact
-        if: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
+        if: secrets.FIREBASE_BROWSER_TARGET_NAME
         uses: actions/download-artifact@master
         with:
           name: browser
 
       - name: Download Artifact
-        if: secrets.documentation_target
+        if: secrets.FIREBASE_DOCUMENTATION_TARGET_NAME
         uses: actions/download-artifact@master
         with:
           name: documentation
 
       - name: Download Artifact
-        if: secrets.browser_coverage_target
+        if: secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME
         uses: actions/download-artifact@master
         with:
           name: coverage_browser
 
       - name: Download Artifact
-        if: secrets.server_coverage_target
+        if: secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME
         uses: actions/download-artifact@master
         with:
           name: coverage_server
@@ -81,26 +68,26 @@ jobs:
         name: 📝 Create firebase.sdk.key.json file
         uses: google-github-actions/auth@v0.8.0
         with:
-          credentials_json: ${{ secrets.sdk_key }}
+          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
       - name: Assign project ID to Firebase config
-        run: npx firebase-tools use ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: npx firebase-tools use ${{ FIREBASE_PROJECT_ID }}
 
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.browser_target
-        run: npx firebase-tools target:apply hosting browser ${{ secrets.browser_target }}
+        if: secrets.FIREBASE_BROWSER_TARGET_NAME
+        run: npx firebase-tools target:apply hosting browser ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
 
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.documentation_target
-        run: npx firebase-tools target:apply hosting documentation ${{ secrets.documentation_target }}
+        if: secrets.FIREBASE_DOCUMENTATION_TARGET_NAME
+        run: npx firebase-tools target:apply hosting documentation ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
 
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.browser_coverage_target
-        run: npx firebase-tools target:apply hosting coverage_browser ${{ secrets.browser_coverage_target }}
+        if: secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME
+        run: npx firebase-tools target:apply hosting coverage_browser ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
       
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.server_coverage_target
-        run: npx firebase-tools target:apply hosting coverage_server ${{ secrets.server_coverage_target }}
+        if: secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME
+        run: npx firebase-tools target:apply hosting coverage_server ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
 
       - name: 🚀 Deploy to Firebase
         run: npx firebase-tools deploy
