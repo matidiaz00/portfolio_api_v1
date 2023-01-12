@@ -69,7 +69,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies in functions
-        if: steps.cache-npm-functions.outputs.cache-hit != 'true' && on.workflow_call.inputs.functions == 'true'
+        if: steps.cache-npm-functions.outputs.cache-hit != 'true' && inputs.functions == 'true'
         run: cd functions && npm ci
 
       - id: auth
