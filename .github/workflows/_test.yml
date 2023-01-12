@@ -55,7 +55,7 @@ jobs:
         if: inputs.server == true
         uses: jsdaniell/create-json@1.1.2
         with:
-          name: "firebase.sdk.client.key.json"
+          name: "firebase.sdk.key.json"
           json: ${{ secrets.FIREBASE_SDK_KEY }}
           dir: 'src/'
 
