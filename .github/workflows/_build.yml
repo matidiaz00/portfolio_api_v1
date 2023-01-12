@@ -48,22 +48,6 @@ jobs:
         if: steps.cache-npm.outputs.cache-hit != true
         run: npm ci
 
-      - name: Create firebase.sdk.client.key.json file
-        if: inputs.server == true
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "firebase.sdk.client.key.json"
-          json: ${{ secrets.sdk_client_key }}
-          dir: 'src'
-
-      - name: Create firebase.sdk.key.json file
-        if: inputs.server == true
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "firebase.sdk.client.key.json"
-          json: ${{ secrets.sdk_key }}
-          dir: 'src'
-
       - name: 💥 Build project
         if: inputs.server == true
         run: npm run clean && npm run build
