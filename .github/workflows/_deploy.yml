@@ -30,25 +30,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download Artifact
-        if: secrets.FIREBASE_BROWSER_TARGET_NAME != null
+        if: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
         uses: actions/download-artifact@master
         with:
           name: browser
 
       - name: Download Artifact
-        if: secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != null
+        if: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
         uses: actions/download-artifact@master
         with:
           name: documentation
 
       - name: Download Artifact
-        if: secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME != null
+        if: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
         uses: actions/download-artifact@master
         with:
           name: coverage_browser
 
       - name: Download Artifact
-        if: secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME != null
+        if: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
         uses: actions/download-artifact@master
         with:
           name: coverage_server
@@ -87,19 +87,19 @@ jobs:
         run: npx firebase-tools use ${{ secrets.project_id }}
 
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.FIREBASE_BROWSER_TARGET_NAME != null
+        if: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
         run: npx firebase-tools target:apply hosting browser ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
 
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.FIREBASE_DOCUMENTATION_TARGET_NAME
+        if: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
         run: npx firebase-tools target:apply hosting documentation ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
 
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME != null
+        if: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
         run: npx firebase-tools target:apply hosting coverage_browser ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
       
       - name: Assign target to Firebase Hosting Multisite config
-        if: secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME != null
+        if: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
         run: npx firebase-tools target:apply hosting coverage_server ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
 
       - name: 🚀 Deploy to Firebase
