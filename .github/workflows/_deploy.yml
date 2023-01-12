@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download Artifact
-        if: on.workflow_call.secrets.browser_target
+        if: inputs.functions
         uses: actions/download-artifact@master
         with:
           name: browser
