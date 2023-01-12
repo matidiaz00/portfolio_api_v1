@@ -19,7 +19,7 @@ jobs:
       - name: Download Artifact
         env:
           FIREBASE_BROWSER_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_TARGET_NAME == 'true'
+        if: env.FIREBASE_BROWSER_TARGET_NAME == true
         uses: actions/download-artifact@master
         with:
           name: browser
@@ -27,7 +27,7 @@ jobs:
       - name: Download Artifact
         env:
           FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
-        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == 'true'
+        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == true
         uses: actions/download-artifact@master
         with:
           name: documentation
@@ -35,7 +35,7 @@ jobs:
       - name: Download Artifact
         env:
           FIREBASE_BROWSER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_COVERAGE_TARGET_NAME == 'true'
+        if: env.FIREBASE_BROWSER_COVERAGE_TARGET_NAME == true
         uses: actions/download-artifact@master
         with:
           name: coverage_browser
@@ -43,19 +43,19 @@ jobs:
       - name: Download Artifact
         env:
           FIREBASE_SERVER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_SERVER_COVERAGE_TARGET_NAME == 'true'
+        if: env.FIREBASE_SERVER_COVERAGE_TARGET_NAME == true
         uses: actions/download-artifact@master
         with:
           name: coverage_server
 
       - name: Download Artifact
-        if: inputs.functions == 'true'
+        if: inputs.functions == true
         uses: actions/download-artifact@master
         with:
           name: functions
 
       - name: Cache functions node modules
-        if: inputs.functions == 'true'
+        if: inputs.functions == true
         id: cache-npm-functions
         uses: actions/cache@v3
         env:
@@ -69,7 +69,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install dependencies in functions
-        if: steps.cache-npm-functions.outputs.cache-hit != 'true' && inputs.functions == 'true'
+        if: steps.cache-npm-functions.outputs.cache-hit != true && inputs.functions == true
         run: cd functions && npm ci
 
       - id: auth
@@ -84,7 +84,7 @@ jobs:
       - name: Assign target to Firebase Hosting Multisite config
         env:
           FIREBASE_BROWSER_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_TARGET_NAME == 'true'
+        if: env.FIREBASE_BROWSER_TARGET_NAME == true
         run: npx firebase-tools target:apply hosting browser ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
 
       - name: Assign target to Firebase Hosting Multisite config
@@ -96,13 +96,13 @@ jobs:
       - name: Assign target to Firebase Hosting Multisite config
         env:
           FIREBASE_BROWSER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_COVERAGE_TARGET_NAME == 'true'
+        if: env.FIREBASE_BROWSER_COVERAGE_TARGET_NAME == true
         run: npx firebase-tools target:apply hosting coverage_browser ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
       
       - name: Assign target to Firebase Hosting Multisite config
         env:
           FIREBASE_SERVER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_SERVER_COVERAGE_TARGET_NAME == 'true'
+        if: env.FIREBASE_SERVER_COVERAGE_TARGET_NAME == true
         run: npx firebase-tools target:apply hosting coverage_server ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
 
       - name: 🚀 Deploy to Firebase

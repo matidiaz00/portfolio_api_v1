@@ -40,11 +40,11 @@ jobs:
             ${{ runner.os }}-
 
       - name: 🧨 Install NPM dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
+        if: steps.cache-npm.outputs.cache-hit != true
         run: npm ci
 
       - name: 💫 Run unit testing
-        if: inputs.server == 'true'
+        if: inputs.server == true
         run: npm run test
         #run: |
           #npx nyc jasmine
@@ -58,11 +58,11 @@ jobs:
           #path: coverage/server
 
       - name: 💫 Run unit testing
-        if: inputs.browser == 'true'
+        if: inputs.browser == true
         run: npx @angular/cli test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
 
       - name: Archive Production Artifact
-        if: inputs.browser == 'true'
+        if: inputs.browser == true
         uses: actions/upload-artifact@master
         with:
           name: coverage_browser

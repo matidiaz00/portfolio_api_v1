@@ -45,11 +45,11 @@ jobs:
             ${{ runner.os }}-
 
       - name: 🧨 Install NPM dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true'
+        if: steps.cache-npm.outputs.cache-hit != true
         run: npm ci
 
       - name: Create firebase.sdk.client.key.json file
-        if: inputs.server == 'true'
+        if: inputs.server == true
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
@@ -57,7 +57,7 @@ jobs:
           dir: 'src'
 
       - name: Create firebase.sdk.key.json file
-        if: inputs.server == 'true'
+        if: inputs.server == true
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
@@ -65,11 +65,11 @@ jobs:
           dir: 'src'
 
       - name: 💥 Build project
-        if: inputs.server == 'true'
+        if: inputs.server == true
         run: npm run clean && npm run build
 
       - name: Archive Production Artifact
-        if: inputs.server == 'true'
+        if: inputs.server == true
         uses: actions/upload-artifact@master
         with:
           name: functions
@@ -79,13 +79,13 @@ jobs:
             firebase.json
 
       - name: 💥 Build project
-        if: inputs.browser == 'true'
+        if: inputs.browser == true
         run: |
           npx ts-node -O '{\"module\": \"commonjs\"}' ./src/environment/environment.config.ts
           npx @angular/cli build --configuration production
 
       - name: Archive Production Artifact
-        if: inputs.browser == 'true'
+        if: inputs.browser == true
         uses: actions/upload-artifact@master
         with:
           name: browser
