@@ -9,11 +9,6 @@ on:
       browser:
         required: true
         type: boolean
-    secrets:
-      sdk_client_key:
-        required: true
-      sdk_key:
-        required: true
 
 jobs:
   build:

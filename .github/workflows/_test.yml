@@ -48,16 +48,16 @@ jobs:
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
-          json: ${{ secrets.sdk_client_key }}
-          dir: 'src'
+          json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
+          dir: 'src/'
 
       - name: Create firebase.sdk.key.json file
         if: inputs.server == true
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
-          json: ${{ secrets.sdk_key }}
-          dir: 'src'
+          json: ${{ secrets.FIREBASE_SDK_KEY }}
+          dir: 'src/'
 
       - name: 💫 Run unit testing
         if: inputs.server == true

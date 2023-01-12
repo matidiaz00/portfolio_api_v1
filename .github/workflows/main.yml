@@ -12,6 +12,7 @@ jobs:
     with:
       browser: false
       server: true
+    secrets: inherit
 
 
   Build:
@@ -20,9 +21,7 @@ jobs:
     with:
       browser: false
       server: true
-    secrets:
-      sdk_client_key: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
-      sdk_key: ${{ secrets.FIREBASE_SDK_KEY }}
+    secrets: inherit
 
   Deploy:
     needs: Build
