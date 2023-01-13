@@ -70,7 +70,7 @@ jobs:
 
       - name: Install dependencies in functions
         if: steps.cache-npm-functions.outputs.cache-hit != true && inputs.functions == true
-        run: cd functions && npm ci
+        run: cd functions && npm i
 
       - id: auth
         name: 📝 Create firebase.sdk.key.json file
