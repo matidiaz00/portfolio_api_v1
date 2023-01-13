@@ -1,7 +1,7 @@
 import express, { NextFunction, Response, Request } from "express";
 import bodyParser from "body-parser";
 import * as path from "path";
-import { environment } from "./../environment/environment";
+import config from './../config';
 import apicache from "apicache";
 
 declare module 'express-serve-static-core' {
@@ -13,7 +13,7 @@ declare module 'express-serve-static-core' {
 
 export const HeadersMiddleWare = (req: Request, res: Response, next: NextFunction) => {
     const origin: string | undefined = req.headers.origin;
-    if (origin && environment.allowedOrigins.includes(origin)) {
+    if (origin && config.ALOWED_ORIGINS.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     //res.header('Access-Control-Allow-Origin', '*');

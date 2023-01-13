@@ -1,4 +1,4 @@
-import { environment } from "./../../environment/environment";
+import config from './../../config';
 import { Request, Response, NextFunction } from "express";
 import { ExperienceType } from "./experience.model";
 import { findAll } from "./experience.service";
@@ -8,17 +8,17 @@ const official: ExperienceType = {
   query: [
     { name: 'fields', data: 'id' }, // si agregamos positions devuelve error de acceso
   ],
-  token: environment.LINKEDIN_ACCESS_TOKEN
+  token: config.LINKEDIN_ACCESS_TOKEN
 }
 
 const nubela: ExperienceType = {
   endpoint: 'https://nubela.co/proxycurl/api/v2/linkedin',
   query: [
-    { name: 'url', data: `https://www.linkedin.com/in/${environment.LINKEDIN_USER}/` },
+    { name: 'url', data: `https://www.linkedin.com/in/${config.LINKEDIN_USER}/` },
     { name: 'fallback_to_cache', data: 'on-error' },
     { name: 'use_cache', data: `if-present` }
   ],
-  token: environment.NUBELA_ACCESS_TOKEN
+  token: config.NUBELA_ACCESS_TOKEN
 }
 
 const ExperienceController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {

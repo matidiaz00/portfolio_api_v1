@@ -30,11 +30,11 @@ exports.CacheMiddleWare = exports.StaticMiddleWare = exports.ParserJSONMiddleWar
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const path = __importStar(require("path"));
-const environment_1 = require("./../environment/environment");
+const config_1 = __importDefault(require("./../config"));
 const apicache_1 = __importDefault(require("apicache"));
 const HeadersMiddleWare = (req, res, next) => {
     const origin = req.headers.origin;
-    if (origin && environment_1.environment.allowedOrigins.includes(origin)) {
+    if (origin && config_1.default.ALOWED_ORIGINS.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     //res.header('Access-Control-Allow-Origin', '*');

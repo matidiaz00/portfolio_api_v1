@@ -1,7 +1,7 @@
 import { LoginType } from "./auth.model";
 import { auth, client_auth, signInWithEmailAndPassword } from "./../../firebase";
 import { CustomError } from "./../error/error.model";
-import { environment } from "./../../environment/environment";
+import config from './../../config';
 import { UserCredential } from "firebase/auth";
 import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
@@ -9,7 +9,7 @@ import { DecodedIdToken } from "firebase-admin/auth";
 export const login = async (body: LoginType): Promise<any> => {
     return signInWithEmailAndPassword(client_auth, body.email, body.password)
         .then((userCredential: UserCredential | any) => {
-            if (userCredential.user.email === environment.user.email) {
+            if (userCredential.user.email === config.USER.email) {
                 return userCredential.user.getIdToken(/* forceRefresh */ true)
                     .then((idToken: string) => {
                         userCredential['idToken'] = idToken

@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { environment } from '../src/environment/environment';
+import config from './../src/config';
 import request from 'supertest';
 import { app } from './../src/index';
 
@@ -19,7 +19,7 @@ describe('Authentication', () => {
     it(`POST ${title_url}/login`, async () => {
         const res = await request(app)
             .post(`${baseURL}/login`)
-            .send(environment.user);
+            .send(config.user);
         expect(res.status).toEqual(200);
     });
 

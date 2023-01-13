@@ -8,15 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.currentUser = exports.logout = exports.login = void 0;
 const firebase_1 = require("./../../firebase");
 const error_model_1 = require("./../error/error.model");
-const environment_1 = require("./../../environment/environment");
+const config_1 = __importDefault(require("./../../config"));
 const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
     return (0, firebase_1.signInWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
         .then((userCredential) => {
-        if (userCredential.user.email === environment_1.environment.user.email) {
+        if (userCredential.user.email === config_1.default.USER.email) {
             return userCredential.user.getIdToken(/* forceRefresh */ true)
                 .then((idToken) => {
                 userCredential['idToken'] = idToken;

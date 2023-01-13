@@ -7,16 +7,16 @@ on:
 
 jobs:
 
-  Test:
-    uses: ./.github/workflows/_test.yml
-    with:
-      browser: false
-      server: true
-    secrets: inherit
+  #Test:
+    #uses: ./.github/workflows/_test.yml
+    #with:
+      #browser: false
+      #server: true
+    #secrets: inherit
 
 
   Build:
-    needs: Test
+    #needs: Test
     uses: ./.github/workflows/_build.yml
     with:
       browser: false

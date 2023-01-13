@@ -1,4 +1,4 @@
-import { environment } from "../../src/environment/environment";
+import config from './../../src/config';
 import request from 'supertest';
 import { app } from './../../src/index';
 import { body } from "./settings";
@@ -7,7 +7,7 @@ module.exports = async () => {
     console.warn(" ")
     try {
         console.warn("1/4 Initial config for testing")
-        const user = await request(app).post(`/auth/login`).send(environment.user);
+        const user = await request(app).post(`/auth/login`).send(config.USER);
         if (user.status === 200 && user.body.idToken) {
             console.warn("2/4 Login successfully")
             const token = `Bearer ${user.body.idToken}`

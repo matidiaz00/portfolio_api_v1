@@ -8,11 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthMiddleware = exports.LoginMiddleware = void 0;
 const error_model_1 = require("./../error/error.model");
 const firebase_1 = require("./../../firebase");
-const environment_1 = require("./../../environment/environment");
+const config_1 = __importDefault(require("./../../config"));
 const auth_model_1 = require("./auth.model");
 const getAuthToken = (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
@@ -40,7 +43,7 @@ const AuthMiddleware = (req, res, next) => {
         if (authToken) {
             firebase_1.auth.verifyIdToken(authToken)
                 .then((userInfo) => {
-                if (userInfo.email === environment_1.environment.user.email)
+                if (userInfo.email === config_1.default.USER.email)
                     return next();
                 else {
                     const message = 'Este usuario no esta autorizado para hacer esta llamada.';
