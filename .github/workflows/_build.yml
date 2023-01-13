@@ -60,21 +60,15 @@ jobs:
           dir: 'src/'
 
       - name: Create .env file
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_DEBUG: false
-          envkey_SOME_API_KEY: "123456abcdef"
-          envkey_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          PROD: "true"
-          API_URL: ${{ secrets.API_URL }}
-          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
-          NUBELA_ACCESS_TOKEN: ${{ secrets.NUBELA_ACCESS_TOKEN }}
-          LINKEDIN_USER: ${{ secrets.LINKEDIN_USER }}
-          ALOWED_ORIGINS: ${{ secrets.ALOWED_ORIGINS }}
-          USER: ${{ secrets.USER }}
-          directory: functions
-          file_name: .env
-          fail_on_empty: true
+        run: |
+          touch functions/.env
+          echo PROD="true" >> functions/.env
+          echo API_URL=${{ secrets.API_URL }} >> functions/.env
+          echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> functions/.env
+          echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> functions/.env
+          echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env
+          echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env
+          echo USER=${{ secrets.USER }} >> functions/.env
 
       - name: 💥 Build project
         if: inputs.server == true
