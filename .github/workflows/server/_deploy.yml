@@ -2,10 +2,6 @@ name: '🧳 Deploy'
 
 on: 
   workflow_call:
-    inputs:
-      functions:
-        required: true
-        type: boolean
 
 jobs:
   build:
@@ -18,14 +14,6 @@ jobs:
 
       - name: Download Artifact
         env:
-          FIREBASE_BROWSER_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_TARGET_NAME == true
-        uses: actions/download-artifact@master
-        with:
-          name: browser
-
-      - name: Download Artifact
-        env:
           FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
         if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == true
         uses: actions/download-artifact@master
@@ -34,28 +22,26 @@ jobs:
 
       - name: Download Artifact
         env:
-          FIREBASE_BROWSER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_COVERAGE_TARGET_NAME == true
+          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
+        if: env.FIREBASE_COVERAGE_TARGET_NAME == true
         uses: actions/download-artifact@master
         with:
-          name: coverage_browser
+          name: coverage
 
       - name: Download Artifact
         env:
-          FIREBASE_SERVER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_SERVER_COVERAGE_TARGET_NAME == true
+          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
+        if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
         uses: actions/download-artifact@master
         with:
-          name: coverage_server
+          name: e2e_report
 
       - name: Download Artifact
-        if: inputs.functions == true
         uses: actions/download-artifact@master
         with:
           name: functions
 
       - name: Cache functions node modules
-        if: inputs.functions == true
         id: cache-npm-functions
         uses: actions/cache@v3
         env:
@@ -83,27 +69,21 @@ jobs:
 
       - name: Assign target to Firebase Hosting Multisite config
         env:
-          FIREBASE_BROWSER_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting browser ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
-
-      - name: Assign target to Firebase Hosting Multisite config
-        env:
           FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
         if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == 'true'
         run: npx firebase-tools target:apply hosting documentation ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
-
-      - name: Assign target to Firebase Hosting Multisite config
-        env:
-          FIREBASE_BROWSER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_BROWSER_COVERAGE_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting coverage_browser ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
       
       - name: Assign target to Firebase Hosting Multisite config
         env:
-          FIREBASE_SERVER_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_SERVER_COVERAGE_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting coverage_server ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}
+          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
+        if: env.FIREBASE_COVERAGE_TARGET_NAME == true
+        run: npx firebase-tools target:apply hosting coverage ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
+
+      - name: Assign target to Firebase Hosting Multisite config
+        env:
+          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
+        if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
+        run: npx firebase-tools target:apply hosting e2e_report ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
 
       - name: 🚀 Deploy to Firebase
         run: npx firebase-tools deploy

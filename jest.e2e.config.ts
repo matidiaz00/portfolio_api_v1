@@ -3,7 +3,11 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type {Config} from 'jest';
+import type {  Config} from 'jest';
+import { resolve } from "path";
+import dotenv from "dotenv";
+
+dotenv.config({ path: resolve(__dirname, "./src/.env") });
 
 const config: Config = {
 
@@ -20,7 +24,7 @@ const config: Config = {
   // clearMocks: false,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
@@ -62,10 +66,10 @@ const config: Config = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  //globalSetup: "./e2e/settings/before_test.ts",
+  globalSetup: "<rootDir>/e2e/settings/before_test.ts",
 
   // A path to a module which exports an async function that is triggered once after all test suites
-  //globalTeardown: "./e2e/settings/after_test.ts",
+  globalTeardown: "<rootDir>/e2e/settings/after_test.ts",
 
   // A set of global variables that need to be available in all test environments
   // globals: { token: token, example: 'hola mundo' },
@@ -109,7 +113,14 @@ const config: Config = {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: undefined,
+  reporters: [
+    "default",
+    ["<rootDir>/node_modules/jest-html-reporter", {
+      "outputPath": "e2e-report/index.html",
+      "pageTitle": "End to End Test Report",
+      "dateFormat": "dd/mm/yyyy HH:MM:ss"
+    }]
+  ],
 
   // Automatically reset mock state before every test
   // resetMocks: false,
@@ -159,7 +170,7 @@ const config: Config = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    "src/**/?(*.)+(spec|test).[tj]s?(x)"
+    "<rootDir>/e2e/*.spec.ts"
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped

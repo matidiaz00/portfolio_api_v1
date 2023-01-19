@@ -26,19 +26,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signInWithEmailAndPassword = exports.app = exports.client_auth = exports.auth = exports.db = exports.admin = void 0;
+exports.createUserWithEmailAndPassword = exports.signInWithEmailAndPassword = exports.app = exports.client_auth = exports.auth = exports.db = exports.admin = void 0;
 const admin = __importStar(require("firebase-admin"));
 exports.admin = admin;
 const app_1 = require("firebase/app");
 const auth_1 = require("firebase/auth");
 Object.defineProperty(exports, "signInWithEmailAndPassword", { enumerable: true, get: function () { return auth_1.signInWithEmailAndPassword; } });
+Object.defineProperty(exports, "createUserWithEmailAndPassword", { enumerable: true, get: function () { return auth_1.createUserWithEmailAndPassword; } });
 const firebaseAccountCredentials = __importStar(require("./firebase.sdk.key.json"));
 const FirebaseClientKey = __importStar(require("./firebase.sdk.client.key.json"));
 const config_1 = __importDefault(require("./config"));
 const serviceAccount = firebaseAccountCredentials;
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: config_1.default.API_URL
+    databaseURL: config_1.default.PROD ? config_1.default.API_URL : 'localhost:8080'
 });
 const db = admin.firestore();
 exports.db = db;

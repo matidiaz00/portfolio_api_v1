@@ -1,0 +1,74 @@
+name: '🧳 Build'
+
+on: 
+  workflow_call:
+
+jobs:
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: ✅ Checkout branch
+        uses: actions/checkout@v3
+      
+      - name: 🤖 Use Node.js
+        id: setup-node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.14.2
+          cache: npm
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: 🧨 Install NPM dependencies
+        if: steps.cache-npm.outputs.cache-hit != true
+        run: npm ci
+
+      - name: Create firebase.sdk.client.key.json file
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "firebase.sdk.client.key.json"
+          json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
+          dir: 'src/'
+
+      - name: Create firebase.sdk.key.json file
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "firebase.sdk.key.json"
+          json: ${{ secrets.FIREBASE_SDK_KEY }}
+          dir: 'src/'
+
+      - name: Create .env file
+        run: |
+          touch functions/.env
+          echo PROD="true" >> functions/.env
+          echo API_URL=${{ secrets.API_URL }} >> functions/.env
+          echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> functions/.env
+          echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> functions/.env
+          echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env
+          echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env
+          echo USER=${{ secrets.USER }} >> functions/.env
+
+      - name: 💥 Build project
+        run: npx rimraf functions/src && npx tsc
+
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: functions
+          path: |
+            functions/
+            firestore.rules
+            firebase.json

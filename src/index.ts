@@ -1,6 +1,7 @@
 "use strict";
 
-import { https } from "firebase-functions";
+import * as functions from "firebase-functions";
+//import { https } from "firebase-functions";
 import compression from "compression";
 import MainRoute from "./app/app.route";
 import V1Route from "./app/v1.route";
@@ -19,6 +20,8 @@ app.use('/', MainRoute);
 
 app.use( ErrorsMiddleware );
 
-const api = https.onRequest(app)
+//const api = functions.region(process.env.REGION).https.onCall(app);
+
+const api = functions.https.onRequest(app)
 
 export { api, app };

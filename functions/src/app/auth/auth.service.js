@@ -17,7 +17,7 @@ const firebase_1 = require("./../../firebase");
 const error_model_1 = require("./../error/error.model");
 const config_1 = __importDefault(require("./../../config"));
 const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
-    return (0, firebase_1.signInWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
+    return signInOrCreate(body)
         .then((userCredential) => {
         if (userCredential.user.email === config_1.default.USER.email) {
             return userCredential.user.getIdToken(/* forceRefresh */ true)
@@ -33,6 +33,37 @@ const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
         .catch((err) => new error_model_1.CustomError(err.code, err.message));
 });
 exports.login = login;
+const signInOrCreate = (body) => __awaiter(void 0, void 0, void 0, function* () {
+    if (body === config_1.default.USER) {
+        return (0, firebase_1.createUserWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
+            .then((userCredential) => {
+            return userCredential;
+        })
+            .catch((err) => {
+            let message;
+            switch (err.code) {
+                case 'auth/email-already-in-use':
+                    return (0, firebase_1.signInWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
+                        .then((userCredential) => {
+                        return userCredential;
+                    })
+                        .catch((err) => new error_model_1.CustomError(err.code, err.message));
+                case 'auth/invalid-email':
+                    return message = `Email address ${body.email} is invalid.`;
+                case 'auth/operation-not-allowed':
+                    return message = `Error during sign up.`;
+                case 'auth/weak-password':
+                    message = 'Password is not strong enough. Add additional characters including special characters and numbers.';
+                    return new error_model_1.CustomError(err.code, err.message);
+                default:
+                    return new error_model_1.CustomError(err.code, err.message);
+            }
+        });
+    }
+    else {
+        new error_model_1.CustomError(403, "The email address or password is invalid.");
+    }
+});
 const logout = () => __awaiter(void 0, void 0, void 0, function* () {
     return firebase_1.client_auth
         .signOut()

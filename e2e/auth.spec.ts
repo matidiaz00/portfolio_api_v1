@@ -19,7 +19,7 @@ describe('Authentication', () => {
     it(`POST ${title_url}/login`, async () => {
         const res = await request(app)
             .post(`${baseURL}/login`)
-            .send(config.user);
+            .send(config.USER);
         expect(res.status).toEqual(200);
     });
 

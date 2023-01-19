@@ -7,32 +7,16 @@ on:
 
 jobs:
 
-  #Test:
-    #uses: ./.github/workflows/_test.yml
-    #with:
-      #browser: false
-      #server: true
-    #secrets: inherit
-
+  Test:
+    uses: ./.github/workflows/server/test.yml
+    secrets: inherit
 
   Build:
-    #needs: Test
-    uses: ./.github/workflows/_build.yml
-    with:
-      browser: false
-      server: true
+    needs: Test
+    uses: ./.github/workflows/server/_build.yml
     secrets: inherit
 
   Deploy:
     needs: Build
-    uses: ./.github/workflows/_deploy.yml
-    with:
-      functions: true
+    uses: ./.github/workflows/server/_deploy.yml
     secrets: inherit
-    #secrets:
-      #sdk_key: ${{ secrets.FIREBASE_SDK_KEY }}
-      #project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
-      #browser_target: ${{ secrets.FIREBASE_BROWSER_TARGET_NAME }}
-      #documentation_target: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
-      #browser_coverage_target: ${{ secrets.FIREBASE_BROWSER_COVERAGE_TARGET_NAME }}
-      #server_coverage_target: ${{ secrets.FIREBASE_SERVER_COVERAGE_TARGET_NAME }}

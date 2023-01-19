@@ -1,10 +1,13 @@
-import config from './../../src/config';
+import config from './config';
 import request from 'supertest';
 import { app } from './../../src/index';
 import { body } from "./settings";
 
+import dotenv from "dotenv";
+
 module.exports = async () => {
     console.warn(" ")
+    dotenv.config({ path: "./.env" });
     try {
         console.warn("1/4 Initial config for testing")
         const user = await request(app).post(`/auth/login`).send(config.USER);

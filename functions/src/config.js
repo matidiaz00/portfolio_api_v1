@@ -5,8 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = require("path");
 const dotenv_1 = __importDefault(require("dotenv"));
-// Parsing the env file.
-dotenv_1.default.config({ path: (0, path_1.resolve)(__dirname, "../.env") });
+dotenv_1.default.config({ path: (0, path_1.resolve)(__dirname, "./.env") });
 // Loading process.env as ENV interface
 const getConfig = () => {
     return {

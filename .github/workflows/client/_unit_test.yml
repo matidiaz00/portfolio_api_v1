@@ -1,18 +1,11 @@
-name: '🧳 Test'
+name: '🧳 Unit Test'
 
 on: 
   workflow_call:
-    inputs:
-      browser:
-        required: true
-        type: boolean
-      server:
-        required: true
-        type: boolean
 
 jobs:
   build:
-    name: Test project
+    name: Unit Test project
     runs-on: ubuntu-latest
     steps:
       
@@ -44,42 +37,17 @@ jobs:
         run: npm ci
 
       - name: Create firebase.sdk.client.key.json file
-        if: inputs.server == true
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
           json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
-          dir: 'src/'
-
-      - name: Create firebase.sdk.key.json file
-        if: inputs.server == true
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "firebase.sdk.key.json"
-          json: ${{ secrets.FIREBASE_SDK_KEY }}
-          dir: 'src/'
+          dir: 'src/environmnet'
 
       - name: 💫 Run unit testing
-        if: inputs.server == true
-        run: npm run test
-        #run: |
-          #npx nyc jasmine
-          #npx nyc report --reporter=html -t coverage --report-dir=coverage/server
-
-      #- name: Archive Production Artifact
-        #if: inputs.server == 'true'
-        #uses: actions/upload-artifact@master
-        #with:
-          #name: coverage_server
-          #path: coverage/server
-
-      - name: 💫 Run unit testing
-        if: inputs.browser == true
         run: npx @angular/cli test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
 
       - name: Archive Production Artifact
-        if: inputs.browser == true
         uses: actions/upload-artifact@master
         with:
-          name: coverage_browser
-          path: coverage/browser
+          name: coverage
+          path: coverage

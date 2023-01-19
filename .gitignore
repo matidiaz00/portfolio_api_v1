@@ -72,3 +72,4 @@ package-lock.json
 .firebase-emulators/**/*
 functions/e2e
 functions/jest.config.js
+firebase-export-*/

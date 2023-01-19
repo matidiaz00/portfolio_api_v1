@@ -1,5 +1,5 @@
 import { LoginType } from "./auth.model";
-import { auth, client_auth, signInWithEmailAndPassword } from "./../../firebase";
+import { auth, client_auth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "./../../firebase";
 import { CustomError } from "./../error/error.model";
 import config from './../../config';
 import { UserCredential } from "firebase/auth";
@@ -7,7 +7,7 @@ import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
-    return signInWithEmailAndPassword(client_auth, body.email, body.password)
+    return signInOrCreate(body)
         .then((userCredential: UserCredential | any) => {
             if (userCredential.user.email === config.USER.email) {
                 return userCredential.user.getIdToken(/* forceRefresh */ true)
@@ -19,6 +19,31 @@ export const login = async (body: LoginType): Promise<any> => {
             } else return new CustomError(403, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
         })
         .catch((err) => new CustomError(err.code, err.message) );
+}
+
+const signInOrCreate = async (body: LoginType): Promise<UserCredential | CustomError> => {
+    if (body.email === config.USER.email && body.password === config.USER.password) {
+        return createUserWithEmailAndPassword(client_auth, body.email, body.password)
+            .then((userCredential: UserCredential | any) => userCredential)
+            .catch((err) => {
+                let message: string;
+                switch (err.code) {
+                    case 'auth/email-already-in-use':
+                        return signInWithEmailAndPassword(client_auth, body.email, body.password)
+                            .then((userCredential: UserCredential | any) => userCredential)
+                            .catch((err) => new CustomError(err.code, err.message) );
+                    case 'auth/invalid-email':
+                        return message = `Email address ${body.email} is invalid.`;
+                    case 'auth/operation-not-allowed':
+                        return message = `Error during sign up.`;
+                    case 'auth/weak-password':
+                        message = 'Password is not strong enough. Add additional characters including special characters and numbers.';
+                        return new CustomError(err.code, err.message);
+                    default:
+                        return new CustomError(err.code, err.message);
+                }
+            });
+    } else return new CustomError(403, "The email address or password is invalid.");
 }
 
 export const logout = async (): Promise<any> => {

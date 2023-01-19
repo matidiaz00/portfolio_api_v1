@@ -1,8 +1,3 @@
-import { resolve } from "path";
-import dotenv from "dotenv";
-
-dotenv.config({ path: resolve(__dirname, "./.env") });
-
 // Interface to load env variables
 // Note these variables can possibly be undefined
 // as someone could skip these varibales or not setup a .env file at all

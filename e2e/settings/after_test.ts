@@ -1,8 +1,11 @@
 import request from 'supertest';
 import { app } from './../../src/index';
 
+import dotenv from "dotenv";
+
 module.exports = async () => {
     console.warn(" ")
+    dotenv.config({ path: "./.env" });
     try {
         console.warn("1/3 Final config for testing")
         const category = await request(app).delete(`/v1/abilities/${process.env.TEST_CATEGORY_ID}`).set({ 'Authorization': process.env.TEST_JWT });

@@ -1,18 +1,11 @@
-name: '🧳 Build'
+name: '🧳 Unit Test'
 
 on: 
   workflow_call:
-    inputs:
-      server:
-        required: true
-        type: boolean
-      browser:
-        required: true
-        type: boolean
 
 jobs:
   build:
-    name: Build project
+    name: Unit Test project
     runs-on: ubuntu-latest
     steps:
       
@@ -25,6 +18,9 @@ jobs:
         with:
           node-version: 16.14.2
           cache: npm
+
+      - name: Install Java for Firebase emulators
+        run: apt-get update && apt-get install -y openjdk-8-jdk
 
       - name: Cache node modules
         id: cache-npm
@@ -44,7 +40,6 @@ jobs:
         run: npm ci
 
       - name: Create firebase.sdk.client.key.json file
-        if: inputs.server == true
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.client.key.json"
@@ -52,7 +47,6 @@ jobs:
           dir: 'src/'
 
       - name: Create firebase.sdk.key.json file
-        if: inputs.server == true
         uses: jsdaniell/create-json@1.1.2
         with:
           name: "firebase.sdk.key.json"
@@ -62,7 +56,7 @@ jobs:
       - name: Create .env file
         run: |
           touch functions/.env
-          echo PROD="true" >> functions/.env
+          echo PROD="false" >> functions/.env
           echo API_URL=${{ secrets.API_URL }} >> functions/.env
           echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> functions/.env
           echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> functions/.env
@@ -70,29 +64,20 @@ jobs:
           echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env
           echo USER=${{ secrets.USER }} >> functions/.env
 
-      - name: 💥 Build project
-        if: inputs.server == true
-        run: npx rimraf functions/src && npx tsc
-
-      - name: Archive Production Artifact
-        if: inputs.server == true
-        uses: actions/upload-artifact@master
-        with:
-          name: functions
-          path: |
-            functions/
-            firestore.rules
-            firebase.json
-
-      - name: 💥 Build project
-        if: inputs.browser == true
+      - name: 💫 Run testing
         run: |
-          npx ts-node -O '{\"module\": \"commonjs\"}' ./src/environment/environment.config.ts
-          npx @angular/cli build --configuration production
+          npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+          npx firebase emulators:exec "npx jest --config=jest.config.ts --coverage"
+          npx firebase emulators:exec "npx jest --config=jest.e2e.config.ts"
 
       - name: Archive Production Artifact
-        if: inputs.browser == true
         uses: actions/upload-artifact@master
         with:
-          name: browser
-          path: dist
+          name: coverage
+          path: coverage/icov-report
+
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: e2e_report
+          path: e2e_report
