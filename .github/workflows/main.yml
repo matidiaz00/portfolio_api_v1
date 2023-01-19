@@ -8,15 +8,15 @@ on:
 jobs:
 
   Test:
-    uses: ./.github/workflows/server/test.yml
+    uses: ./.github/workflows/_server_test.yml
     secrets: inherit
 
   Build:
     needs: Test
-    uses: ./.github/workflows/server/_build.yml
+    uses: ./.github/workflows/_server_build.yml
     secrets: inherit
 
   Deploy:
     needs: Build
-    uses: ./.github/workflows/server/_deploy.yml
+    uses: ./.github/workflows/_server_deploy.yml
     secrets: inherit
