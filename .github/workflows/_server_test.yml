@@ -1,11 +1,11 @@
-name: '🧳 Unit Test'
+name: '🧳 Unit and E2E Test'
 
 on: 
   workflow_call:
 
 jobs:
   build:
-    name: Unit Test project
+    name: Unit and E2E Test project
     runs-on: ubuntu-latest
     steps:
       
@@ -20,7 +20,10 @@ jobs:
           cache: npm
 
       - name: Install Java for Firebase emulators
-        run: apt-get update && apt-get install -y openjdk-8-jdk
+        run: |
+          if ! dpkg -s openjdk-8-jdk ;
+          then 
+            apt-get update && apt-get install -y openjdk-8-jdk
 
       - name: Cache node modules
         id: cache-npm

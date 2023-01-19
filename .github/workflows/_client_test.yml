@@ -1,11 +1,11 @@
-name: '🧳 Unit Test'
+name: '🧳 Unit and E2E Test'
 
 on: 
   workflow_call:
 
 jobs:
   build:
-    name: Unit Test project
+    name: Unit and E2E Test project
     runs-on: ubuntu-latest
     steps:
       
