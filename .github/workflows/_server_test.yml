@@ -20,7 +20,7 @@ jobs:
           cache: npm
 
       - name: Install Java for Firebase emulators
-        run: apt-get update && apt-get install -y openjdk-8-jdk
+        run: sudo apt-get update && sudo apt-get install -y openjdk-8-jdk
 
       - name: Cache node modules
         id: cache-npm
