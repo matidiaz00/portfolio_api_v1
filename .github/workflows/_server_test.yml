@@ -63,6 +63,12 @@ jobs:
           echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env
           echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env
           echo USER=${{ secrets.USER }} >> functions/.env
+      
+      - id: auth
+        name: 📝 Create firebase.sdk.key.json file
+        uses: google-github-actions/auth@v0.8.0
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
       - name: 💫 Run testing
         run: |
