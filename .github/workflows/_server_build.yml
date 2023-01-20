@@ -52,14 +52,14 @@ jobs:
 
       - name: Create .env file
         run: |
-          touch functions/.env
-          echo PROD="true" >> functions/.env
-          echo API_URL=${{ secrets.API_URL }} >> functions/.env
-          echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> functions/.env
-          echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> functions/.env
-          echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env
-          echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env
-          echo USER=${{ secrets.USER }} >> functions/.env
+          touch functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo PROD="true" >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo API_URL=${{ secrets.API_URL }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo LINKEDIN_ACCESS_TOKEN=${{ secrets.LINKEDIN_ACCESS_TOKEN }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 💥 Build project
         run: npx rimraf functions/src && npx tsc

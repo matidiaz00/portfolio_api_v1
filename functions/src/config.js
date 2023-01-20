@@ -1,36 +1,20 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = require("path");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: (0, path_1.resolve)(__dirname, "./.env") });
-// Loading process.env as ENV interface
-const getConfig = () => {
-    return {
-        PROD: process.env.PROD === "true",
-        API_URL: process.env.API_URL,
-        LINKEDIN_ACCESS_TOKEN: process.env.LINKEDIN_ACCESS_TOKEN,
-        NUBELA_ACCESS_TOKEN: process.env.NUBELA_ACCESS_TOKEN,
-        LINKEDIN_USER: process.env.LINKEDIN_USER,
-        ALOWED_ORIGINS: process.env.ALOWED_ORIGINS ? process.env.ALOWED_ORIGINS.split(",") : undefined,
-        USER: process.env.USER ? JSON.parse(process.env.USER) : undefined
-    };
+const params_1 = require("firebase-functions/params");
+const PROD = (0, params_1.defineBoolean)('PROD');
+const API_URL = (0, params_1.defineString)('API_URL');
+const LINKEDIN_ACCESS_TOKEN = (0, params_1.defineString)('LINKEDIN_ACCESS_TOKEN');
+const NUBELA_ACCESS_TOKEN = (0, params_1.defineString)('NUBELA_ACCESS_TOKEN');
+const LINKEDIN_USER = (0, params_1.defineString)('LINKEDIN_USER');
+const ALOWED_ORIGINS = (0, params_1.defineString)('ALOWED_ORIGINS');
+const USER = (0, params_1.defineString)('USER');
+const config = {
+    PROD: PROD,
+    API_URL: API_URL,
+    LINKEDIN_ACCESS_TOKEN: LINKEDIN_ACCESS_TOKEN,
+    NUBELA_ACCESS_TOKEN: NUBELA_ACCESS_TOKEN,
+    LINKEDIN_USER: LINKEDIN_USER,
+    ALOWED_ORIGINS: ALOWED_ORIGINS,
+    USER: USER
 };
-// Throwing an Error if any field was undefined we don't 
-// want our app to run if it can't connect to DB and ensure 
-// that these fields are accessible. If all is good return
-// it as Config which just removes the undefined from our type 
-// definition.
-const getSanitzedConfig = (config) => {
-    for (const [key, value] of Object.entries(config)) {
-        if (value === undefined) {
-            throw new Error(`Missing key ${key} in .env file`);
-        }
-    }
-    return config;
-};
-const config = getConfig();
-const sanitizedConfig = getSanitzedConfig(config);
-exports.default = sanitizedConfig;
+exports.default = config;

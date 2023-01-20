@@ -34,19 +34,15 @@ const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.login = login;
 const signInOrCreate = (body) => __awaiter(void 0, void 0, void 0, function* () {
-    if (body === config_1.default.USER) {
+    if (body.email === config_1.default.USER.email && body.password === config_1.default.USER.password) {
         return (0, firebase_1.createUserWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
-            .then((userCredential) => {
-            return userCredential;
-        })
+            .then((userCredential) => userCredential)
             .catch((err) => {
             let message;
             switch (err.code) {
                 case 'auth/email-already-in-use':
                     return (0, firebase_1.signInWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
-                        .then((userCredential) => {
-                        return userCredential;
-                    })
+                        .then((userCredential) => userCredential)
                         .catch((err) => new error_model_1.CustomError(err.code, err.message));
                 case 'auth/invalid-email':
                     return message = `Email address ${body.email} is invalid.`;
@@ -60,9 +56,8 @@ const signInOrCreate = (body) => __awaiter(void 0, void 0, void 0, function* () 
             }
         });
     }
-    else {
-        new error_model_1.CustomError(403, "The email address or password is invalid.");
-    }
+    else
+        return new error_model_1.CustomError(403, "The email address or password is invalid.");
 });
 const logout = () => __awaiter(void 0, void 0, void 0, function* () {
     return firebase_1.client_auth

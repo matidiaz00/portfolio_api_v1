@@ -3,3 +3,5 @@ gha-creds-*.json
 package-lock.json
 e2e/
 jest.config.js
+.env
+.env.*

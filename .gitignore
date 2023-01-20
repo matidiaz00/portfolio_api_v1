@@ -65,6 +65,7 @@ node_modules/
 # dotenv environment variables file
 .env
 *.env
+.env.*
 .firebaserc
 gha-creds-*.json
 **/**.key.json
