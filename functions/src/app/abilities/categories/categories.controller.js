@@ -22,6 +22,8 @@ const FindAllController = (request, response, next) => __awaiter(void 0, void 0,
 });
 exports.FindAllController = FindAllController;
 const CreateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
+    if (typeof request.body === 'string')
+        request.body = JSON.parse(request.body);
     try {
         const res = yield (0, categories_service_1.create)(request.body);
         response.json(res);

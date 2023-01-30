@@ -1,15 +1,17 @@
 import { describe, expect, it } from '@jest/globals';
-import request from 'supertest';
-import { app } from './../src/index';
+import fetch from 'node-fetch';
 
-const baseURL = '/404';
+const baseURL = `${process.env.API_URL}/404`;
 
 describe('Error', () => {
 
     it('GET error 404', async () => {
-        const res = await request(app)
-            .get(`${baseURL}`);
-        expect(res.status).toEqual(404);
+        const call = await fetch(`${baseURL}`, {
+            method: 'get'
+        });
+        const status = call.status;
+        const res = await call.json();
+        expect(status).toEqual(404);
     });
 
 });

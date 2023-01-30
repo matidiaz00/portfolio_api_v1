@@ -8,28 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FindByTypeController = exports.ExperienceController = void 0;
-const config_1 = __importDefault(require("./../../config"));
 const experience_service_1 = require("./experience.service");
+//: ExperienceType
 const official = {
     endpoint: 'https://api.linkedin.com/v2/me',
     query: [
         { name: 'fields', data: 'id' }, // si agregamos positions devuelve error de acceso
     ],
-    token: config_1.default.LINKEDIN_ACCESS_TOKEN
+    token: process.env.LINKEDIN_ACCESS_TOKEN
 };
 const nubela = {
     endpoint: 'https://nubela.co/proxycurl/api/v2/linkedin',
     query: [
-        { name: 'url', data: `https://www.linkedin.com/in/${config_1.default.LINKEDIN_USER}/` },
+        { name: 'url', data: `https://www.linkedin.com/in/${process.env.LINKEDIN_USER}/` },
         { name: 'fallback_to_cache', data: 'on-error' },
         { name: 'use_cache', data: `if-present` }
     ],
-    token: config_1.default.NUBELA_ACCESS_TOKEN
+    token: process.env.NUBELA_ACCESS_TOKEN
 };
 const ExperienceController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {

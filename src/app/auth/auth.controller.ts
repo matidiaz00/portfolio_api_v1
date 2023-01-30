@@ -12,6 +12,7 @@ const CurrentUserController = async (request: Request, response: Response, next:
 
 const LoginController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
     try {
+        if (typeof request.body === 'string') request.body = JSON.parse(request.body)
         const res = await login(request.body);
         response.json(res);
     } catch (err) {

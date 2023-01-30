@@ -14,6 +14,7 @@ const FindAllController = async (request: Request, response: Response, next: Nex
 
 const CreateController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
+        if (typeof request.body === 'string') request.body = JSON.parse(request.body)
         const category_id = String(request.params.category_id);
         const item_id = String(request.params.item_id);
         const res = await create(category_id, item_id, request.body);
@@ -37,6 +38,7 @@ const FindOneController = async (request: Request, response: Response, next: Nex
 
 const UpdateController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
     try {
+        if (typeof request.body === 'string') request.body = JSON.parse(request.body)
         const category_id = String(request.params.category_id);
         const item_id = String(request.params.item_id);
         const children_id = String(request.params.children_id);

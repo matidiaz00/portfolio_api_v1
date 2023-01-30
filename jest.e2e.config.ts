@@ -4,10 +4,6 @@
  */
 
 import type {  Config} from 'jest';
-import { resolve } from "path";
-import dotenv from "dotenv";
-
-dotenv.config({ path: resolve(__dirname, "./src/.env") });
 
 const config: Config = {
 
@@ -175,7 +171,8 @@ const config: Config = {
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
-     "\\\\node_modules\\\\"
+     "\\\\node_modules\\\\",
+     "\\\\functions/\\\\"
   ],
 
   testTimeout: 200000,

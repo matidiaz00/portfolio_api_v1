@@ -23,6 +23,8 @@ const CurrentUserController = (request, response, next) => __awaiter(void 0, voi
 exports.CurrentUserController = CurrentUserController;
 const LoginController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (typeof request.body === 'string')
+            request.body = JSON.parse(request.body);
         const res = yield (0, auth_service_1.login)(request.body);
         response.json(res);
     }

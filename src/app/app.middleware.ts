@@ -1,7 +1,6 @@
 import express, { NextFunction, Response, Request } from "express";
 import bodyParser from "body-parser";
 import * as path from "path";
-import config from './../config';
 import apicache from "apicache";
 
 declare module 'express-serve-static-core' {
@@ -13,12 +12,12 @@ declare module 'express-serve-static-core' {
 
 export const HeadersMiddleWare = (req: Request, res: Response, next: NextFunction) => {
     const origin: string | undefined = req.headers.origin;
-    if (origin && config.ALOWED_ORIGINS.includes(origin)) {
+    if (origin && process.env.ALOWED_ORIGINS && JSON.parse(process.env.ALOWED_ORIGINS).includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     //res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, api_key, Accept, Authorization');
-    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE');
     res.header('Access-Control-Allow-Credentials', 'true');
     return next();
 }

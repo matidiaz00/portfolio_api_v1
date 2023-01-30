@@ -3,13 +3,7 @@
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
  */
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = require("path");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: (0, path_1.resolve)(__dirname, "./src/.env") });
 const config = {
     // All imported modules in your tests should be mocked automatically
     // automock: false,
@@ -132,7 +126,8 @@ const config = {
     ],
     // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
     testPathIgnorePatterns: [
-        "\\\\node_modules\\\\"
+        "\\\\node_modules\\\\",
+        "\\\\functions/\\\\"
     ],
     testTimeout: 200000,
     // The regexp pattern or array of patterns that Jest uses to detect test files

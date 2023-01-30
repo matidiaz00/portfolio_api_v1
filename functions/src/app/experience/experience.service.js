@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAll = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const error_model_1 = require("./../error/error.model");
+//: ExperienceType
 const getEndpoint = (data) => __awaiter(void 0, void 0, void 0, function* () {
     const headersRequest = { 'Authorization': `Bearer ${data.token}`, 'Accept': 'application/json', "User-Agent": "node-fetch" };
     let query = '?';

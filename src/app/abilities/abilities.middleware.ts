@@ -4,6 +4,7 @@ import { DataModel, DataType } from "./abilities.model";
 import { Result } from "runtypes";
 
 const AbilitiesMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+    if (typeof req.body === 'string') req.body = JSON.parse(req.body)
     if (DataModel.guard(req.body)) {
         next();
     } else {

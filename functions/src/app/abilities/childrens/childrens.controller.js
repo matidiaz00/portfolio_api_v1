@@ -25,6 +25,8 @@ const FindAllController = (request, response, next) => __awaiter(void 0, void 0,
 exports.FindAllController = FindAllController;
 const CreateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (typeof request.body === 'string')
+            request.body = JSON.parse(request.body);
         const category_id = String(request.params.category_id);
         const item_id = String(request.params.item_id);
         const res = yield (0, childrens_service_1.create)(category_id, item_id, request.body);
@@ -50,6 +52,8 @@ const FindOneController = (request, response, next) => __awaiter(void 0, void 0,
 exports.FindOneController = FindOneController;
 const UpdateController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (typeof request.body === 'string')
+            request.body = JSON.parse(request.body);
         const category_id = String(request.params.category_id);
         const item_id = String(request.params.item_id);
         const children_id = String(request.params.children_id);

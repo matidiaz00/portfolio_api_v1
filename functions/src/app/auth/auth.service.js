@@ -8,19 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.currentUser = exports.logout = exports.login = void 0;
 const firebase_1 = require("./../../firebase");
 const error_model_1 = require("./../error/error.model");
-const config_1 = __importDefault(require("./../../config"));
 const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
-    return signInOrCreate(body)
+    const user = JSON.parse(process.env.USER);
+    return signInOrCreate(body, user)
         .then((userCredential) => {
-        if (userCredential.user.email === config_1.default.USER.email) {
-            return userCredential.user.getIdToken(/* forceRefresh */ true)
+        if (userCredential.user.email === user.email) {
+            return userCredential.user.getIdToken(true)
                 .then((idToken) => {
                 userCredential['idToken'] = idToken;
                 return userCredential;
@@ -33,12 +30,12 @@ const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
         .catch((err) => new error_model_1.CustomError(err.code, err.message));
 });
 exports.login = login;
-const signInOrCreate = (body) => __awaiter(void 0, void 0, void 0, function* () {
-    if (body.email === config_1.default.USER.email && body.password === config_1.default.USER.password) {
+const signInOrCreate = (body, user) => __awaiter(void 0, void 0, void 0, function* () {
+    if (body.email === user.email && body.password === user.password) {
         return (0, firebase_1.createUserWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)
             .then((userCredential) => userCredential)
             .catch((err) => {
-            let message;
+            let message = '';
             switch (err.code) {
                 case 'auth/email-already-in-use':
                     return (0, firebase_1.signInWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password)

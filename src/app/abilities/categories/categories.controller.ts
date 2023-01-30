@@ -11,6 +11,7 @@ const FindAllController = async (request: Request, response: Response, next: Nex
 }
 
 const CreateController = async (request: Request, response: Response, next: NextFunction): Promise<void> => { 
+    if (typeof request.body === 'string') request.body = JSON.parse(request.body)
     try {
         const res = await create(request.body);
         response.json(res);

@@ -1,23 +1,20 @@
-import request from 'supertest';
-import { app } from './../../src/index';
-
-import dotenv from "dotenv";
+import fetch from 'node-fetch';
 
 module.exports = async () => {
     console.warn(" ")
-    dotenv.config({ path: "./.env" });
     try {
         console.warn("1/3 Final config for testing")
-        const category = await request(app).delete(`/v1/abilities/${process.env.TEST_CATEGORY_ID}`).set({ 'Authorization': process.env.TEST_JWT });
+        const category = await fetch(`${process.env.API_URL}/v1/abilities/${process.env.TEST_CATEGORY_ID}`, { method: 'delete', headers: {'Authorization': process.env.TEST_JWT} });
         if (category.status === 200) {
             console.warn("2/3 Delete category successfully:", process.env.TEST_CATEGORY_ID, process.env.TEST_ITEM_ID)
             delete process.env.TEST_CATEGORY_ID;
             delete process.env.TEST_ITEM_ID;
 
-            const user = await request(app).get(`/auth/logout`);
+            const user = await fetch(`${process.env.API_URL}/auth/logout`, { method: 'get' });
             if (user.status === 200) {
                 console.warn("3/3 Logout successfully")
                 delete process.env.TEST_JWT;
+                delete process.env.API_URL;
             } else {
                 console.error("3/3 ERROR No se pudo borrar la variable TEST_JWT:", user.status)
             }

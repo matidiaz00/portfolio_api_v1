@@ -30,16 +30,15 @@ exports.CacheMiddleWare = exports.StaticMiddleWare = exports.ParserJSONMiddleWar
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const path = __importStar(require("path"));
-const config_1 = __importDefault(require("./../config"));
 const apicache_1 = __importDefault(require("apicache"));
 const HeadersMiddleWare = (req, res, next) => {
     const origin = req.headers.origin;
-    if (origin && config_1.default.ALOWED_ORIGINS.includes(origin)) {
+    if (origin && process.env.ALOWED_ORIGINS && JSON.parse(process.env.ALOWED_ORIGINS).includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     //res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, api_key, Accept, Authorization');
-    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE');
     res.header('Access-Control-Allow-Credentials', 'true');
     return next();
 };

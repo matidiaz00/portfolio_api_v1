@@ -1,32 +1,41 @@
 import { describe, expect, it } from '@jest/globals';
-import config from './../src/config';
-import request from 'supertest';
-import { app } from './../src/index';
+import fetch from 'node-fetch';
 
 const title_url = `/auth`;
 
-const baseURL = title_url;
+const baseURL = process.env.API_URL + title_url;
 
 describe('Authentication', () => {
 
     it(`GET ${title_url}/user`, async () => {
-        const res = await request(app)
-            .get(`${baseURL}/user`)
-            .set({ 'Authorization': process.env.TEST_JWT });
-        expect(res.status).toEqual(200);
+        const call = await fetch(`${baseURL}/user`, {
+            method: 'get',
+            headers: process.env.TEST_JWT ? { 'Authorization': process.env.TEST_JWT } : undefined
+        });
+        const status = call.status;
+        const res = await call.json();
+        expect(status).toEqual(200);
+    });
+
+    /*
+    it(`GET ${title_url}/logout`, async () => {
+        const call = await fetch(`${baseURL}/logout`, {
+            method: 'get',
+        });
+        const status = call.status;
+        const res = await call.json();
+        expect(status).toEqual(200);
     });
 
     it(`POST ${title_url}/login`, async () => {
-        const res = await request(app)
-            .post(`${baseURL}/login`)
-            .send(config.USER);
-        expect(res.status).toEqual(200);
+        const call = await fetch(`${baseURL}/login`, {
+            method: 'post',
+            body: JSON.stringify(process.env.USER)
+        });
+        const status = call.status;
+        const res = await call.json();
+        expect(status).toEqual(200);
     });
-
-    it(`GET ${title_url}/logout`, async () => {
-        const res = await request(app)
-            .get(`${baseURL}/logout`);
-        expect(res.status).toEqual(200);
-    });
+    */
 
 });

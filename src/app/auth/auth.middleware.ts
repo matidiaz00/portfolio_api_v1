@@ -1,7 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import { CustomError } from "./../error/error.model";
 import { auth } from "./../../firebase";
-import config from './../../config';
 import { Result } from "runtypes";
 import { LoginModel, LoginType } from "./auth.model";
 import { DecodedIdToken } from "firebase-admin/auth";
@@ -21,6 +20,7 @@ const getAuthToken = (req: any, res: Response, next: NextFunction) => {
 };
 
 export const LoginMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+    if (typeof req.body === 'string') req.body = JSON.parse(req.body)
     if (LoginModel.guard(req.body)) {
         next();
     } else {
@@ -36,7 +36,7 @@ export const AuthMiddleware = (req: any, res: Response, next: NextFunction) => {
         if (authToken) {
             auth.verifyIdToken(authToken)
                 .then((userInfo: DecodedIdToken) => {
-                    if (userInfo.email === config.USER.email) return next();
+                    if (userInfo.email === JSON.parse(process.env.USER).email) return next();
                     else {
                         const message = 'Este usuario no esta autorizado para hacer esta llamada.';
                         const customErr = new CustomError(401, { error: userInfo, message: message });
