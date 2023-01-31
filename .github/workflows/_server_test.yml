@@ -57,8 +57,8 @@ jobs:
       - name: Create e2e .env file
         run: |
           touch e2e/.env
-          echo API_URL=${{ secrets.API_URL }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
-          echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo API_URL="http://localhost:5001/${{ secrets.API_URL }}/us-central1/api" >> functions/.env
+          echo USER=${{ secrets.USER }} >> functions/.env
       
       - name: 📝 Authenticate to Google Cloud
         id: auth
