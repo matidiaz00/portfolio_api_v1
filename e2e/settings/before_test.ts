@@ -10,6 +10,7 @@ module.exports = async () => {
     try {
         process.stdout.write("\n1/4 Initial config for testing\n")
         const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: process.env.USER });
+        console.log(res.text())
         const user = await res.json();
         if (user.idToken) {
             process.stdout.write("\n2/4 Login successfully\n")

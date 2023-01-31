@@ -23,6 +23,7 @@ const db = admin.firestore();
 const auth = admin.auth();
 
 if (EMULATOR) {
+  console.log("estoy en el emulador")
   //app = initializeApp({ projectId: FirebaseClientKey.appId });
   client_auth = getAuth();
   connectAuthEmulator(client_auth, "http://localhost:9099", { disableWarnings: true });
@@ -31,8 +32,11 @@ if (EMULATOR) {
   //process.env['FIRESTORE_EMULATOR_HOST'] = 'localhost:8080';
   setLogLevel('silent');
 } else {
+  console.log("no estoy en el emulador")
   //app = initializeApp(FirebaseClientKey);
   client_auth = getAuth(app);
 }
+
+console.log("estoy fuera")
 
 export { admin, db, auth, client_auth, app, signInWithEmailAndPassword, createUserWithEmailAndPassword }
