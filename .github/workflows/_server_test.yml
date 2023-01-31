@@ -77,6 +77,18 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
+      - name: Get Library Versions For Binary Caching
+        id: cache-settings
+        run: |
+          echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
+          echo "::set-output name=firebase-tools::$(npm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')"
+
+      - name: Cache Firebase Emulator Binaries
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/firebase/emulators
+          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
+
       - name: 💫 Run Unit testing
         run: |
           npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
