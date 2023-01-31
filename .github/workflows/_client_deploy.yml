@@ -28,9 +28,9 @@ jobs:
         with:
           name: coverage
 
-      - id: auth
-        name: 📝 Create firebase.sdk.key.json file
-        uses: google-github-actions/auth@v0.8.0
+      - name: 📝 Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 

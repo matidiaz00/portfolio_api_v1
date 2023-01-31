@@ -109,7 +109,13 @@ const config: Config = {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: undefined,
+  reporters: [
+    ["<rootDir>/node_modules/jest-compact-reporter", {
+      diffs: true,
+      colours: true,
+      showPassingTests: false
+    }],
+  ],
 
   // Automatically reset mock state before every test
   // resetMocks: false,
@@ -135,9 +141,7 @@ const config: Config = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: [
-    //"./e2e/settings/before_test.ts"
-  ],
+  //setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],

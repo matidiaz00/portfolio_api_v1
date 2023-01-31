@@ -40,14 +40,16 @@ jobs:
         run: npm ci
 
       - name: Create firebase.sdk.client.key.json file
-        uses: jsdaniell/create-json@1.1.2
+        id: firebase-sdk-client-key
+        uses: jsdaniell/create-json@1.2.2
         with:
           name: "firebase.sdk.client.key.json"
           json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
           dir: 'src/'
 
       - name: Create firebase.sdk.key.json file
-        uses: jsdaniell/create-json@1.1.2
+        id: firebase-sdk-key
+        uses: jsdaniell/create-json@1.2.2
         with:
           name: "firebase.sdk.key.json"
           json: ${{ secrets.FIREBASE_SDK_KEY }}
@@ -69,9 +71,9 @@ jobs:
           echo API_URL=${{ secrets.API_URL }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
       
-      - id: auth
-        name: 📝 Create firebase.sdk.key.json file
-        uses: google-github-actions/auth@v0.8.0
+      - name: 📝 Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
@@ -86,7 +88,7 @@ jobs:
           name: coverage_report
           path: hosting/coverage/icov-report
 
-      - name: 💫 Run Unit testing
+      - name: 💫 Run End to End testing
         run: npm run test:e2e
 
       - name: Archive Production Artifact
