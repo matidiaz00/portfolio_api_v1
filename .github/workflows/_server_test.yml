@@ -92,7 +92,7 @@ jobs:
       - name: 💫 Run Unit testing
         run: |
           npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
-          npm run test --debug
+          npm run test
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
@@ -101,7 +101,7 @@ jobs:
           path: hosting/coverage/icov-report
 
       - name: 💫 Run End to End testing
-        run: npm run test:e2e --debug
+        run: npm run test:e2e
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master

@@ -14,8 +14,8 @@
     "start": "npm run shell",
     "deploy": "npm run clean && npm run build && firebase deploy",
     "logs": "npx firebase functions:log",
-    "test:e2e": "npm run build && npx firebase emulators:exec --only functions,firestore,auth \"npx jest --config=jest.e2e.config.ts\"",
-    "test": "npm run build && npx firebase emulators:exec --only functions,firestore,auth \"npx jest --config=jest.config.ts\""
+    "test:e2e": "npm run build && npx firebase emulators:exec --debug --only functions,firestore,auth \"npx jest --config=jest.e2e.config.ts\"",
+    "test": "npm run build && npx firebase emulators:exec --debug --only functions,firestore,auth \"npx jest --config=jest.config.ts\""
   },
   "repository": {
     "type": "git",
