@@ -71,3 +71,4 @@ package-lock.json
 functions/e2e
 functions/jest.config.js
 firebase-export-*/
+functions/jest.*

@@ -12,8 +12,8 @@ export const login = async (body: LoginType): Promise<any> => {
         if (userCredential.user.email === user.email) {
             try {
                 const idToken: string = await userCredential.user.getIdToken(true);
-                //userCredential['idToken'] = idToken
-                return idToken
+                userCredential['idToken'] = idToken
+                return userCredential
             } catch (err: any) {
                 return new CustomError(500, err.message)
             }

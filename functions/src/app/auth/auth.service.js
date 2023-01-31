@@ -19,8 +19,8 @@ const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
         if (userCredential.user.email === user.email) {
             try {
                 const idToken = yield userCredential.user.getIdToken(true);
-                //userCredential['idToken'] = idToken
-                return idToken;
+                userCredential['idToken'] = idToken;
+                return userCredential;
             }
             catch (err) {
                 return new error_model_1.CustomError(500, err.message);

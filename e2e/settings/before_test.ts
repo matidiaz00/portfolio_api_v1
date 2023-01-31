@@ -1,44 +1,51 @@
 import fetch from 'node-fetch';
-import { body } from './settings';
+import * as dotenv from 'dotenv';
+import { resolve } from 'path';
 
-const url = 'http://localhost:5001/matidiaz000/us-central1/api';
+const envPath = resolve(__dirname, './.env');
+
+dotenv.config({ path: envPath })
 
 module.exports = async () => {
-    console.log(" ")
-    process.env.API_URL = url;
     try {
-        console.warn("1/4 Initial config for testing")
-        const jsonUser = { email: "matidiaz00@gmail.com", password: "1991R1k1s1m0" };
-        const res = await fetch(`${url}/auth/login`, { method: 'POST', body: JSON.stringify(jsonUser) });
+        process.stdout.write("\n1/4 Initial config for testing\n")
+        const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: process.env.USER });
         const user = await res.json();
         if (user.idToken) {
-            console.warn("2/4 Login successfully")
+            process.stdout.write("\n2/4 Login successfully\n")
             const token = `Bearer ${user.idToken}`
             process.env.TEST_JWT = token;
 
-            const res = await fetch(`${url}/v1/abilities`, { method: 'post', body: JSON.stringify(body), headers: {'Authorization': token} });
+            const res = await fetch(`${process.env.API_URL}/v1/abilities`, { method: 'post', body: process.env.BODY, headers: {'Authorization': token} });
             const category = await res.json();
             if (category.id) {
-                console.warn("3/4 Create category successfully:", category.id)
+                process.stdout.write(`\n3/4 Create category successfully - Category_ID: ${category.id}\n`)
                 process.env.TEST_CATEGORY_ID = category.id;
 
-                const res = await fetch(`${url}/v1/abilities/${category.id}/items`, { method: 'post', body: JSON.stringify(body), headers: {'Authorization': token} });
+                const res = await fetch(`${process.env.API_URL}/v1/abilities/${category.id}/items`, { method: 'post', body: process.env.BODY, headers: {'Authorization': token} });
                 const item = await res.json();
                 if (item.id) {
-                    console.warn("4/4 Create item successfully:", item.id)
+                    process.stdout.write(`\n4/4 Create item successfully - Item_ID: ${item.id}\n\n`)
                     process.env.TEST_ITEM_ID = item.id;
                 } else {
-                    console.error("4/4 ERROR No se pudo crear el item de ejemplo dentro de la categoria:", item.status)
+                    process.stderr.write("\n4/4 ERROR No se pudo crear el item de ejemplo dentro de la categoria:\n")
+                    process.stderr.write(JSON.stringify(item))
+                    process.stderr.write("\n")
                 }
-                console.warn(" ")
             } else {
-                console.error("3/4 ERROR No se pudo crear una categoria de ejemplo:", category.status)
+                process.stderr.write("\n3/4 ERROR No se pudo crear una categoria de ejemplo:\n")
+                process.stderr.write(JSON.stringify(category))
+                process.stderr.write("\n")
             }
         } else {
-            console.error("2/4 ERROR No se pudo obtener el token id del usuario:", user.status)
+            process.stderr.write("\n2/4 ERROR No se pudo obtener el token id del usuario:\n")
+            process.stderr.write(JSON.stringify(user))
+            process.stderr.write("\n")
         }
         
     } catch (e) {
-        console.error("1/4 ERROR", e)
+        process.stderr.write("\n1/4 ERROR:\n")
+        process.stderr.write(JSON.stringify(e))
+        process.stderr.write("\n")
     }
 };

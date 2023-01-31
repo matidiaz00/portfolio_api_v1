@@ -1,6 +1,6 @@
 import { initializeApp as AdminInitializeApp, ServiceAccount } from 'firebase-admin/app';
 import * as admin from 'firebase-admin';
-import { initializeApp, FirebaseApp } from "firebase/app";
+import { initializeApp, FirebaseApp, setLogLevel } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, connectAuthEmulator, Auth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import * as firebaseAccountCredentials from "./firebase.sdk.key.json";
@@ -29,6 +29,7 @@ if (EMULATOR) {
   //process.env['FIREBASE_AUTH_EMULATOR_HOST'] = 'localhost:9099';
   //connectFirestoreEmulator(db, 'localhost', 8080)
   //process.env['FIRESTORE_EMULATOR_HOST'] = 'localhost:8080';
+  setLogLevel('silent');
 } else {
   //app = initializeApp(FirebaseClientKey);
   client_auth = getAuth(app);

@@ -1,12 +1,11 @@
 import { describe, expect, it } from '@jest/globals';
-import { body } from './settings/settings'
 import fetch from 'node-fetch';
 
 const title_url = `/v1/abilities/:category_id/items`;
 
 const baseURL = `${process.env.API_URL}/v1/abilities/${process.env.TEST_CATEGORY_ID}/items`;
 
-let NewPost = { body: body, id: '' }
+let NewPost = { body: process.env.BODY ? JSON.parse(process.env.BODY) : null, id: '' }
 
 describe('Items of a specific ability', () => {
 

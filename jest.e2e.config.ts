@@ -110,7 +110,12 @@ const config: Config = {
 
   // Use this configuration option to add custom reporters to Jest
   reporters: [
-    "default",
+    //"default",
+    ["<rootDir>/node_modules/jest-compact-reporter", {
+      diffs: true,
+      colours: true,
+      showPassingTests: false
+    }],
     ["<rootDir>/node_modules/jest-html-reporter", {
       "outputPath": "hosting/e2e-report/index.html",
       "pageTitle": "End to End Test Report",
@@ -175,7 +180,7 @@ const config: Config = {
      "\\\\functions/\\\\"
   ],
 
-  testTimeout: 200000,
+  testTimeout: 2000000,
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -199,13 +204,13 @@ const config: Config = {
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  verbose: true,
+  verbose: false,
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],
 
   // Whether to use watchman for file crawling
-  // watchman: true,
+  watchman: false,
 };
 
 export default config;

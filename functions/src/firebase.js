@@ -56,6 +56,7 @@ if (EMULATOR) {
     //process.env['FIREBASE_AUTH_EMULATOR_HOST'] = 'localhost:9099';
     //connectFirestoreEmulator(db, 'localhost', 8080)
     //process.env['FIRESTORE_EMULATOR_HOST'] = 'localhost:8080';
+    (0, app_2.setLogLevel)('silent');
 }
 else {
     //app = initializeApp(FirebaseClientKey);
