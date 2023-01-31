@@ -86,13 +86,13 @@ jobs:
       - name: Cache Firebase Emulator Binaries
         uses: actions/cache@v3
         with:
-          path: ~/.cache/firebase/emulators
+          path: ~/home/runner/.cache/firebase/emulators
           key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: 💫 Run Unit testing
         run: |
           npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
-          npm run test
+          npm run test --debug
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
@@ -101,7 +101,7 @@ jobs:
           path: hosting/coverage/icov-report
 
       - name: 💫 Run End to End testing
-        run: npm run test:e2e
+        run: npm run test:e2e --debug
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
