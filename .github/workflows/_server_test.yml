@@ -57,26 +57,14 @@ jobs:
       - name: Create e2e .env file
         run: |
           touch e2e/.env
-          echo API_URL=http://localhost:5001/${{ secrets.API_URL }}/us-central1/api >> functions/.env
-          echo USER=${{ secrets.USER }} >> functions/.env
+          echo API_URL=http://localhost:5001/${{ secrets.API_URL }}/us-central1/api >> e2e/.env
+          echo USER=${{ secrets.USER }} >> e2e/.env
       
       - name: 📝 Authenticate to Google Cloud
         id: auth
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
-
-      - name: Get Library Versions For Binary Caching
-        id: cache-settings
-        run: |
-          echo "::set-output name=firebase-tools::$(yarn list -s --depth=0 --pattern firebase-tools | tail -n 1 | sed 's/.*@//g')"
-          echo "::set-output name=firebase-tools::$(npm list -s --depth=0 | grep firebase-tools | tail -n 1 | sed 's/.*@//g')"
-
-      - name: Cache Firebase Emulator Binaries
-        uses: actions/cache@v3
-        with:
-          path: ~/home/runner/.cache/firebase/emulators
-          key: ${{ runner.os }}-firebase-${{ steps.cache-settings.outputs.firebase-tools }}
 
       - name: 💫 Run Unit testing
         run: |
