@@ -57,8 +57,9 @@ jobs:
       - name: Create e2e .env file
         run: |
           touch e2e/settings/.env
-          echo API_URL=http://localhost:5001/${{ secrets.API_URL }}/us-central1/api >> e2e/settings/.env
+          echo API_URL=http://127.0.0.1:5001/${{ secrets.API_URL }}/us-central1/api >> e2e/settings/.env
           echo USER=${{ secrets.USER }} >> e2e/settings/.env
+          echo BODY={"title":"Test example title","description":"This is a example created by the test.","order": 0} >> e2e/settings/.env
       
       - name: 📝 Authenticate to Google Cloud
         id: auth
@@ -75,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: coverage_report
-          path: hosting/coverage/icov-report
+          path: hosting/coverage/lcov-report
 
       - name: 💫 Run End to End testing
         run: npm run test:e2e
