@@ -1,6 +1,5 @@
 node_modules/
 gha-creds-*.json
-package-lock.json
 e2e/
 jest.*
 .env

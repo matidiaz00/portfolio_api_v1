@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "clean": "rimraf functions/src",
+    "clean": "rimraf functions/src && rimraf hosting/coverage && rimraf hosting/e2e-report",
     "build": "npm run clean && npx tsc",
     "lint": "eslint .",
     "start:local": "npm run clean && tsc --watch",

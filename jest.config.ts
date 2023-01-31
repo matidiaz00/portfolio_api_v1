@@ -94,7 +94,10 @@ const config: Config = {
   // moduleNameMapper: {},
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-  // modulePathIgnorePatterns: [],
+  modulePathIgnorePatterns: [
+    "\\\\node_modules\\\\",
+    "\\\\functions/\\\\"
+  ],
 
   // Activates notifications for test results
   // notify: false,
@@ -168,7 +171,8 @@ const config: Config = {
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
-     "\\\\node_modules\\\\"
+     "\\\\node_modules\\\\",
+     "\\\\functions/\\\\"
   ],
 
   testTimeout: 200000,
