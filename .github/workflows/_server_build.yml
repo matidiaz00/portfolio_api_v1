@@ -1,11 +1,11 @@
-name: '🧳 Build'
+name: '🧳 Build project'
 
 on: 
   workflow_call:
 
 jobs:
   build:
-    name: Build project
+    name: Build API and Documentation
     runs-on: ubuntu-latest
     steps:
       
@@ -72,3 +72,9 @@ jobs:
             functions/
             firestore.rules
             firebase.json
+
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: documentation
+          path: hosting/swagger

@@ -26,7 +26,7 @@ jobs:
         if: env.FIREBASE_COVERAGE_TARGET_NAME == true
         uses: actions/download-artifact@master
         with:
-          name: coverage
+          name: coverage_report
 
       - name: Download Artifact
         env:
@@ -67,19 +67,19 @@ jobs:
       - name: Assign project ID to Firebase config
         run: npx firebase-tools use ${{ secrets.FIREBASE_PROJECT_ID }}
 
-      - name: Assign target to Firebase Hosting Multisite config
+      - name: Assign target to Firebase Hosting Multisite config from Documentation
         env:
           FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
         if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == 'true'
         run: npx firebase-tools target:apply hosting documentation ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
       
-      - name: Assign target to Firebase Hosting Multisite config
+      - name: Assign target to Firebase Hosting Multisite config from Coverage Report
         env:
           FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
         if: env.FIREBASE_COVERAGE_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting coverage ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
+        run: npx firebase-tools target:apply hosting coverage_report ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
 
-      - name: Assign target to Firebase Hosting Multisite config
+      - name: Assign target to Firebase Hosting Multisite config From E2E report
         env:
           FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
         if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
@@ -88,10 +88,27 @@ jobs:
       - name: 🚀 Deploy to Firebase
         run: npx firebase-tools deploy
 
-      - name: Display URLs
+      - name: Display Server Api URL
         run: |
-          echo Server Api: https://google.com/
-          echo Server Documentation: https://google.com/
-          echo Server Coverage: https://google.com/
-          echo Browser: https://google.com/
-          echo Browser Coverage: https://google.com/
+          echo Server Api: https://us-central1-${{ secrets.FIREBASE_PROJECT_ID }}.cloudfunctions.net/api
+
+      - name: Display Server Documentation URL
+        env:
+          FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
+        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == true
+        run: |
+          echo Server Documentation: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}.web.app
+
+      - name: Display Server Coverage Report URL
+        env:
+          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
+        if: env.FIREBASE_COVERAGE_TARGET_NAME == true
+        run: |
+          echo Server Coverage Report: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}.web.app
+
+      - name: Display Server End to End Report URL
+        env:
+          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
+        if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
+        run: |
+          echo Server End to End Report: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}.web.app

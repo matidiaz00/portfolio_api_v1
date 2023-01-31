@@ -53,7 +53,7 @@ jobs:
           json: ${{ secrets.FIREBASE_SDK_KEY }}
           dir: 'src/'
 
-      - name: Create .env file
+      - name: Create main .env file
         run: |
           touch functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo PROD="false" >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
@@ -63,6 +63,12 @@ jobs:
           echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: Create e2e .env file
+        run: |
+          touch e2e/.env
+          echo API_URL=${{ secrets.API_URL }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
       
       - id: auth
         name: 📝 Create firebase.sdk.key.json file
@@ -70,20 +76,22 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SDK_KEY }}
 
-      - name: 💫 Run testing
+      - name: 💫 Run Unit testing
         run: |
           npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
-          npx firebase emulators:exec "npx jest --config=jest.config.ts --coverage"
-          npx firebase emulators:exec "npx jest --config=jest.e2e.config.ts"
+          npm run test
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
-          name: coverage
-          path: coverage/icov-report
+          name: coverage_report
+          path: hosting/coverage/icov-report
+
+      - name: 💫 Run Unit testing
+        run: npm run test:e2e
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
           name: e2e_report
-          path: e2e_report
+          path: hosting/e2e_report
