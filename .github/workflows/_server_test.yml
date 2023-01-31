@@ -39,6 +39,9 @@ jobs:
         if: steps.cache-npm.outputs.cache-hit != true
         run: npm ci
 
+      - name: 🧨 Install Functions NPM dependencies
+        run: cd functions && npm ci
+
       - name: Create firebase.sdk.client.key.json file
         id: firebase-sdk-client-key
         uses: jsdaniell/create-json@v1.2.2
