@@ -22,25 +22,11 @@ jobs:
       - name: Install Java for Firebase emulators
         run: sudo apt-get update && sudo apt-get install -y openjdk-8-jdk
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
       - name: 🧨 Install NPM dependencies
-        if: steps.cache-npm.outputs.cache-hit != true
-        run: npm ci
+        run: npm i
 
       - name: 🧨 Install Functions NPM dependencies
-        run: cd functions && npm ci
+        run: cd functions && npm i
 
       - name: Create firebase.sdk.client.key.json file
         id: firebase-sdk-client-key

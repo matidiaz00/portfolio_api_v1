@@ -41,21 +41,7 @@ jobs:
         with:
           name: functions
 
-      - name: Cache functions node modules
-        id: cache-npm-functions
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: functions/node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
       - name: Install dependencies in functions
-        if: steps.cache-npm-functions.outputs.cache-hit != true && inputs.functions == true
         run: cd functions && npm i
 
       - name: 📝 Authenticate to Google Cloud

@@ -19,22 +19,8 @@ jobs:
           node-version: 16.14.2
           cache: npm
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
       - name: 🧨 Install NPM dependencies
-        if: steps.cache-npm.outputs.cache-hit != true
-        run: npm ci
+        run: npm i
 
       - name: Create firebase.sdk.client.key.json file
         id: firebase-sdk-client-key
@@ -63,7 +49,7 @@ jobs:
           echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: 💥 Build project
-        run: npx rimraf functions/src && npx tsc
+        run: npm run build
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
