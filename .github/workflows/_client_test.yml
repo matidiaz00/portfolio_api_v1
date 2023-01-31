@@ -37,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Create firebase.sdk.client.key.json file
-        uses: jsdaniell/create-json@1.2.2
+        uses: jsdaniell/create-json@v1.2.2
         with:
           name: "firebase.sdk.client.key.json"
           json: ${{ secrets.FIREBASE_SDK_CLIENT_KEY }}
