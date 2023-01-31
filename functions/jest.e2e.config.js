@@ -83,7 +83,7 @@ const config = {
     reporters: [
         "default",
         ["<rootDir>/node_modules/jest-html-reporter", {
-                "outputPath": "e2e-report/index.html",
+                "outputPath": "hosting/e2e-report/index.html",
                 "pageTitle": "End to End Test Report",
                 "dateFormat": "dd/mm/yyyy HH:MM:ss"
             }]

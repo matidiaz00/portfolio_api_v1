@@ -15,7 +15,7 @@ const experience_service_1 = require("./experience.service");
 const official = {
     endpoint: 'https://api.linkedin.com/v2/me',
     query: [
-        { name: 'fields', data: 'id' }, // si agregamos positions devuelve error de acceso
+    //{ name: 'fields', data: 'positions' }, // devuelve error de acceso
     ],
     token: process.env.LINKEDIN_ACCESS_TOKEN
 };

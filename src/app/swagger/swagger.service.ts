@@ -1,6 +1,4 @@
 import swaggerJsdoc, { Options, SwaggerDefinition } from 'swagger-jsdoc';
-import { SwaggerOptions } from 'swagger-ui-express';
-import { customCss } from './swagger.style';
 
 const swaggerDefinition: SwaggerDefinition = {
   openapi: '3.0.3',
@@ -26,14 +24,4 @@ const specsoptions: Options = {
   apis: ['./**/*.doc.*']
 };
 
-const specs = swaggerJsdoc(specsoptions);
-
-const customSwaggerCSS = "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-flattop.css";
-
-const options: SwaggerOptions = {
-  //customCssUrl: customSwaggerCSS,
-  customCss: customCss,
-  swaggerOptions: { docExpansion:"none" }
-}
-
-export { specs, options, customSwaggerCSS }
+export const specs = swaggerJsdoc(specsoptions);

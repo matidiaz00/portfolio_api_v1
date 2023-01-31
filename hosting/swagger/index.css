@@ -1,4 +1,21 @@
-export const customCss = `
+html {
+    box-sizing: border-box;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    background: #fafafa;
+}
+
+
 .swagger-ui .responses-inner .tab,
 .swagger-ui .tab-header .tab-item h4 span:after,
 .swagger-ui .opblock .opblock-section-header>label,
@@ -52,4 +69,3 @@ export const customCss = `
 .swagger-ui textarea {
     min-height: 150px;
 }
-`

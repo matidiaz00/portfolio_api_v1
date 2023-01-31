@@ -12,8 +12,11 @@ const getEndpoint = async (data: any): Promise<any> => {
 }
 
 export const findAll = async (data: any): Promise<any> => {
-  return await getEndpoint(data)
-    .then((res) => res.json())
-    .then((data) => data)
-    .catch((err: Error) => new CustomError(500, err));
+  try {
+    const call = await getEndpoint(data);
+    const res = await call.json();
+    return res
+  } catch (err) {
+    return new CustomError(500, err);
+  }
 }

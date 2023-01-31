@@ -1,42 +1,22 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CacheMiddleWare = exports.StaticMiddleWare = exports.ParserJSONMiddleWare = exports.ParserURLMiddleWare = exports.HeadersMiddleWare = void 0;
-const express_1 = __importDefault(require("express"));
+exports.CacheMiddleWare = exports.ParserJSONMiddleWare = exports.ParserURLMiddleWare = exports.HeadersMiddleWare = void 0;
 const body_parser_1 = __importDefault(require("body-parser"));
-const path = __importStar(require("path"));
 const apicache_1 = __importDefault(require("apicache"));
+const EMULATOR = typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
 const HeadersMiddleWare = (req, res, next) => {
-    const origin = req.headers.origin;
-    if (origin && process.env.ALOWED_ORIGINS && JSON.parse(process.env.ALOWED_ORIGINS).includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
+    if (EMULATOR) {
+        res.header('Access-Control-Allow-Origin', '*');
     }
-    //res.header('Access-Control-Allow-Origin', '*');
+    else {
+        const origin = req.headers.origin;
+        if (origin && process.env.ALOWED_ORIGINS && JSON.parse(process.env.ALOWED_ORIGINS).includes(origin)) {
+            res.setHeader('Access-Control-Allow-Origin', origin);
+        }
+    }
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, api_key, Accept, Authorization');
     res.header('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -52,5 +32,4 @@ exports.ParserJSONMiddleWare = body_parser_1.default.json({
     limit: 1024 * 1024,
     type: 'application/json',
 });
-exports.StaticMiddleWare = express_1.default.static(path.join(__dirname, 'public'));
 exports.CacheMiddleWare = apicache_1.default.middleware;

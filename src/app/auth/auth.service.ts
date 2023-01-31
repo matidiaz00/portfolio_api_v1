@@ -7,50 +7,60 @@ import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
     const user: LoginType = JSON.parse(process.env.USER);
-    return signInOrCreate(body, user)
-        .then((userCredential: UserCredential | any) => {
-            if (userCredential.user.email === user.email) {
-                return userCredential.user.getIdToken(true)
-                    .then((idToken: string) => {
-                        userCredential['idToken'] = idToken
-                        return userCredential
-                    })
-                    .catch((err: Error) => new CustomError(500, err.message) );
-            } else return new CustomError(403, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
-        })
-        .catch((err) => new CustomError(err.code, err.message) );
+    try {
+        const userCredential: UserCredential | any = await signInOrCreate(body, user);
+        if (userCredential.user.email === user.email) {
+            try {
+                const idToken: string = await userCredential.user.getIdToken(true);
+                //userCredential['idToken'] = idToken
+                return idToken
+            } catch (err: any) {
+                return new CustomError(500, err.message)
+            }
+        } else return new CustomError(403, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
+    } catch (err: any) {
+        return new CustomError(err.code, err.message)
+    }
 }
 
 const signInOrCreate = async (body: LoginType, user: LoginType): Promise<UserCredential | CustomError> => {
     if (body.email === user.email && body.password === user.password) {
-        return createUserWithEmailAndPassword(client_auth, body.email, body.password)
-            .then((userCredential: UserCredential | any) => userCredential)
-            .catch((err) => {
-                let message: string = '';
-                switch (err.code) {
-                    case 'auth/email-already-in-use':
-                        return signInWithEmailAndPassword(client_auth, body.email, body.password)
-                            .then((userCredential: UserCredential | any) => userCredential)
-                            .catch((err) => new CustomError(err.code, err.message) );
-                    case 'auth/invalid-email':
-                        return message = `Email address ${body.email} is invalid.`;
-                    case 'auth/operation-not-allowed':
-                        return message = `Error during sign up.`;
-                    case 'auth/weak-password':
-                        message = 'Password is not strong enough. Add additional characters including special characters and numbers.';
-                        return new CustomError(err.code, err.message);
-                    default:
-                        return new CustomError(err.code, err.message);
-                }
-            });
+        try {
+            const userCredential: UserCredential | any = await createUserWithEmailAndPassword(client_auth, body.email, body.password);
+            return userCredential
+        } catch (err: any) {
+            let message: string = '';
+            switch (err.code) {
+                case 'auth/email-already-in-use':
+                    try {
+                        const userCredential: UserCredential | any = await signInWithEmailAndPassword(client_auth, body.email, body.password);
+                        return userCredential
+                    } catch (err: any) {
+                        new CustomError(err.code, err.message)
+                    }
+                case 'auth/invalid-email':
+                    message = `Email address ${body.email} is invalid.`;
+                    return new CustomError(err.code, message);
+                case 'auth/operation-not-allowed':
+                    message = `Error during sign up.`;
+                    return new CustomError(err.code, message);
+                case 'auth/weak-password':
+                    message = 'Password is not strong enough. Add additional characters including special characters and numbers.';
+                    return new CustomError(err.code, message);
+                default:
+                    return new CustomError(err.code, err.message);
+            }
+        }
     } else return new CustomError(403, "The email address or password is invalid.");
 }
 
 export const logout = async (): Promise<any> => {
-    return client_auth
-        .signOut()
-        .then((res) => res)
-        .catch((err) => new CustomError(500, err) );
+    try {
+        const res = await client_auth.signOut();
+        return res
+    } catch (err) {
+        return new CustomError(500, err)
+    }
 }
 
 export const currentUser = async (headers: Request["headers"]): Promise<DecodedIdToken | CustomError> => {

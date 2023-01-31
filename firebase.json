@@ -13,6 +13,20 @@
     ],
     "source": "functions"
   },
+  "hosting": [
+    {
+      "target": "coverage",
+      "public": "hosting/coverage/lcov-report"
+    },
+    {
+      "target": "e2e",
+      "public": "hosting/e2e-report"
+    },
+    {
+      "target": "documentation",
+      "public": "hosting/swagger"
+    }
+  ],
   "emulators": {
     "auth": {
       "port": 9099
@@ -22,6 +36,9 @@
     },
     "firestore": {
       "port": 8080
+    },
+    "hosting": {
+      "port": 5000
     },
     "ui": {
       "enabled": true

@@ -25,9 +25,13 @@ const getEndpoint = (data) => __awaiter(void 0, void 0, void 0, function* () {
     return yield (0, node_fetch_1.default)(`${data.endpoint}${query}`, { method: "GET", headers: headersRequest });
 });
 const findAll = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield getEndpoint(data)
-        .then((res) => res.json())
-        .then((data) => data)
-        .catch((err) => new error_model_1.CustomError(500, err));
+    try {
+        const call = yield getEndpoint(data);
+        const res = yield call.json();
+        return res;
+    }
+    catch (err) {
+        return new error_model_1.CustomError(500, err);
+    }
 });
 exports.findAll = findAll;
