@@ -9,7 +9,8 @@ dotenv.config({ path: envPath })
 module.exports = async () => {
     try {
         process.stdout.write("\n1/4 Initial config for testing\n")
-        const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: process.env.USER });
+        const userdata = {email:"matidiaz00@gmail.com",password:"1991R1k1s1m0"}
+        const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: JSON.stringify(userdata) });
         const user = await res.json();
         console.log(user)
         if (user.idToken) {
