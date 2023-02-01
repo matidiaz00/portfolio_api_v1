@@ -10,7 +10,7 @@ module.exports = async () => {
     try {
         process.stdout.write("\n1/4 Initial config for testing\n")
         const userdata = {email:"matidiaz00@gmail.com",password:"1991R1k1s1m0"}
-        const res = await fetch(`http://localhost:5001/matidiaz000/us-central1/api/auth/login`, { method: 'POST', body: JSON.stringify(userdata) });
+        const res = await fetch(`http://127.0.0.1:5001/matidiaz000/us-central1/api/auth/login`, { method: 'POST', body: JSON.stringify(userdata) });
         const user = await res.json();
         console.log(user)
         if (user.idToken) {
