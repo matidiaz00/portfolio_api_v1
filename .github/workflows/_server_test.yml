@@ -53,13 +53,6 @@ jobs:
           echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
-
-      - name: Create e2e .env file
-        run: |
-          touch e2e/settings/.env
-          echo API_URL=http://127.0.0.1:5001/${{ secrets.API_URL }}/us-central1/api >> e2e/settings/.env
-          echo USER=${{ secrets.USER }} >> e2e/settings/.env
-          echo BODY={"title":"Test example title","description":"This is a example created by the test.","order": 0} >> e2e/settings/.env
       
       - name: 📝 Authenticate to Google Cloud
         id: auth
@@ -77,6 +70,13 @@ jobs:
         with:
           name: coverage_report
           path: hosting/coverage/lcov-report
+
+      - name: Create e2e .env file
+        run: |
+          touch e2e/settings/.env
+          echo API_URL=http://127.0.0.1:5001/${{ secrets.API_URL }}/us-central1/api >> e2e/settings/.env
+          echo USER=${{ secrets.USER }} >> e2e/settings/.env
+          echo BODY={"title":"Test example title","description":"This is a example created by the test.","order": 0} >> e2e/settings/.env
 
       - name: 💫 Run End to End testing
         run: npm run test:e2e

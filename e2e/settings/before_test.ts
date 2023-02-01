@@ -8,9 +8,11 @@ dotenv.config({ path: envPath })
 
 module.exports = async () => {
     try {
+        console.log("hola esta es la api: ", process.env.API_URL)
         process.stdout.write("\n1/4 Initial config for testing\n")
         const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: process.env.USER });
-        console.log(res.text())
+        const text = await res.text();
+        console.log(text)
         const user = await res.json();
         if (user.idToken) {
             process.stdout.write("\n2/4 Login successfully\n")
