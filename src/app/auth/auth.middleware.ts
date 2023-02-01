@@ -4,6 +4,7 @@ import { auth } from "./../../firebase";
 import { Result } from "runtypes";
 import { LoginModel, LoginType } from "./auth.model";
 import { DecodedIdToken } from "firebase-admin/auth";
+import { USER } from "config";
 
 export interface IGetAuthTokenRequest extends Request {
     authToken: string | null;
@@ -36,7 +37,7 @@ export const AuthMiddleware = (req: any, res: Response, next: NextFunction) => {
         if (authToken) {
             try {
                 const userInfo: DecodedIdToken = await auth.verifyIdToken(authToken);
-                if (userInfo.email === JSON.parse(process.env.USER).email) return next();
+                if (USER && userInfo.email === JSON.parse(USER.toString()).email) return next();
                 else {
                     const message = 'Este usuario no esta autorizado para hacer esta llamada.';
                     const customErr = new CustomError(401, { error: userInfo, message: message });

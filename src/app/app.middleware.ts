@@ -2,8 +2,9 @@ import express, { NextFunction, Response, Request } from "express";
 import bodyParser from "body-parser";
 import * as path from "path";
 import apicache from "apicache";
+import { ALOWED_ORIGINS } from "config";
 
-const EMULATOR: boolean = typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
+const EMULATOR: boolean = true//typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
 
 declare module 'express-serve-static-core' {
     interface Response {
@@ -17,7 +18,7 @@ export const HeadersMiddleWare = (req: Request, res: Response, next: NextFunctio
         res.header('Access-Control-Allow-Origin', '*');
     } else {
         const origin: string | undefined = req.headers.origin;
-        if (origin && process.env.ALOWED_ORIGINS && JSON.parse(process.env.ALOWED_ORIGINS).includes(origin)) {
+        if (origin && ALOWED_ORIGINS && JSON.parse(ALOWED_ORIGINS.toString()).includes(origin)) {
             res.setHeader('Access-Control-Allow-Origin', origin);
         }
     }

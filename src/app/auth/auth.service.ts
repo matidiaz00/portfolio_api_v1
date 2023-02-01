@@ -4,10 +4,10 @@ import { CustomError } from "./../error/error.model";
 import { UserCredential } from "firebase/auth";
 import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
+import { USER } from "config";
 
 export const login = async (body: LoginType): Promise<any> => {
-    //const user: LoginType = JSON.parse(process.env.USER);
-    const user = {email:"matidiaz00@gmail.com",password:"1991R1k1s1m0"};
+    const user: LoginType = JSON.parse(USER.toString());
     try {
         const userCredential: UserCredential | CustomError | any = await signInOrCreate(body, user);
         if (userCredential.user.email === user.email) {

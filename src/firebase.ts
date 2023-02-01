@@ -5,6 +5,7 @@ import { getAuth, signInWithEmailAndPassword, connectAuthEmulator, Auth, createU
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import * as firebaseAccountCredentials from "./firebase.sdk.key.json";
 import * as FirebaseClientKey from "./firebase.sdk.client.key.json";
+import { API_URL } from 'config';
 
 let client_auth: Auth;
 const serviceAccount: ServiceAccount = firebaseAccountCredentials as ServiceAccount;;
@@ -14,7 +15,7 @@ const EMULATOR: boolean = true//typeof process.env.FUNCTIONS_EMULATOR === 'boole
 
 AdminInitializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: !EMULATOR && process.env.API_URL ? process.env.API_URL : 'localhost:8080'
+  databaseURL: !EMULATOR && API_URL ? API_URL.toString() : 'localhost:8080'
 })
 
 app = initializeApp(FirebaseClientKey);

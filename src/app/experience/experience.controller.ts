@@ -1,3 +1,4 @@
+import { LINKEDIN_ACCESS_TOKEN, LINKEDIN_USER, NUBELA_ACCESS_TOKEN } from "config";
 import { Request, Response, NextFunction } from "express";
 import { ExperienceType } from "./experience.model";
 import { findAll } from "./experience.service";
@@ -8,17 +9,17 @@ const official: ExperienceType = {
   query: [
     //{ name: 'fields', data: 'positions' }, // devuelve error de acceso
   ],
-  token: process.env.LINKEDIN_ACCESS_TOKEN
+  token: LINKEDIN_ACCESS_TOKEN ? LINKEDIN_ACCESS_TOKEN.toString() : ''
 }
 
 const nubela: ExperienceType = {
   endpoint: 'https://nubela.co/proxycurl/api/v2/linkedin',
   query: [
-    { name: 'url', data: `https://www.linkedin.com/in/${process.env.LINKEDIN_USER}/` },
+    { name: 'url', data: `https://www.linkedin.com/in/${LINKEDIN_USER ? LINKEDIN_USER.toString() : ''}/` },
     { name: 'fallback_to_cache', data: 'on-error' },
     { name: 'use_cache', data: `if-present` }
   ],
-  token: process.env.NUBELA_ACCESS_TOKEN
+  token: NUBELA_ACCESS_TOKEN ? NUBELA_ACCESS_TOKEN.toString() : ''
 }
 
 const ExperienceController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
