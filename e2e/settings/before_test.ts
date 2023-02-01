@@ -11,6 +11,7 @@ module.exports = async () => {
         process.stdout.write("\n1/4 Initial config for testing\n")
         const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: process.env.USER });
         const user = await res.json();
+        console.log(user)
         if (user.idToken) {
             process.stdout.write("\n2/4 Login successfully\n")
             const token = `Bearer ${user.idToken}`
