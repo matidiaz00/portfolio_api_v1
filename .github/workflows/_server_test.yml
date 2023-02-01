@@ -68,7 +68,9 @@ jobs:
           echo BODY={"title":"Test example title","description":"This is a example created by the test.","order": 0} >> e2e/settings/.env
 
       - name: 💫 Run End to End testing
-        run: npm run test:e2e
+        run: |
+          npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
+          npm run test:e2e
 
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
