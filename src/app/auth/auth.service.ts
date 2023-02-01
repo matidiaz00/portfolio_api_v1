@@ -8,7 +8,7 @@ import { DecodedIdToken } from "firebase-admin/auth";
 export const login = async (body: LoginType): Promise<any> => {
     const user: LoginType = JSON.parse(process.env.USER);
     try {
-        const userCredential: UserCredential | any = await signInOrCreate(body, user);
+        const userCredential: UserCredential | CustomError | any = await signInOrCreate(body, user);
         if (userCredential.user.email === user.email) {
             try {
                 const idToken: string = await userCredential.user.getIdToken(true);
@@ -26,17 +26,17 @@ export const login = async (body: LoginType): Promise<any> => {
 const signInOrCreate = async (body: LoginType, user: LoginType): Promise<UserCredential | CustomError> => {
     if (body.email === user.email && body.password === user.password) {
         try {
-            const userCredential: UserCredential | any = await createUserWithEmailAndPassword(client_auth, body.email, body.password);
+            const userCredential: UserCredential = await createUserWithEmailAndPassword(client_auth, body.email, body.password);
             return userCredential
         } catch (err: any) {
             let message: string = '';
             switch (err.code) {
                 case 'auth/email-already-in-use':
                     try {
-                        const userCredential: UserCredential | any = await signInWithEmailAndPassword(client_auth, body.email, body.password);
+                        const userCredential: UserCredential = await signInWithEmailAndPassword(client_auth, body.email, body.password);
                         return userCredential
                     } catch (err: any) {
-                        new CustomError(err.code, err.message)
+                        return new CustomError(err.code, err.message)
                     }
                 case 'auth/invalid-email':
                     message = `Email address ${body.email} is invalid.`;
