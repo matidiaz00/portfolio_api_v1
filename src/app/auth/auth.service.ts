@@ -7,8 +7,7 @@ import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
     //const user: LoginType = JSON.parse(process.env.USER);
-    return {asd:"hola hola"}
-    /*
+    const user = {email:"matidiaz00@gmail.com",password:"1991R1k1s1m0"};
     try {
         const userCredential: UserCredential | CustomError | any = await signInOrCreate(body, user);
         if (userCredential.user.email === user.email) {
@@ -23,7 +22,6 @@ export const login = async (body: LoginType): Promise<any> => {
     } catch (err: any) {
         return new CustomError(err.code, err.message)
     }
-    */
 }
 
 const signInOrCreate = async (body: LoginType, user: LoginType): Promise<UserCredential | CustomError> => {
