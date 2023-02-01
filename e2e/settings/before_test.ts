@@ -14,6 +14,7 @@ module.exports = async () => {
         const text = await res.text();
         console.log(text)
         const user = await res.json();
+        console.log(user)
         if (user.idToken) {
             process.stdout.write("\n2/4 Login successfully\n")
             const token = `Bearer ${user.idToken}`
@@ -48,6 +49,7 @@ module.exports = async () => {
         
     } catch (e) {
         process.stderr.write("\n1/4 ERROR:\n")
+        console.log(e)
         process.stderr.write(JSON.stringify(e))
         process.stderr.write("\n")
     }

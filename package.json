@@ -15,7 +15,7 @@
     "deploy": "npm run build && firebase deploy",
     "logs": "npx firebase functions:log",
     "test:e2e": "rimraf hosting/e2e-report && npm run build && npx firebase emulators:exec --only functions,firestore,auth \"npx jest --config=jest.e2e.config.ts\"",
-    "test": "rimraf hosting/coverage && npm run build && npx firebase emulators:exec --only functions,firestore,auth \"npx jest --config=jest.config.ts\""
+    "test": "rimraf hosting/coverage && npm run build && npx firebase emulators:exec --inspect-functions --only functions,firestore,auth \"npx jest --config=jest.config.ts\""
   },
   "repository": {
     "type": "git",
