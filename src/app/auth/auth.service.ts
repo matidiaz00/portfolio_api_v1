@@ -7,7 +7,7 @@ import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
     const user: LoginType = JSON.parse(process.env.USER);
-    return {user}
+    return {asd:"hola hola"}
     /*
     try {
         const userCredential: UserCredential | CustomError | any = await signInOrCreate(body, user);
