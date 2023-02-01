@@ -74,7 +74,7 @@ jobs:
       - name: Create e2e .env file
         run: |
           touch e2e/settings/.env
-          echo API_URL=http://127.0.0.1:5001/${{ secrets.API_URL }}/us-central1/api >> e2e/settings/.env
+          echo API_URL=http://127.0.0.1:5001/${{ secrets.FIREBASE_PROJECT_ID }}/us-central1/api >> e2e/settings/.env
           echo USER=${{ secrets.USER }} >> e2e/settings/.env
           echo BODY={"title":"Test example title","description":"This is a example created by the test.","order": 0} >> e2e/settings/.env
 
