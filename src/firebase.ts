@@ -5,7 +5,7 @@ import { getAuth, signInWithEmailAndPassword, connectAuthEmulator, Auth, createU
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import * as firebaseAccountCredentials from "./firebase.sdk.key.json";
 import * as FirebaseClientKey from "./firebase.sdk.client.key.json";
-import { API_URL } from 'config';
+import { API_URL } from './config';
 
 let client_auth: Auth;
 const serviceAccount: ServiceAccount = firebaseAccountCredentials as ServiceAccount;;

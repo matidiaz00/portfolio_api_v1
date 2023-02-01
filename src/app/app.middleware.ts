@@ -2,7 +2,7 @@ import express, { NextFunction, Response, Request } from "express";
 import bodyParser from "body-parser";
 import * as path from "path";
 import apicache from "apicache";
-import { ALOWED_ORIGINS } from "config";
+import { ALOWED_ORIGINS } from "./../config";
 
 const EMULATOR: boolean = true//typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
 

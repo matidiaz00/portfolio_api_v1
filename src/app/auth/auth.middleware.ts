@@ -4,7 +4,7 @@ import { auth } from "./../../firebase";
 import { Result } from "runtypes";
 import { LoginModel, LoginType } from "./auth.model";
 import { DecodedIdToken } from "firebase-admin/auth";
-import { USER } from "config";
+import { USER } from "./../../config";
 
 export interface IGetAuthTokenRequest extends Request {
     authToken: string | null;

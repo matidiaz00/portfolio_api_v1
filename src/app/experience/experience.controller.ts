@@ -1,4 +1,4 @@
-import { LINKEDIN_ACCESS_TOKEN, LINKEDIN_USER, NUBELA_ACCESS_TOKEN } from "config";
+import { LINKEDIN_ACCESS_TOKEN, LINKEDIN_USER, NUBELA_ACCESS_TOKEN } from "./../../config";
 import { Request, Response, NextFunction } from "express";
 import { ExperienceType } from "./experience.model";
 import { findAll } from "./experience.service";

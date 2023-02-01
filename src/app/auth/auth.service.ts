@@ -4,7 +4,7 @@ import { CustomError } from "./../error/error.model";
 import { UserCredential } from "firebase/auth";
 import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
-import { USER } from "config";
+import { USER } from "./../../config";
 
 export const login = async (body: LoginType): Promise<any> => {
     const user: LoginType = JSON.parse(USER.toString());
