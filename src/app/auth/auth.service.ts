@@ -6,9 +6,9 @@ import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
-    return "hola mundo"
-    /*
     const user: LoginType = JSON.parse(process.env.USER);
+    return user
+    /*
     try {
         const userCredential: UserCredential | CustomError | any = await signInOrCreate(body, user);
         if (userCredential.user.email === user.email) {
