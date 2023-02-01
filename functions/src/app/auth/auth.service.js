@@ -49,7 +49,7 @@ const signInOrCreate = (body, user) => __awaiter(void 0, void 0, void 0, functio
                         return userCredential;
                     }
                     catch (err) {
-                        new error_model_1.CustomError(err.code, err.message);
+                        return new error_model_1.CustomError(err.code, err.message);
                     }
                 case 'auth/invalid-email':
                     message = `Email address ${body.email} is invalid.`;
