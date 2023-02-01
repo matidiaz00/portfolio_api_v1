@@ -10,7 +10,7 @@ let client_auth: Auth;
 const serviceAccount: ServiceAccount = firebaseAccountCredentials as ServiceAccount;;
 let app: FirebaseApp;
 
-const EMULATOR: boolean = typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
+const EMULATOR: boolean = true//typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
 
 AdminInitializeApp({
   credential: admin.credential.cert(serviceAccount),
