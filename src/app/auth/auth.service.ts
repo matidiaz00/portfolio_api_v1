@@ -9,7 +9,7 @@ import { USER_EMAIL, USER_PASSWORD } from "./../../config";
 export const login = async (body: LoginType): Promise<any> => {
     try {
         const userCredential: UserCredential | CustomError | any = await signInOrCreate(body);
-        if (userCredential.user.email === USER_EMAIL.value()) {
+        if (!userCredential.status && userCredential.user.email === USER_EMAIL.value()) {
             try {
                 const idToken: string = await userCredential.user.getIdToken(true);
                 userCredential['idToken'] = idToken
