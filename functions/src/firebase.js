@@ -39,7 +39,7 @@ const serviceAccount = firebaseAccountCredentials;
 ;
 let app;
 exports.app = app;
-const EMULATOR = typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
+const EMULATOR = true; //typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
 (0, app_1.initializeApp)({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: !EMULATOR && process.env.API_URL ? process.env.API_URL : 'localhost:8080'

@@ -6,6 +6,8 @@ import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
+    return "hola mundo"
+    /*
     const user: LoginType = JSON.parse(process.env.USER);
     try {
         const userCredential: UserCredential | CustomError | any = await signInOrCreate(body, user);
@@ -21,6 +23,7 @@ export const login = async (body: LoginType): Promise<any> => {
     } catch (err: any) {
         return new CustomError(err.code, err.message)
     }
+    */
 }
 
 const signInOrCreate = async (body: LoginType, user: LoginType): Promise<UserCredential | CustomError> => {
