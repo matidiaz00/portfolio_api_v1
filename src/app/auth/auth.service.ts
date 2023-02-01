@@ -6,7 +6,7 @@ import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
 
 export const login = async (body: LoginType): Promise<any> => {
-    const user: LoginType = JSON.parse(process.env.USER);
+    //const user: LoginType = JSON.parse(process.env.USER);
     return {asd:"hola hola"}
     /*
     try {
