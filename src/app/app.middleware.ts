@@ -18,7 +18,7 @@ export const HeadersMiddleWare = (req: Request, res: Response, next: NextFunctio
         res.header('Access-Control-Allow-Origin', '*');
     } else {
         const origin: string | undefined = req.headers.origin;
-        if (origin && ALOWED_ORIGINS && JSON.parse(ALOWED_ORIGINS.toString()).includes(origin)) {
+        if (origin && JSON.parse(ALOWED_ORIGINS.value()).includes(origin)) {
             res.setHeader('Access-Control-Allow-Origin', origin);
         }
     }

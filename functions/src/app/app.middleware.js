@@ -6,14 +6,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CacheMiddleWare = exports.ParserJSONMiddleWare = exports.ParserURLMiddleWare = exports.HeadersMiddleWare = void 0;
 const body_parser_1 = __importDefault(require("body-parser"));
 const apicache_1 = __importDefault(require("apicache"));
-const EMULATOR = typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
+const config_1 = require("./../config");
+const EMULATOR = true; //typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
 const HeadersMiddleWare = (req, res, next) => {
     if (EMULATOR) {
         res.header('Access-Control-Allow-Origin', '*');
     }
     else {
         const origin = req.headers.origin;
-        if (origin && process.env.ALOWED_ORIGINS && JSON.parse(process.env.ALOWED_ORIGINS).includes(origin)) {
+        if (origin && JSON.parse(config_1.ALOWED_ORIGINS.value()).includes(origin)) {
             res.setHeader('Access-Control-Allow-Origin', origin);
         }
     }

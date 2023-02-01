@@ -13,6 +13,7 @@ exports.AuthMiddleware = exports.LoginMiddleware = void 0;
 const error_model_1 = require("./../error/error.model");
 const firebase_1 = require("./../../firebase");
 const auth_model_1 = require("./auth.model");
+const config_1 = require("./../../config");
 const LoginMiddleware = (req, res, next) => {
     if (typeof req.body === 'string')
         req.body = JSON.parse(req.body);
@@ -41,7 +42,7 @@ const AuthMiddleware = (req, res, next) => {
         if (authToken) {
             try {
                 const userInfo = yield firebase_1.auth.verifyIdToken(authToken);
-                if (userInfo.email === JSON.parse(process.env.USER).email)
+                if (userInfo.email === config_1.USER_EMAIL.value())
                     return next();
                 else {
                     const message = 'Este usuario no esta autorizado para hacer esta llamada.';

@@ -52,7 +52,8 @@ jobs:
           echo NUBELA_ACCESS_TOKEN=${{ secrets.NUBELA_ACCESS_TOKEN }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo LINKEDIN_USER=${{ secrets.LINKEDIN_USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
           echo ALOWED_ORIGINS=${{ secrets.ALOWED_ORIGINS }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
-          echo USER=${{ secrets.USER }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo USER_EMAIL=${{ secrets.USER_EMAIL }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
+          echo USER_PASSWORD=${{ secrets.USER_PASSWORD }} >> functions/.env.${{ secrets.FIREBASE_PROJECT_ID }}
       
       - name: 📝 Authenticate to Google Cloud
         id: auth
@@ -82,7 +83,7 @@ jobs:
         run: |
           touch e2e/settings/.env
           echo API_URL=http://127.0.0.1:5001/${{ secrets.FIREBASE_PROJECT_ID }}/us-central1/api >> e2e/settings/.env
-          echo USER={"email":"matidiaz00@gmail.com","password":"1991R1k1s1m0"} >> e2e/settings/.env
+          echo USER={"email":"${{ secrets.USER_EMAIL }}","password":"${{ secrets.USER_PASSWORD }}"} >> e2e/settings/.env
           echo BODY={"title":"Test example title","description":"This is a example created by the test.","order": 0} >> e2e/settings/.env
 
       - name: 💫 Run End to End testing

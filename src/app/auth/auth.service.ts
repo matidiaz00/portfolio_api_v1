@@ -4,13 +4,12 @@ import { CustomError } from "./../error/error.model";
 import { UserCredential } from "firebase/auth";
 import { Request } from "express";
 import { DecodedIdToken } from "firebase-admin/auth";
-import { USER } from "./../../config";
+import { USER_EMAIL, USER_PASSWORD } from "./../../config";
 
 export const login = async (body: LoginType): Promise<any> => {
-    const user: LoginType = JSON.parse(USER.toString());
     try {
-        const userCredential: UserCredential | CustomError | any = await signInOrCreate(body, user);
-        if (userCredential.user.email === user.email) {
+        const userCredential: UserCredential | CustomError | any = await signInOrCreate(body);
+        if (userCredential.user.email === USER_EMAIL.value()) {
             try {
                 const idToken: string = await userCredential.user.getIdToken(true);
                 userCredential['idToken'] = idToken
@@ -18,14 +17,14 @@ export const login = async (body: LoginType): Promise<any> => {
             } catch (err: any) {
                 return new CustomError(500, err.message)
             }
-        } else return new CustomError(403, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
+        } else return new CustomError(userCredential.status, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
     } catch (err: any) {
         return new CustomError(err.code, err.message)
     }
 }
 
-const signInOrCreate = async (body: LoginType, user: LoginType): Promise<UserCredential | CustomError> => {
-    if (body.email === user.email && body.password === user.password) {
+const signInOrCreate = async (body: LoginType): Promise<UserCredential | CustomError> => {
+    if (body.email === USER_EMAIL.value() && body.password === USER_PASSWORD.value()) {
         try {
             const userCredential: UserCredential = await createUserWithEmailAndPassword(client_auth, body.email, body.password);
             return userCredential

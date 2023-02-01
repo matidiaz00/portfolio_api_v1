@@ -12,11 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.currentUser = exports.logout = exports.login = void 0;
 const firebase_1 = require("./../../firebase");
 const error_model_1 = require("./../error/error.model");
+const config_1 = require("./../../config");
 const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = JSON.parse(process.env.USER);
     try {
-        const userCredential = yield signInOrCreate(body, user);
-        if (userCredential.user.email === user.email) {
+        const userCredential = yield signInOrCreate(body);
+        if (userCredential.user.email === config_1.USER_EMAIL.value()) {
             try {
                 const idToken = yield userCredential.user.getIdToken(true);
                 userCredential['idToken'] = idToken;
@@ -27,15 +27,15 @@ const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
             }
         }
         else
-            return new error_model_1.CustomError(403, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
+            return new error_model_1.CustomError(userCredential.status, `El usuario ${userCredential.user.email} no tiene permisos para utilizar esta API.`);
     }
     catch (err) {
         return new error_model_1.CustomError(err.code, err.message);
     }
 });
 exports.login = login;
-const signInOrCreate = (body, user) => __awaiter(void 0, void 0, void 0, function* () {
-    if (body.email === user.email && body.password === user.password) {
+const signInOrCreate = (body) => __awaiter(void 0, void 0, void 0, function* () {
+    if (body.email === config_1.USER_EMAIL.value() && body.password === config_1.USER_PASSWORD.value()) {
         try {
             const userCredential = yield (0, firebase_1.createUserWithEmailAndPassword)(firebase_1.client_auth, body.email, body.password);
             return userCredential;

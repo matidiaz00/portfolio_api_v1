@@ -9,17 +9,17 @@ const official: ExperienceType = {
   query: [
     //{ name: 'fields', data: 'positions' }, // devuelve error de acceso
   ],
-  token: LINKEDIN_ACCESS_TOKEN ? LINKEDIN_ACCESS_TOKEN.toString() : ''
+  token: LINKEDIN_ACCESS_TOKEN
 }
 
 const nubela: ExperienceType = {
   endpoint: 'https://nubela.co/proxycurl/api/v2/linkedin',
   query: [
-    { name: 'url', data: `https://www.linkedin.com/in/${LINKEDIN_USER ? LINKEDIN_USER.toString() : ''}/` },
+    { name: 'url', data: `https://www.linkedin.com/in/${LINKEDIN_USER}/` },
     { name: 'fallback_to_cache', data: 'on-error' },
     { name: 'use_cache', data: `if-present` }
   ],
-  token: NUBELA_ACCESS_TOKEN ? NUBELA_ACCESS_TOKEN.toString() : ''
+  token: NUBELA_ACCESS_TOKEN
 }
 
 const ExperienceController = async (request: Request, response: Response, next: NextFunction): Promise<void> => {

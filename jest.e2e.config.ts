@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type {  Config} from 'jest';
+import type {Config} from 'jest';
 
 const config: Config = {
 
@@ -113,14 +113,12 @@ const config: Config = {
 
   // Use this configuration option to add custom reporters to Jest
   reporters: [
-    "default",
-    /*
+    //"default",
     ["<rootDir>/node_modules/jest-compact-reporter", {
       diffs: true,
       colours: true,
       showPassingTests: false
     }],
-    */
     ["<rootDir>/node_modules/jest-html-reporter", {
       "outputPath": "hosting/e2e-report/index.html",
       "pageTitle": "End to End Test Report",

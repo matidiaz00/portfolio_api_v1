@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FindByTypeController = exports.ExperienceController = void 0;
+const config_1 = require("./../../config");
 const experience_service_1 = require("./experience.service");
 //: ExperienceType
 const official = {
@@ -17,16 +18,16 @@ const official = {
     query: [
     //{ name: 'fields', data: 'positions' }, // devuelve error de acceso
     ],
-    token: process.env.LINKEDIN_ACCESS_TOKEN
+    token: config_1.LINKEDIN_ACCESS_TOKEN
 };
 const nubela = {
     endpoint: 'https://nubela.co/proxycurl/api/v2/linkedin',
     query: [
-        { name: 'url', data: `https://www.linkedin.com/in/${process.env.LINKEDIN_USER}/` },
+        { name: 'url', data: `https://www.linkedin.com/in/${config_1.LINKEDIN_USER}/` },
         { name: 'fallback_to_cache', data: 'on-error' },
         { name: 'use_cache', data: `if-present` }
     ],
-    token: process.env.NUBELA_ACCESS_TOKEN
+    token: config_1.NUBELA_ACCESS_TOKEN
 };
 const ExperienceController = (request, response, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {

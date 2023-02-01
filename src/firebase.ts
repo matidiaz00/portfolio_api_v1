@@ -15,7 +15,7 @@ const EMULATOR: boolean = true//typeof process.env.FUNCTIONS_EMULATOR === 'boole
 
 AdminInitializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: !EMULATOR && API_URL ? API_URL.toString() : 'localhost:8080'
+  databaseURL: !EMULATOR ? API_URL : 'localhost:8080'
 })
 
 app = initializeApp(FirebaseClientKey);

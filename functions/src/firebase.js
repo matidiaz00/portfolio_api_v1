@@ -33,6 +33,7 @@ Object.defineProperty(exports, "signInWithEmailAndPassword", { enumerable: true,
 Object.defineProperty(exports, "createUserWithEmailAndPassword", { enumerable: true, get: function () { return auth_1.createUserWithEmailAndPassword; } });
 const firebaseAccountCredentials = __importStar(require("./firebase.sdk.key.json"));
 const FirebaseClientKey = __importStar(require("./firebase.sdk.client.key.json"));
+const config_1 = require("./config");
 let client_auth;
 exports.client_auth = client_auth;
 const serviceAccount = firebaseAccountCredentials;
@@ -42,7 +43,7 @@ exports.app = app;
 const EMULATOR = true; //typeof process.env.FUNCTIONS_EMULATOR === 'boolean' ? process.env.FUNCTIONS_EMULATOR : (process.env.FUNCTIONS_EMULATOR === 'true');
 (0, app_1.initializeApp)({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: !EMULATOR && process.env.API_URL ? process.env.API_URL : 'localhost:8080'
+    databaseURL: !EMULATOR ? config_1.API_URL : 'localhost:8080'
 });
 exports.app = app = (0, app_2.initializeApp)(FirebaseClientKey);
 const db = admin.firestore();
