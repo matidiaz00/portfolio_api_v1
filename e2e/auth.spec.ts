@@ -30,7 +30,7 @@ describe('Authentication', () => {
     it(`POST ${title_url}/login`, async () => {
         const call = await fetch(`${baseURL}/login`, {
             method: 'post',
-            body: JSON.stringify(process.env.USER)
+            body: JSON.stringify({ email: process.env.USER_EMAIL, password: process.env.USER_PASSWORD })
         });
         const status = call.status;
         const res = await call.json();

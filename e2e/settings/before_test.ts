@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
+import body from './body_example'
 
 const envPath = resolve(__dirname, './.env');
 
@@ -9,9 +10,6 @@ dotenv.config({ path: envPath })
 module.exports = async () => {
     try {
         process.stdout.write("\n1/4 Initial config for testing\n")
-        console.log(process.env.API_URL + '/auth/login')
-        console.log(process.env.USER)
-        console.log(process.env.USER_EMAIL)
         const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: JSON.stringify({ email: process.env.USER_EMAIL, password: process.env.USER_PASSWORD }) });
         const user = await res.json();
         if (user.idToken) {
@@ -19,13 +17,13 @@ module.exports = async () => {
             const token = `Bearer ${user.idToken}`
             process.env.TEST_JWT = token;
 
-            const res = await fetch(`${process.env.API_URL}/v1/abilities`, { method: 'post', body: process.env.BODY, headers: {'Authorization': token} });
+            const res = await fetch(`${process.env.API_URL}/v1/abilities`, { method: 'post', body: body, headers: {'Authorization': token} });
             const category = await res.json();
             if (category.id) {
                 process.stdout.write(`\n3/4 Create category successfully - Category_ID: ${category.id}\n`)
                 process.env.TEST_CATEGORY_ID = category.id;
 
-                const res = await fetch(`${process.env.API_URL}/v1/abilities/${category.id}/items`, { method: 'post', body: process.env.BODY, headers: {'Authorization': token} });
+                const res = await fetch(`${process.env.API_URL}/v1/abilities/${category.id}/items`, { method: 'post', body: body, headers: {'Authorization': token} });
                 const item = await res.json();
                 if (item.id) {
                     process.stdout.write(`\n4/4 Create item successfully - Item_ID: ${item.id}\n\n`)
