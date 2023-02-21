@@ -14,24 +14,24 @@ jobs:
 
       - name: Download Artifact
         env:
-          FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
-        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == true
+          FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
+        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME != null
         uses: actions/download-artifact@master
         with:
           name: documentation
 
       - name: Download Artifact
         env:
-          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_COVERAGE_TARGET_NAME == true
+          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
+        if: env.FIREBASE_COVERAGE_TARGET_NAME != null
         uses: actions/download-artifact@master
         with:
           name: coverage_report
 
       - name: Download Artifact
         env:
-          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
-        if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
+          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
+        if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
         uses: actions/download-artifact@master
         with:
           name: e2e_report
@@ -55,21 +55,21 @@ jobs:
 
       - name: Assign target to Firebase Hosting Multisite config from Documentation
         env:
-          FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
-        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == 'true'
-        run: npx firebase-tools target:apply hosting documentation documentation-matidiaz-api
+          FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
+        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME != null
+        run: npx firebase-tools target:apply hosting documentation ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
       
       - name: Assign target to Firebase Hosting Multisite config from Coverage Report
         env:
-          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_COVERAGE_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting coverage_report coverage-report-matidiaz-api
+          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
+        if: env.FIREBASE_COVERAGE_TARGET_NAME != null
+        run: npx firebase-tools target:apply hosting coverage_report ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
 
       - name: Assign target to Firebase Hosting Multisite config From E2E report
         env:
-          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
-        if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting e2e_report e2e-report-matidiaz-api
+          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
+        if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
+        run: npx firebase-tools target:apply hosting e2e_report ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
 
       - name: 🚀 Deploy to Firebase
         run: npx firebase-tools deploy
@@ -80,21 +80,21 @@ jobs:
 
       - name: Display Server Documentation URL
         env:
-          FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
-        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == true
+          FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
+        if: env.FIREBASE_DOCUMENTATION_TARGET_NAME != null
         run: |
           echo Server Documentation: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}.web.app
 
       - name: Display Server Coverage Report URL
         env:
-          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
-        if: env.FIREBASE_COVERAGE_TARGET_NAME == true
+          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
+        if: env.FIREBASE_COVERAGE_TARGET_NAME != null
         run: |
           echo Server Coverage Report: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}.web.app
 
       - name: Display Server End to End Report URL
         env:
-          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
-        if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
+          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
+        if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
         run: |
           echo Server End to End Report: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}.web.app
