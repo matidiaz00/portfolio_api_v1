@@ -11,7 +11,8 @@ module.exports = async () => {
         process.stdout.write("\n1/4 Initial config for testing\n")
         console.log(process.env.API_URL + '/auth/login')
         console.log(process.env.USER)
-        const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: process.env.USER });
+        console.log(process.env.USER_EMAIL)
+        const res = await fetch(`${process.env.API_URL}/auth/login`, { method: 'POST', body: JSON.stringify({ email: process.env.USER_EMAIL, password: process.env.USER_PASSWORD }) });
         const user = await res.json();
         if (user.idToken) {
             process.stdout.write("\n2/4 Login successfully\n")
