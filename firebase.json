@@ -15,11 +15,11 @@
   },
   "hosting": [
     {
-      "target": "coverage",
+      "target": "coverage_report",
       "public": "hosting/coverage/lcov-report"
     },
     {
-      "target": "e2e",
+      "target": "e2e_report",
       "public": "hosting/e2e-report"
     },
     {
