@@ -57,19 +57,19 @@ jobs:
         env:
           FIREBASE_DOCUMENTATION_TARGET_NAME: ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME != '' }}
         if: env.FIREBASE_DOCUMENTATION_TARGET_NAME == 'true'
-        run: npx firebase-tools target:apply hosting documentation ${{ secrets.FIREBASE_DOCUMENTATION_TARGET_NAME }}
+        run: npx firebase-tools target:apply hosting documentation documentation-matidiaz-api
       
       - name: Assign target to Firebase Hosting Multisite config from Coverage Report
         env:
           FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME != '' }}
         if: env.FIREBASE_COVERAGE_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting coverage_report ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
+        run: npx firebase-tools target:apply hosting coverage_report coverage-report-matidiaz-api
 
       - name: Assign target to Firebase Hosting Multisite config From E2E report
         env:
           FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME != '' }}
         if: env.FIREBASE_E2E_REPORT_TARGET_NAME == true
-        run: npx firebase-tools target:apply hosting e2e_report ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
+        run: npx firebase-tools target:apply hosting e2e_report e2e-report-matidiaz-api
 
       - name: 🚀 Deploy to Firebase
         run: npx firebase-tools deploy

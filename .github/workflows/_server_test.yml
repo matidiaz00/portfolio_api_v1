@@ -70,14 +70,14 @@ jobs:
       - name: Set firebase project ID
         run: npx firebase use ${{ secrets.FIREBASE_PROJECT_ID }}
 
-      #- name: 💫 Run Unit testing
-        #run: npm run test
+      - name: 💫 Run Unit testing
+        run: npm run test
 
-      #- name: Archive Production Artifact
-        #uses: actions/upload-artifact@master
-        #with:
-          #name: coverage_report
-          #path: hosting/coverage/lcov-report
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: coverage_report
+          path: hosting/coverage/lcov-report
 
       - name: Create e2e .env file
         run: |
