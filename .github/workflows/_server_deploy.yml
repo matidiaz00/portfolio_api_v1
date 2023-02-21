@@ -28,13 +28,13 @@ jobs:
         with:
           name: coverage_report
 
-      - name: Download Artifact
-        env:
-          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
-        if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
-        uses: actions/download-artifact@master
-        with:
-          name: e2e_report
+      #- name: Download Artifact
+        #env:
+          #FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
+        #if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
+        #uses: actions/download-artifact@master
+        #with:
+          #name: e2e_report
 
       - name: Download Artifact
         uses: actions/download-artifact@master
@@ -65,11 +65,11 @@ jobs:
         if: env.FIREBASE_COVERAGE_TARGET_NAME != null
         run: npx firebase-tools target:apply hosting coverage_report ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
 
-      - name: Assign target to Firebase Hosting Multisite config From E2E report
-        env:
-          FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
-        if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
-        run: npx firebase-tools target:apply hosting e2e_report ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
+      #- name: Assign target to Firebase Hosting Multisite config From E2E report
+        #env:
+          #FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
+        #if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
+        #run: npx firebase-tools target:apply hosting e2e_report ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
 
       - name: 🚀 Deploy to Firebase
         run: npx firebase-tools deploy
