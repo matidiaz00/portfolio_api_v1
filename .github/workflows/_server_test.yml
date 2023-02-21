@@ -73,12 +73,6 @@ jobs:
       - name: 💫 Run Unit testing
         run: npm run test
 
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: coverage_report
-          path: hosting/coverage/lcov-report
-
       - name: Create e2e .env file
         run: |
           touch e2e/settings/.env
@@ -92,5 +86,5 @@ jobs:
       - name: Archive Production Artifact
         uses: actions/upload-artifact@master
         with:
-          name: e2e_report
-          path: hosting/e2e_report
+          name: hosting
+          path: hosting

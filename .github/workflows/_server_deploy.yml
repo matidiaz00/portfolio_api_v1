@@ -21,20 +21,9 @@ jobs:
           name: documentation
 
       - name: Download Artifact
-        env:
-          FIREBASE_COVERAGE_TARGET_NAME: ${{ secrets.FIREBASE_COVERAGE_TARGET_NAME }}
-        if: env.FIREBASE_COVERAGE_TARGET_NAME != null
         uses: actions/download-artifact@master
         with:
-          name: coverage_report
-
-      #- name: Download Artifact
-        #env:
-          #FIREBASE_E2E_REPORT_TARGET_NAME: ${{ secrets.FIREBASE_E2E_REPORT_TARGET_NAME }}
-        #if: env.FIREBASE_E2E_REPORT_TARGET_NAME != null
-        #uses: actions/download-artifact@master
-        #with:
-          #name: e2e_report
+          name: hosting
 
       - name: Download Artifact
         uses: actions/download-artifact@master
