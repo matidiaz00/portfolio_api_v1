@@ -16,7 +16,7 @@ const config_1 = require("./../../config");
 const login = (body) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userCredential = yield signInOrCreate(body);
-        if (userCredential.user.email === config_1.USER_EMAIL.value()) {
+        if (!userCredential.status && userCredential.user.email === config_1.USER_EMAIL.value()) {
             try {
                 const idToken = yield userCredential.user.getIdToken(true);
                 userCredential['idToken'] = idToken;

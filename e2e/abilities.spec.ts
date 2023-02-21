@@ -9,10 +9,7 @@ describe('Abilities', () => {
    
     it(`GET ${title_url}/all`, async () => {
         /*
-        const call = await fetch(`${baseURL}/all`, {
-            method: 'get',
-            headers: process.env.TEST_JWT ? { 'Authorization': process.env.TEST_JWT } : undefined
-        });
+        const call = await fetch(`${baseURL}/all`);
         const status = call.status;
         const res = await call.json();
         expect(status).toEqual(200);

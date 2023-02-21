@@ -22,20 +22,14 @@ describe('Specific ability', () => {
     });
 
     it(`GET ${title_url}`, async () => {
-        const call = await fetch(`${baseURL}`, {
-            method: 'get',
-            headers: process.env.TEST_JWT ? { 'Authorization': process.env.TEST_JWT } : undefined
-        });
+        const call = await fetch(`${baseURL}`);
         const status = call.status;
         const res = await call.json();
         expect(status).toEqual(200);
     });
 
     it(`GET ${title_url}/:item_id`, async () => {
-        const call = await fetch(`${baseURL}/${NewPost.id}`, {
-            method: 'get',
-            headers: process.env.TEST_JWT ? { 'Authorization': process.env.TEST_JWT } : undefined
-        });
+        const call = await fetch(`${baseURL}/${NewPost.id}`);
         const status = call.status;
         const res = await call.json();
         expect(status).toEqual(200);
